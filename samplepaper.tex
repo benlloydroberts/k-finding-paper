@@ -15,7 +15,7 @@
 
 \begin{document}
 %
-\title{Contribution Title\thanks{Supported by organization x.}}
+\title{k-induction bounded model checking\thanks{Supported by Siemens Mobility UK \& EPSRC}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -27,7 +27,7 @@ Michael Edwards\inst{1} \and
 Tom Werner\inst{2}}
 %
 \authorrunning{F. Author et al.}
-% First names are abbreviated in the running head.
+% First names are abbreviated in the running head.,
 % If there are more than two authors, 'et al.' is used.
 %
 
@@ -40,23 +40,127 @@ Tom Werner\inst{2}}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-Formal verification is an increasingly popular approach to guaranteeing safety in critical systems. The railway in particular shares a history with formal methods spanning decades[1,2,3,4]. In this thesis we explore the limitations of current verification techniques applied to railway interlockings and how machine learning can be used to support SAT-based model checking in particular. We provide a brief overview of both disciplines and the necessary background knowledge required to replicate our approach. Finallywe present the technical implementation of a reinforcement learning (RL) environment modelling the state space of a ladder logic program responsible for encoding basic safety properties for a pedestrian controlled light crossing. An RL agent is then successfully trained to output two sets if minimal transitions for traversing the state space to aid in identifying loop free paths for further verification.
+Interlockings within the railway domain are computerised safety critical systems responsible for the signalling components directing railway traffic. The formal verification of such systems using bounded model-checking often face limited guarantees of correctness given they operate within a bounded region of $k$ depth. In this work we devise a reinforcement learning (RL) strategy to support SAT-based bounded model checking increasing measures of completeness. We outline a mapping from transition systems traditionally used as BMC abstractions, to Markov decision processes (MDP) typically used as interactive RL environments. Thereafter software agents are fed a reward signal to incentivise state space exploration along acyclic sequences of execution such with the aim of increasing the upper bound $k$. We test the feasibility of our approach against a series of artificially generated programs with increasingly larger state spaces. A number of metrics suggested in RL literature are then gathered to evaluate the robustness and scalability of the approach, particularly in industrial settings. Finally we produce representations of the state space structure to be fed back to engineers responsible for designing such programs.
 
-\keywords{First keyword  \and Second keyword \and Another keyword.}
+\keywords{First keyword \and Second keyword \and Another keyword.}
 \end{abstract}
-%
-%
-%
+
+
 \section{Introduction}
-\subsection{Motivations}
-Advancements in machine learning (ML) research in recent years have marked an inflection
-point in private and public sector investments in predictive modelling. Consequently
-the development of autonomous intelligent systems has facilitated an unprecedented
-level of its adoption in complex systems. The range of applications are staggering, from
-autonomous vehicle navigation through computer vision, to assisted medical diagnostics.
+Solid state interlockings are computerised systems responsible for ensuring safe routing
+of trains through a given railway network. As a vital part of any railway signalling
+system, interlockings are critical systems regarded with the highest safety integrity level
+(SIL4) according to the CENELEC 50128 standard. The application of model-checking
+to Ladder Logic programs in order to verify interlockings is well established within
+academia and is beginning to see real applications in industry. As early as 1995, Groote
+et al. [5] applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. They conjecture the feasibility of verification techniques
+as a mean of ensuring correctness criteria on larger railway yards. In 1998, Fokkink
+and Hollingshead [6] suggested a systematic translation of Ladder Logic into Boolean
+formulae. Newer approaches to interlocking verification have also been proposed in recent
+years [7, 8, 9, 10, 11]. This includes work by Linh et al. which explores the verification
+of interlockings written in a similar language to Ladder Logic using SAT-based model
+checking. After two decades of research, academic work [12, 13] has shown that verification
+approaches for Ladder Logic can indeed scale; in an industrial pilot, Duggan et al. [14]
+conclude: “Formal proof as a means to verify safety has matured to the point where it
+can be applied for any railway interlocking system.” In spite of this, such approaches
+still lack widespread use within the UK Rail industry. Industrial standards for the railway and related domains increasingly rely on the application of formal methods for system analysis in order to establish a design’s correctness and robustness. Recent examples include the 2011 version of the CENELEC standard on railway applications, the 2011 ISO 26262 automotive standard, and the 2012 Formal Methods Supplement to the DO-178C standard for airborne systems. However, the application of formal methods research within the UK rail industry has yet to make a substantial impact. Principally our work aims to address one of the issues hindering its uptake, by removing the need for manual analysis of false negative error traces produced during verification.
+
+Bounded model-checking is an efficient means of verifying a system through refutation. Given an abstracted model of a target system $M$ and some safety properties $\phi$, BMC searches for counterexamples up to some precomputed bound $k$. Search terminates when either an error trace is produced or the bound $k$ is reached. Determining this completeness threshold to sufficiently cover all states is often computationally intractable given it's true value will depend on model dynamics and size. Additionally, the k-induction rule, which checks if the property $\phi$ holds inductively for sequences of states, is constrained to acyclic graphs for guaranteeing completeness. 
+
+An invariance rule allows us to establish an invariant property $\psi$ which holds for all initial states and transitions up to a given bound. Invariants may hold for sub-regions of the state space, meaning complete coverage isn't necessary to learn them. Supporting k-induction with strengthening invariants helps reduce the overall search space for bounded model checking, proving that invariant aspects of the system need not be considered. This can help filter cases where false negative counter examples are triggered by unreachable states. Generating sufficiently strong invariants is a non-trivial process given their construction is heavily program dependent. Usually such invariants require domain knowledge, typically devised by engineers responsible for the program implementation. 
+
+We infer two principle challenges to address. First, formulating theoretical and practical frameworks in an academic-industry partnership with Siemens Rail Automation UK to represent interlocking verification as a goal-orientated reinforcement learning task. Second, devising an appropriate strategy for learning invariants within those frameworks.
+
+The aim of this paper is to address this first challenge. Reinforcement learning is a popular machine learning paradigm with a demonstrably impressive capacity for learning near optimal strategies for goal-orientated tasks. Such approaches are well suited to problems where one need systematically learn the behaviour of a deterministic system, record observations regarding different 'states' of behaviour and identify patterns across those states. Generalisation of learned policies across different 'environments' being one of the key challenges in RL, we first aim to learn conceptually simpler goals, such as finding the progressively larger upper bounds for BMC. Understanding how a verification problem can be formulated as one of where machine learning can be successfully applied suggests the promise of learning invariants this way.
+
+
+\section{Preliminaries}\label{sec:preliminaries}
+
+\subsection{Ladder Logic}
+Ladder logic programs used to implement interlocking systems allow engineers to define system behaviour in terms of conditions (rungs) and outputs (coils) expressed in a derivation of boolean algebra. Existing SAT-based approaches have already demonstrated translations from ladder logic programs to propositional formulae. The valuation of variables comprising those expressions at any given time is an instance of a program state. The set of reachable states then constitutes the abstractions notion of complete system behaviour.
+
+We can further abstract the program's behaviour by considering any one unique valuation of all variables constitutes a unique program 'state'. Program diagrams are comprised of horizontal lines, referred
+to as rungs, and logical connectors between symbols, known as coils and contacts. Two types of contacts are used to represent the value of a contained program variable, also referred to as a latch. Open contacts as shown in Fig. 2.2(a) represent the unchanged value of a latch while closed contacts denote their negated value, Fig. 2.2(b). Latches often represent physical inputs to the system but are also used for any other variables required. Coils can represent one of two output types. These are either physical outputs
+for some system component or a computed value to be used later in the program. Output values are also referred to as latches and can be negated with a closed coil. Each rung is read from left to right and, using the logical connectives shown in Fig. 2.3, represent a condition or rule within the program. Rungs are closed off with a coil representing conditional output on the right hand side. Using coils and contacts enables the expression of logical propositions in our programs. 
+
+\subsection{Finite State Automata}
+Observing the equivalence relations above note that certain variables appear repeatedly
+throughout the formula, primarily the latch crossing. Each rung computes a new coil
+value to be used in the next execution cycle hence the significance of rung ordering. To illustrate this change over time we introduce a new form of abstract representation, the finite state automaton.
+
+\begin{definition}[Finite State Automaton]
+	A finite state automaton $\mathcal{M}$ given a ladder logic fromula $\psi\mathcal{L}$ is denoted $\mathcal{M(\psi\L)}$ and represented by the 4-tuple $\langle Q, \sum, \sigma, I_s \rangle$, where :
+	\begin{itemize}
+		\item $Q$ 
+		\item $\sum$
+		\item $\sigma$
+		\item $I_s$
+	\end{itemize}
+\end{definition}
+\subsection{Bounded Model-Checking}
+Model checking is a formal verification technique stemming from the need to systematically
+check whether certain properties hold for different configurations (states) of a given system.
+Given a finite transition system T and a formula F, model checking attempts to verify
+that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. Model checking is typically
+performed over three distinct phases as described by Baier [20]. Initially the model, that is
+the mathematical representation of the system, must be constructed. This is accomplished
+using a model description language, of which there are several. Next the model must
+be tested through simulation to ensure the abstracted system functions as expected.
+Provided the constructed model behaves adequately the final stage of modelling requires
+formulating the properties to be verified according to some specification language. The
+constructed model and property definitions then enable the model checker to perform runs
+of the system for state verification. The model checking process culminates in the analysis
+phase wherein verification results are generated. Properties which hold for all tested states
+produce a ‘safe’ output. In the event a state is found to violate any specified properties, that
+is s 6|= F, a counter example trace is provided by the model checker indicating which state(s)
+caused the violation. Results may also indicate that the model, property formulation or
+simulation process are insufficient for verification and therefore require further refinement.
+If so, the adjustments are made and the pipeline is revised and repeated.
+Verification means abstraction -  "...existing works have successfully mapped ladder logic semantics to propositional logic. Here expressions can be reordered in CNF ready for a SAT-solver."
+
+Abstraction means translating logic to a model - "...any unique valuation of the variables comprising the target program is viewed as an individual system state. This process is expanded in sec \ref{sec:preliminaries}"
+
+Modelling means we can apply verification - "...decomposing the target system to an abstracted set of states allows model-checking to systematically check each state for safety conflicts"
+
+Verification has limitations - "... while a systematic process there are no guarantees of complete coverage. The longest loop-free path would be useful knowledge"
+Bounded model checking (BMC) provides a subset of the state space to avoid combin-
+atorial explosion given the number of unreachable states. A bound is defined as a finite
+number of transitions between states. However unless all states are reached within that
+number of transitions then the exploration process is incomplete. This trade-off ensures
+that unreachable states are not considered but does not guarantee completeness within
+the bounded model
+
+
+
+Primary limitations of the solution presented by Kanso are address in [16, 12, 17, 18].
+Due to the inductive step of verification the tool checks to see if a given state satisfies
+some condition but does not consider the possibility of unreachable states which violate
+the same safety condition. Consequently if such benign violations are detected the tool
+risks generating false negative counter examples which requires manual inspection by an
+experienced engineer. This concept is illustrated in Fig. 3.5. A potential solution to this
+problem was introduced in subsequent work by James in 2010 [17]. In their exploration of
+SAT-based bounded model checking, James addresses the limitations of Kanso’s approach
+in terms of state reachability by introducing invariants to suppress false negatives.
+
+Clearly, introducing appropriate invariants to avoid unattainable configurations re-
+quires a comprehensive understanding of both the abstracted and physical system.
+Additionally, as system complexity increases so do the number of unreachable states. This
+could potentially necessitate thousands of unique invariants to suppress triggered false
+negatives. Currently this process requires manual analysis by specialist engineers making
+automation highly desirable. Generating sufficiently strong invariants automatically is
+an extremely complex task, one which has received considerable attention in academic
+literature. From software engineering techniques [21, 22, 23, 24, 25, 26, 27] to hybrid
+methods incorporating machine learning [28, 29, 30, 31, 32], researchers have proposed
+various approaches to invariant finding with varying degrees of success. 
+
+\subsection{Reinforcement Learning}
+Reinforcement learning has shown promising results in exploring and exploiting unknown graph structures - solely based on a reward signal.
+
+Machine learning means translating the model to another model - "...Which requires some partial translation, process is expanded in sect \ref{sec:preliminaries}".
+
 One of three disciplines comprising the field of ML is Reinforcement learning (RL). RL
 differs from other data driven ML techniques in its ability to automate tasks without the
-dependency of large datasets. In this project we leverage the ability of a software agent
+dependency of existing datasets. In this project we leverage the ability of a software agent
 to rapidly learn new and complex tasks with the existing formal verification techniques
 applied to railway interlockings. Additionally, we utilise verification approaches for
 Ladder Logic developed across several projects carried out at Swansea University in
@@ -64,229 +168,30 @@ co-operation with Siemens Rail Automation UK. We aim to explore if approaches wi
 ML can be used to improve the efficiency of verification whilst also reducing the number
 of false negatives that are reported by the current approach of model checking.
 
-The current SAT-based technique used for verification faces certain limitations which this
-project intends to address. Due to the scale and complexity of modern critical systems
-such as interlockings, contemporary approaches require mathematical abstractions of the
-system’s technical implementation. Finite state machines1 are a well-established and robust
-modelling technique that can be traced to ‘computing machines’ presented by Turing in
-1936 [15]. A system’s state space can be viewed as a graph. Each node representing a unique. configuration of that system where edges between nodes2 denote the transition from one
-state to another. It is by verifying each state of the system according to some formal safety
-properties that we can guarantee correctness. Even the most basic systems require loops
-to perform a predefined number of, or infinitely many, repeated actions. The previously
-mentioned approach of model checking faces limitations in this regard. Ultimately our
-objective is to determine the depth3 of a given state space from some initial state to identify
-a k-number of steps for loop free paths. That is to say we wish to reachability from an
-initial state to some kth state such that no transition or state is observed more than once.
-We therefore propose the introduction of an RL software agent to sufficiently determine
-the maximal depth through exploration and exploitation of the state space and transition
-rules. We first formulate the task as an optimisation problem. Initially we define an
-environment similar to a state space representation of a simple ladder logic program used
-for pelican crossing verification. This environment is then used to train and RL agent to
-first, discover all unique states and transitions within that state space and output a trace
-for said path4. This can then be used to reduce the search space of loop free paths.
 
 
-\section{Railway Signalling}
-\subsection{Components of Signalling}
-Railways have always been hazardous environments. The mass and velocity of locomotives,
-coupled with their restricted movement and fixed trajectory presents a risk to passengers
-and staff alike. As a result, accidents occurred frequently in the early days of railway
-operation. Risks of head on collisions were exacerbated by single lane tracks, requiring
-the notion of movement authority and a set of rules to safely direct railway traffic. Thus
-the principles and practice of signalling were introduced. Movement authority can be
-granted or withdrawn based on the current state of the track to ensure that trains proceed
-safely, without risk of collision. Signalling on the other hand determines how and when
-movement authority is changed. We now introduce some basic terminology to describe
-the composition of railway networks1 in order to understand the principles of signalling.
-In this section we briefly discuss the function of four key railway components; signals,
-track segments, routes and points.
-To grant or remove movement authority necessitates a system capable of informing
-train operators of such changes. Thus physical signals were introduced. Initially human
-operators, referred to as policemen, monitored railway activity using a stopwatch to time
-departures and hand signals to notify train drivers2. The meaning behind each signal is indicated by the signal’s aspect3. Traditionally fixed signals placed near track edges had
-physical aspects in the form of semaphore signals. Most modern signals are electronic,
-providing visual feedback in the form of coloured lights, denoted by the prefix s in Fig.
-2.1. Common aspects are denoted by three colours; Red indicating the driver should halt,
-yellow suggesting drivers should proceed with caution and green to indicate a clear track
-ahead.
-In order to track train positions railway networks are built up of smaller track seg-
-ments, denoted by the prefix t in Fig. 2.1. Each segment is fitted with an electronic
-circuit to indicate whether it is occupied by a train or not. Signals are usually placed
-at block intervals along these track segments to prevent any two trains from occupying
-the same section. Consequently engineers can be notified of any future obstructions
-before they proceed to the affected region. Each track segment, by definition, requires a
-clear start and end point. They do not necessarily construct a linear track and will often
-lead to a split or junction in the network. Sections where track segments lead to such
-deviations are referred to as points, denoted by the prefix p in Fig. 2.1. Points are typic-
-ally lever operated sections of track regulated by a nearby computerised or human controller.
-Finally we introduce the idea of routes, the physical path that a train may follow
-along the railway. Route setting can be performed manually by a human operator or
-automatically by a computerised system. The potential routes available to a train are then
-subject to the number of points and their positions. Routes are then set by altering signal
-aspects and points along the necessary track segments while also considering the routes
-of other trains occupying the network. It is clear to see that route setting is a critical stage
-of railway operations and necessitates some form of verification. Here we introduce the
-notion of an interlocking.
+What could be improved?
+How do we aim to improve it?
+What is Reinforcement Learning?
+How does it benefit verification?
+How is this work different?
 
-\subsection{Interlockings}
+ 
 The term interlocking describes the system used to prevent safety property violations in
 railway signalling. Interlockings serve as a filter or ‘safety layer’ between inputs from operators, ensuring any changes made to the current railway state does not lead to an
-unsafe state. That is to say any route setting or track changes must be verified by the
-interlocking system before any physical change takes place. It is also the interlocking’s
-responsibility to prevent any attempts to force unsafe actions. In the event a fault is detected
-during routine operation the interlocking should initiate a fail safe state. Typically this
-means setting all signal aspects to red and bringing traffic to a halt until the issue is resolved.
-The original 19th century interlocking systems comprised of mechanical levers for
-controlling railway components and a locking bed to prevent operations conflicting
-with safety conditions. As railway traffic increased so did operational complexity and
-risk. Fortunately by the 1930s relay interlockings had superseded mechanical levers,
-introducing buttons and electrical circuits to both monitor train positions and partially
-automate the signalling process. In the 1980s significant legislation was passed allowing
-the embedding of microprocessors in safety-critical systems. Solid state interlockings (SSIs)
-were developed shortly after. Contemporary interlocking systems are largely software
-controlled, offer greater flexibility for maintenance and support automatic route setting
-through computerised controllers.
-Such levels of complex automation require interlockings to process large sets of data
-from varying sources before altering the state of the railway. Embedded systems within
-trains, track circuits and other sensor arrays transmit data back to the interlocking pertaining to the current state of the railway network. Every mutable component must be considered precisely when computing subsequent states of a changing railway network.
-This is particularly challenging given computerised railways operate as immensely complex
-distributed systems and therefore are subject to concurrency issues. As such, interlockings
-require a robust method for validating and verifying routes. Consequently interlockings
-have also become increasingly complex, presenting new challenges in terms of how they
-perform verification.
-Interlocking systems require accurate information in real-time to monitor the current
-state of the railway network4. First the interlocking must read input values from a range of
-various sources. These values often pertain to the mutable railway components discussed
-earlier. Inputs include but are not limited to; operational requests sent by the signaller,
+unsafe state. Inputs include but are not limited to; operational requests sent by the signaller,
 train positions detected by track circuits or aspects currently displayed by an array of
 signals. The recurrent nature of interlockings also allow output values from previous
 cycles to be used as inputs for subsequent executions.
-Once the necessary inputs have been received by the interlocking they are used to
-compute output values to pass through the ladder logic program. For now readers should
-consider this stage as the layer responsible for ensuring proposed changes to the railway
-composition comply with a strict set of safety properties. The specific functions and
-semantics of ladder logic programs are discussed in section 2.3.
-Finally outputs verified by the ladder logic program are committed back to the initial
-range of input sources. Here any safe track changes can be made. Additionally the signaller
-is sent an update from the interlocking providing information regarding the latest control
-cycle. This process repeats indefinitely until the fault detection system identifies a problem.
-
-\subsection{Ladder Logic Programs}
-In the early days of process control, engineers required a way of implementing electrical
-circuits that could behave logically. Initially this was achieved using racks of electrical
-relays implemented with combinational logic. Schematic diagrams were then used to
-represent various relay devices and their physical connections. Such schematics were designed and documented using ladder logic to represent the circuit structure. Ladder logic
-has since evolved into a graphical programming language widely used in programmable
-logic controllers (PLCs). Program diagrams are comprised of horizontal lines, referred
-to as rungs, and logical connectors between symbols, known as coils and contacts. Two
-types of contacts are used to represent the value of a contained program variable, also
-referred to as a latch. Open contacts as shown in Fig. 2.2(a) represent the unchanged
-value of a latch while closed contacts denote their negated value, Fig. 2.2(b). Latches
-often represent physical inputs to the system but are also used for any other variables
-required. Coils can represent one of two output types. These are either physical outputs
-for some system component or a computed value to be used later in the program. Output
-values are also referred to as latches and can be negated with a closed coil. Each rung
-is read from left to right and, using the logical connectives shown in Fig. 2.3, represent
-a condition or rule within the program. Rungs are closed off with a coil representing
-conditional output on the right hand side. Using coils and contacts enables the expression of atomic propositions in our programs.
-However we still require a way to represent connectives. Fig 2.3 shows that two types of
-connections can be established between contacts. Horizontal lines denote conjunction, equivalent to a logical AND connective in propositional logic5. Vertical lines between
-contacts denote disjunction, equivalent to a logical OR connective in propositional logic.
-
-\section{Verification and the Railway}
-As discussed in our introduction, formal verification of large systems is often infeasible without abstractions since there are too many variables to consider at once. However abstraction can often result in a trade-off between maximising coverage and capturing sufficient detail of the target system. We thus introduce the notion of validation vs verification.
-Safety properties for example are derived through a series of different processes; first in a requirements document expressed in natural language. This articulates what the system should be capable of but not necessarily how it achieves this. The implementation of said safety properties is defined in a specification document. These documents are defined in a formal specification language and are not necessarily reflective of the system requirements.
-Validation therefore ensures correctness according to the system requirements where verification concerns correctness w.r.t the formal specification. Consequently formal verification can only guarantee correctness if the specification is correct. For railway interlocking, safety properties are defined in control tables expressed in ladder logic.
-
-\section{Mapping Formal Methods to RL}
 
 
-
-
-\section{Reinforcement Learning}
-Humans are exceptionally unique in their ability and aptitude to learn through experience.
-From gestation to formal education our body and brain learn to respond to their environ-
-ment. Exposure to new information and a means of processing that information is how
-we learn to function independently. Consider the ability to communicate using natural
-language, which is often taken for granted. This is generally learnt through observation,
-repetition and correction. ML is conceptually similar in this regard. ML is the theory and
-practice of utilising large collections of related information, or datasets, to identify and
+ML is the theory and practice of utilising large collections of related information, or datasets, to identify and
 predict patterns. Using intelligently designed algorithms, ML allows us to generalise the
-behaviour required to perform a given task autonomously. Fig. 4.1 illustrates a high level
-overview of the main topics within ML. The three primary approaches are supervised,
-unsupervised and reinforcement learning (RL). Each approach differs from the other based
-on the algorithms they employ and chiefly, how observations are drawn from existing data.
-Selecting the appropriate methodology is heavily influenced by the application domain.
-In this section we provide a general overview of ML theory and practice, primarily in
-supervised learning given its relevance to our work. In supervised learning our objective is to learn a general function which maps a given
-input x to the correct output y. This learning approach differs from its counterparts by
-utilising training labels, see Fig. 4.2. Labels are typically represented by a vector, Y ,
-containing discrete values associating inputs from a training set X to their correct outputs.
-Ultimately our goal is to train a sufficiently robust model to understanding the underlying
-structure of the data distribution. Consequently the model is able to take observations from
-previously unseen data and predict the correct output without knowledge of the data label.Learning from past experiences is a capability of most intelligent life. Humans in particular
-are exceptional in this regard. The rate at which we process information, reason logically
-and derive conclusions based on what we can observe is exceptional compared to other
-animals. We do however, face certain biological and physical limitations that influence our
-rate of thinking. Contrarily, computers have no ability to operate independently without a
-set of explicit instructions. Yet, recent advances in ML have proven machines can not only
-excel at complex tasks [41, 42, 43] but learn to match, if not surpass, human performance
-levels [44]. Reinforcement learning (RL) is one such area of ML which leverages human
-ability to formulate problems and utilise computational means of solving them through a
-process of accelerated trial and error. RL centres around the concept of a software agent
-capable of learning optimal policies for interacting with a human specified environment.
-In this section we discuss the principles of reinforcement learning in general, common
+behaviour required to perform a given task autonomously. 
+Reinforcement learning (RL) is one such area of ML which leverages human ability to formulate problems and utilise computational means of solving them through a process of accelerated trial and error. RL centres around the concept of a software agent capable of learning optimal policies for interacting with a human specified environment. In this section we discuss the principles of reinforcement learning in general, common
 algorithms and their relevance to this work. 
 
-The above definition provides us with the necessary elements to construct our own
-propositional representation of a ladder logic program. First we distinguish between input
-and output variables. Each rung provides us with an individual coil and corresponding
-latch denoting the conditional output. Unifying all coils in the program under a single set
-produces the following definition:
-
-
-\subsection{Deep Learning}
-In traditional ML approaches we are often expected to use a significant amount of
-prior knowledge regarding our application domain. Without a clear understanding
-of both the data. 
-
-Artificial neural networks (ANN) predate the field of deep learning by several decade.
-Originating in work presented by McCulloch and Pitts [40], neural networks are a
-computing system modelled after biological networks of neurons found in the nervous
-system. Each neuron in the network is represented by a connected node which can
-‘fire’ some signal based on activity in a previous layer. A simplistic ANN architecture
-can be seen in Fig. 4.7. Ultimately, neural networks are used as universal function
-approximators. Given some input we aim to learn the function for a given output.
-This allows us to predict future outputs for unseen inputs since we have a general
-approximation of their relationship.
-Application domains have a significant influence on the NN architecture used. We
-observe a number of layers and nodes in Fig. 4.7, forming the network. Different types of
-layers adjust the transformation applied data received by each neuron. Fig. 4.7 shows
-a dense, fully connected hidden layer which simply connects the output of one neuron
-to another 2. Similarly a convolutional layer is a specific type used in image processing.
-This however, is beyond the scope of our work. Input layers are how we present initial
-information to the network, usually samples from a dataset. Using our earlier example for classification, an input layer would consist of 12 neurons, each representing a feature
-(single boolean) of the current state. Relationships between neurons are denoted by a
-weighted edge which is assigned some value between 0 and 1. The total weighted sum of
-all edges connected to a single neuron are subsequently passed to an activation function.
-Typically this is some non-linear function which maps the weighted sum to another value
-between 0 and 1. In deep learning this process is continued for every layer until the output
-layer is reached. The configuration of the output layer depends entirely on the task we are
-trying to learn. For a binary classification problem the output layer would consist of two
-neurons, valid and invalid according to our earlier example. The exact value output by the
-network will be some probability of the output neuron resembling the ground truth.
-
-As discussed in the previous section, Q-tables scale poorly to large environments with
-many actions. Deep reinforcement learning (DRL) addresses the limitations of Q-functions
-in determining an optimal policy. Instead a neural network, called the policy network, can
-be implemented to approximate the optimal Q-function. This process is known as deep
-Q-learning where our policy network is a deep Q-network (DQN) [46]. The DQN receives
-a number of states from the environment as input to approximate a function generating the
-optimal Q-value such that it satisfies the Bellman equation, see Fig. 5.3 Q-values output
-by the network are then compared to the target optimum to compute the loss. Ideal for
-approximation, the deep neural network architecture will then learn do minimise this loss
-by adjusting weights using SGD and back propagation. This process is repeated for all
-state-action pairs until the optimal Q-function has been approximated.
+Deep reinforcement learning (DRL) addresses the limitations of Q-functions in determining an optimal policy. Instead a neural network, called the policy network, can be implemented to approximate the optimal Q-function. This process is known as deep Q-learning where our policy network is a deep Q-network (DQN) [46]. The DQN receives a number of states from the environment as input to approximate a function generating the optimal Q-value such that it satisfies the Bellman equation, see Fig. 5.3 Q-values output by the network are then compared to the target optimum to compute the loss. Ideal for approximation, the deep neural network architecture will then learn do minimise this loss by adjusting weights using SGD and back propagation. This process is repeated for all state-action pairs until the optimal Q-function has been approximated. 
 
 To support the training of our policy network we generate a dataset of experiences
 sampled at each time step. A value N is set to limit the size of our dataset, referred
@@ -302,8 +207,7 @@ In order to compute the loss for the current training iteration, we require some
 calculating the maximum expected discounted reward for the next state. Without a Q-table
 storing a comparable value for s$^{\prime}$ we must approximate this value by passing s$^{\prime}$ to the
 policy network using different samples from replay memory. Thus we can determine the
-greatest Q-value output by the network over all actions a$^{\prime}$1,...,a$^{\prime}$n, in s$^{\prime}$. Next we perform
-gradient descent, typically stochastic gradient descent (SGD), to minimise the loss and
+greatest Q-value output by the network over all actions a$^{\prime}$1,...,a$^{\prime}$n, in s$^{\prime}$. Next we perform gradient descent, typically stochastic gradient descent (SGD), to minimise the loss and
 update the weights of our DQN. We repeat this process for every new time step until an
 optimal policy is found. Alternatively we incorporate a second DQN, called the target network. This aims to
 solve the problem of approximating future maximum expected reward with a single policy
@@ -313,8 +217,8 @@ while our approximation of q$\star(s^{\prime}$,a$^{\prime}$) continues to change
 us to adjust a separate set of weights by for outputting target Q-values. These are then
 adjusted at arbitrary time steps to match the current weights of the policy network.
 
-\begin{theorem}
-	(Experience Replay): The agent’s experience at a given time step, et is
+\begin{theorem}[Experience Replay]
+	The agent’s experience at a given time step, et is
 	defined:
 	\begin{equation}
 	e_{t} = (st,at,rt+1,st+1)
@@ -355,13 +259,13 @@ infinitely many steps. One solution to dealing with an infinite horizon is disco
 \subsection{Policy Learning}
 A policy is a rule set learned by an agent which determines the next best action. This is determined based on samples from the current probability distribution over any given action yielding a positive reward given the state.
 
-\begin{theorem}(Policy): A probability distribution $\pi(a|s)$ describes the likelihood of action (a) returning a positive reward given environment state (s).
-\end{theorem}
+\begin{definition}[Policy]A probability distribution $\pi(a|s)$ describes the likelihood of action (a) returning a positive reward given environment state (s).
+\end{definition}
 
-\begin{theorem}
-	content...(Trajectory): A sequence $\tau$, comprised of the states s0,...,sn, actions
+\begin{definition}[Trajectory]
+	A sequence $\tau$, comprised of the states s0,...,sn, actions
 	a0,...,an, and rewards r0,...,rn experienced by an agent following a policy $\pi$
-\end{theorem}
+\end{definition}
 The start state s0 is randomly sampled from a start state distribution, Is in our
 case. Continuous random sampling of the probability distribution is done to avoid
 repetitive behaviour. Initially agents have no understanding of their environment or
@@ -469,6 +373,8 @@ minimise this loss until convergence.
 Designing appropriate reward systems is arguably one of the greatest challenges in RL. Reward shaping is often performed specifically for the application
 
 % Definition 5.10
+
+\section{Mapping Formal Methods to RL}
 
 
 \section{Implementation}
@@ -616,25 +522,5 @@ and a homepage~\cite{ref_url1}. Multiple citations are grouped
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
 %
-\begin{thebibliography}{8}
-\bibitem{ref_article1}
-Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
 
-\bibitem{ref_lncs1}
-Author, F., Author, S.: Title of a proceedings paper. In: Editor,
-F., Editor, S. (eds.) CONFERENCE 2016, LNCS, vol. 9999, pp. 1--13.
-Springer, Heidelberg (2016). \doi{10.10007/1234567890}
-
-\bibitem{ref_book1}
-Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
-Location (1999)
-
-\bibitem{ref_proc1}
-Author, A.-B.: Contribution title. In: 9th International Proceedings
-on Proceedings, pp. 1--2. Publisher, Location (2010)
-
-\bibitem{ref_url1}
-LNCS Homepage, \url{http://www.springer.com/lncs}. Last accessed 4
-Oct 2017
-\end{thebibliography}
 \end{document}

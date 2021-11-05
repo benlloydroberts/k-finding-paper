@@ -1,0 +1,26 @@
+\contentsline {title}{Contribution Title\unskip {}}{1}%
+\authcount {4}
+\contentsline {author}{Ben Lloyd-Roberts \and Phil James \and Michael Edwards \and Tom Werner}{1}%
+\contentsline {section}{\numberline {1}Introduction}{2}%
+\contentsline {subsection}{\numberline {1.1}Motivations}{2}%
+\contentsline {section}{\numberline {2}Railway Signalling}{3}%
+\contentsline {subsection}{\numberline {2.1}Components of Signalling}{3}%
+\contentsline {subsection}{\numberline {2.2}Interlockings}{4}%
+\contentsline {subsection}{\numberline {2.3}Ladder Logic Programs}{5}%
+\contentsline {section}{\numberline {3}Verification and the Railway}{5}%
+\contentsline {section}{\numberline {4}Mapping Formal Methods to RL}{6}%
+\contentsline {section}{\numberline {5}Reinforcement Learning}{6}%
+\contentsline {subsection}{\numberline {5.1}Deep Learning}{7}%
+\contentsline {subsection}{\numberline {5.2}MDPs}{9}%
+\contentsline {subsection}{\numberline {5.3}Policy Learning}{10}%
+\contentsline {subsection}{\numberline {5.4}Value Functions}{10}%
+\contentsline {subsection}{\numberline {5.5}Reward/Goal Shaping}{11}%
+\contentsline {subsection}{\numberline {5.6}Exploration Strategy}{11}%
+\contentsline {section}{\numberline {6}Implementation}{12}%
+\contentsline {subsection}{\numberline {6.1}LL program generator}{12}%
+\contentsline {subsection}{\numberline {6.2}Learning Environment}{12}%
+\contentsline {subsection}{\numberline {6.3}Agent Training}{13}%
+\contentsline {subsubsection}{Network Architecture}{14}%
+\contentsline {section}{\numberline {7}Experiments}{14}%
+\contentsline {subsection}{\numberline {7.1}Extended state-spaces}{14}%
+\contentsline {subsection}{\numberline {7.2}Interlocking examples}{14}%

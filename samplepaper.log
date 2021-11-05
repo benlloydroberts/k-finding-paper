@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.7.5)  30 JUL 2021 09:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.28)  5 NOV 2021 13:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -321,21 +321,59 @@ LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 2158) has occurred while \output is active []
 
- [7]
-[8]
-Overfull \hbox (11.87106pt too wide) in paragraph at lines 362--364
-[]\OT1/cmr/m/it/10 content...(Trajectory): A se-quence $\OML/cmm/m/it/10 ^^\$\O
-T1/cmr/m/it/10 , com-prised of the states s0,...,sn,
- []
+ [2]
 
-[9] [10] [11] [12]
+LaTeX Warning: Command \L invalid in math mode on input line 92.
 
-LaTeX Warning: Reference `fig1' on page 13 undefined on input line 585.
+[3] [4] [5]
+Underfull \vbox (badness 5105) has occurred while \output is active []
 
-[13] [14] (./samplepaper.aux)
+ [6]
+[7] [8] [9] [10] [11]
+
+LaTeX Warning: Reference `fig1' on page 12 undefined on input line 491.
+
+[12]
+
+LaTeX Warning: Citation `ref_article1' on page 13 undefined on input line 511.
+
+
+LaTeX Warning: Citation `ref_lncs1' on page 13 undefined on input line 511.
+
+
+LaTeX Warning: Citation `ref_book1' on page 13 undefined on input line 512.
+
+
+LaTeX Warning: Citation `ref_proc1' on page 13 undefined on input line 512.
+
+
+LaTeX Warning: Citation `ref_url1' on page 13 undefined on input line 513.
+
+
+LaTeX Warning: Citation `ref_article1' on page 13 undefined on input line 514.
+
+
+LaTeX Warning: Citation `ref_lncs1' on page 13 undefined on input line 514.
+
+
+LaTeX Warning: Citation `ref_book1' on page 13 undefined on input line 514.
+
+
+LaTeX Warning: Citation `ref_article1' on page 13 undefined on input line 515.
+
+
+LaTeX Warning: Citation `ref_book1' on page 13 undefined on input line 515.
+
+
+LaTeX Warning: Citation `ref_proc1' on page 13 undefined on input line 515.
+
+
+LaTeX Warning: Citation `ref_url1' on page 13 undefined on input line 515.
+
+[13] (./samplepaper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -344,36 +382,37 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2727 strings out of 483183
- 37559 string characters out of 5966293
- 288207 words of memory out of 5000000
- 17706 multiletter control sequences out of 15000+600000
+ 2723 strings out of 483183
+ 37521 string characters out of 5966292
+ 285200 words of memory out of 5000000
+ 17702 multiletter control sequences out of 15000+600000
  541709 words of font info for 56 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 34i,10n,29p,943b,239s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/user/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600p
-k> </home/user/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600p
-k></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on samplepaper.pdf (14 pages, 248837 bytes).
+ 34i,10n,29p,1269b,272s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/skaff/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600
+pk> </home/skaff/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.60
+0pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmtt9.pfb>
+Output written on samplepaper.pdf (13 pages, 254866 bytes).
 PDF statistics:
- 132 PDF objects out of 1000 (max. 8388607)
- 95 compressed objects within 1 object stream
+ 133 PDF objects out of 1000 (max. 8388607)
+ 96 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

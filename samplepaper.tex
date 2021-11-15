@@ -6,6 +6,7 @@
 %
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %
@@ -40,16 +41,14 @@ Tom Werner\inst{2}}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-Interlockings within the railway domain are computerised safety critical systems responsible for the signalling components directing railway traffic. The formal verification of such systems using bounded model-checking often face limited guarantees of correctness given they operate within a bounded region of $k$ depth. In this work we devise a reinforcement learning (RL) strategy to support SAT-based bounded model checking increasing measures of completeness. We outline a mapping from transition systems traditionally used as BMC abstractions, to Markov decision processes (MDP) typically used as interactive RL environments. Thereafter software agents are fed a reward signal to incentivise state space exploration along acyclic sequences of execution such with the aim of increasing the upper bound $k$. We test the feasibility of our approach against a series of artificially generated programs with increasingly larger state spaces. A number of metrics suggested in RL literature are then gathered to evaluate the robustness and scalability of the approach, particularly in industrial settings. Finally we produce representations of the state space structure to be fed back to engineers responsible for designing such programs.
+Solid State interlockings in the railway domain are computerised safety critical systems responsible for operating the signalling components directing railway traffic. The formal verification of such systems using inductive methods, such as bounded model-checking (BMC), often face limited guarantees of correctness given they operate within a bounded region of $k$ depth. In this work we devise a reinforcement learning (RL) strategy to support SAT-based bounded model checking by improving measures of completeness. We outline a mapping from labelled transition systems traditionally used as BMC abstractions, to Markov decision processes (MDP) used as interactive RL environments. Thereafter software agents are trained to explore this environment for the longest acyclic sequences of execution to an upper bound $k$. We test the feasibility of our approach against a series of artificially generated ladder logic programs with incrementally larger state spaces. A number of metrics suggested in RL literature are then gathered to evaluate the robustness and scalability of the approach, particularly in industrial contexts. Finally we produce an \textit{exploration graph} representing the structure of the traversed state space. These visualisations are then fed back to engineers responsible for designing such programs.
 
 \keywords{First keyword \and Second keyword \and Another keyword.}
 \end{abstract}
 
 
 \section{Introduction}
-Solid state interlockings are computerised systems responsible for ensuring safe routing
-of trains through a given railway network. As a vital part of any railway signalling
-system, interlockings are critical systems regarded with the highest safety integrity level
+Interlockings serve as a filter or ‘safety layer’ between inputs from operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
 (SIL4) according to the CENELEC 50128 standard. The application of model-checking
 to Ladder Logic programs in order to verify interlockings is well established within
 academia and is beginning to see real applications in industry. As early as 1995, Groote
@@ -89,7 +88,7 @@ throughout the formula, primarily the latch crossing. Each rung computes a new c
 value to be used in the next execution cycle hence the significance of rung ordering. To illustrate this change over time we introduce a new form of abstract representation, the finite state automaton.
 
 \begin{definition}[Finite State Automaton]
-	A finite state automaton $\mathcal{M}$ given a ladder logic fromula $\psi\mathcal{L}$ is denoted $\mathcal{M(\psi\L)}$ and represented by the 4-tuple $\langle Q, \sum, \sigma, I_s \rangle$, where :
+	A finite state automaton $\mathcal{M}$ given a ladder logic formula $\psi\mathcal{L}$ is denoted $\mathcal{M(\psi\L)}$ and represented by the 4-tuple $\langle Q, \sum, \sigma, I_s \rangle$, where :
 	\begin{itemize}
 		\item $Q$ 
 		\item $\sum$
@@ -97,6 +96,8 @@ value to be used in the next execution cycle hence the significance of rung orde
 		\item $I_s$
 	\end{itemize}
 \end{definition}
+
+
 \subsection{Bounded Model-Checking}
 Model checking is a formal verification technique stemming from the need to systematically
 check whether certain properties hold for different configurations (states) of a given system.
@@ -130,8 +131,6 @@ number of transitions then the exploration process is incomplete. This trade-off
 that unreachable states are not considered but does not guarantee completeness within
 the bounded model
 
-
-
 Primary limitations of the solution presented by Kanso are address in [16, 12, 17, 18].
 Due to the inductive step of verification the tool checks to see if a given state satisfies
 some condition but does not consider the possibility of unreachable states which violate
@@ -154,67 +153,51 @@ methods incorporating machine learning [28, 29, 30, 31, 32], researchers have pr
 various approaches to invariant finding with varying degrees of success. 
 
 \subsection{Reinforcement Learning}
-Reinforcement learning has shown promising results in exploring and exploiting unknown graph structures - solely based on a reward signal.
+Reinforcement learning has shown recent success in automating and optimising sequential decision making problems with respect to some goal-orientated tasks. Such problems are commonly formulated as optimal control of incompletely-known MDPs \cite{sutton2018reinforcement}. 
 
-Machine learning means translating the model to another model - "...Which requires some partial translation, process is expanded in sect \ref{sec:preliminaries}".
+RL differs from other data driven ML paradigms in its ability to automate tasks without the
+dependency of existing datasets. Given an environment $\epsilon$, a software agent
 
-One of three disciplines comprising the field of ML is Reinforcement learning (RL). RL
-differs from other data driven ML techniques in its ability to automate tasks without the
-dependency of existing datasets. In this project we leverage the ability of a software agent
-to rapidly learn new and complex tasks with the existing formal verification techniques
-applied to railway interlockings. Additionally, we utilise verification approaches for
-Ladder Logic developed across several projects carried out at Swansea University in
-co-operation with Siemens Rail Automation UK. We aim to explore if approaches within
-ML can be used to improve the efficiency of verification whilst also reducing the number
-of false negatives that are reported by the current approach of model checking.
+- A machine learning paradigm that models goal-orientated tasks as an environment within which software agents can interact and explore. 
 
+- Environments are constructed with MDPs. 
+\subsubsection{Terminology}
+\begin{itemize}
+	\item $s, s^{\prime}$ - states
+	\item $a$ - an action
+	\item $r$ - a reward
+	\item $S$ - the set of all non-terminal states
+	\item $S^{+}$ - the set of all states, including terminal states
+	\item $A(s)$ - set of all actions for state $s$
+	\item $\mathcal{R}$ - set of all possible rewards, a finite subset of $\mathbb{R}$
 
+\end{itemize}
 
-What could be improved?
-How do we aim to improve it?
-What is Reinforcement Learning?
-How does it benefit verification?
-How is this work different?
+- Agents interact with the environment according to a policy
 
- 
-The term interlocking describes the system used to prevent safety property violations in
-railway signalling. Interlockings serve as a filter or ‘safety layer’ between inputs from operators, ensuring any changes made to the current railway state does not lead to an
-unsafe state. Inputs include but are not limited to; operational requests sent by the signaller,
-train positions detected by track circuits or aspects currently displayed by an array of
-signals. The recurrent nature of interlockings also allow output values from previous
-cycles to be used as inputs for subsequent executions.
+- Actions produce reward signals
+
+- Reward signals help evaluate policies by computing expected returns
+
+- Evaluation methods are task dependent
 
 
-ML is the theory and practice of utilising large collections of related information, or datasets, to identify and
-predict patterns. Using intelligently designed algorithms, ML allows us to generalise the
-behaviour required to perform a given task autonomously. 
-Reinforcement learning (RL) is one such area of ML which leverages human ability to formulate problems and utilise computational means of solving them through a process of accelerated trial and error. RL centres around the concept of a software agent capable of learning optimal policies for interacting with a human specified environment. In this section we discuss the principles of reinforcement learning in general, common
-algorithms and their relevance to this work. 
+Reinforcement learning (RL) is one such area of ML which leverages human ability to formulate problems and utilise computational means of solving them through a process of accelerated trial and error. RL centres around the concept of a software agent capable of learning optimal policies for interacting with a human specified environment, traditionally modelled as an MDP or its variants. 
 
-Deep reinforcement learning (DRL) addresses the limitations of Q-functions in determining an optimal policy. Instead a neural network, called the policy network, can be implemented to approximate the optimal Q-function. This process is known as deep Q-learning where our policy network is a deep Q-network (DQN) [46]. The DQN receives a number of states from the environment as input to approximate a function generating the optimal Q-value such that it satisfies the Bellman equation, see Fig. 5.3 Q-values output by the network are then compared to the target optimum to compute the loss. Ideal for approximation, the deep neural network architecture will then learn do minimise this loss by adjusting weights using SGD and back propagation. This process is repeated for all state-action pairs until the optimal Q-function has been approximated. 
+Deep reinforcement learning (DRL) addresses the limited capacity of Q-functions in determining an optimal policy for complex problems. Instead a neural network, called the policy network, can be implemented to approximate the optimal Q-function. This process is known as deep Q-learning where our policy network is a deep Q-network (DQN) [46]. The DQN receives a number of states from the environment as input to approximate a function generating the optimal Q-value such that it satisfies the Bellman equation. Q-values output by the network are then compared to an approximated 'optimal' target value in order to compute the loss. Ideal for approximation, the deep neural network architecture will then learn to minimise this loss via stochastic gradient descent and back propagation. This process is repeated for all state-action pairs until the optimal Q-function has been approximated. 
+
 
 To support the training of our policy network we generate a dataset of experiences
-sampled at each time step. A value N is set to limit the size of our dataset, referred
-to as replay memory. Using training experiences from replay memory helps avoid learning local trends in
-the data, see Fig. 5.4. Highlighted data points represent experiences randomly sampled
-for training, known as a minibatch. Note how the larger replay memory provides more
-general coverage of past experiences meaning linear correlations in short sequences are
-less influential on learning. Our first training cycle involves setting a replay memory size
-N and random weight initialisation for the policy network. Any state preprocessing is then
-performed before being passed to the DQN. We compute the loss for the given Q-value
-output by the network for the action listed in our most recent sample from replay memory.
+sampled at each time step $t$. A value $N$ is set to limit the size of our dataset, referred
+to as replay memory. Using training experiences from replay memory helps avoid learning linear correlations over short step sequences. which less influential on learning. Our first training cycle involves setting a replay memory size N and random weight initialisation for the policy network. Any state preprocessing is then performed before being passed to the DQN. We compute the loss for the given Q-value approximated by the network for the action listed in our most recent sample from replay memory.
 In order to compute the loss for the current training iteration, we require some method for
 calculating the maximum expected discounted reward for the next state. Without a Q-table
-storing a comparable value for s$^{\prime}$ we must approximate this value by passing s$^{\prime}$ to the
-policy network using different samples from replay memory. Thus we can determine the
+storing a comparable value for s$^{\prime}$ we must approximate this value by passing s$^{\prime}$ to the policy network using different samples from replay memory. Thus we can determine the
 greatest Q-value output by the network over all actions a$^{\prime}$1,...,a$^{\prime}$n, in s$^{\prime}$. Next we perform gradient descent, typically stochastic gradient descent (SGD), to minimise the loss and
 update the weights of our DQN. We repeat this process for every new time step until an
-optimal policy is found. Alternatively we incorporate a second DQN, called the target network. This aims to
-solve the problem of approximating future maximum expected reward with a single policy
-network. Given weights are only adjusted once the loss has been computed, both q(s,a)
-and q(s$^{\prime}$,a$^{\prime}$) are approximated using the same weights. This introduces undesirable properties for learning. As the network weights adjust, q(s,a) approaches the target value
-while our approximation of q$\star(s^{\prime}$,a$^{\prime}$) continues to change. Using a second DQN allows
-us to adjust a separate set of weights by for outputting target Q-values. These are then
+optimal policy is found. Alternatively we incorporate a second DQN, called the target network to mitigate over-approximations of maximum future expected reward when using a single policy
+network. Given weights are only adjusted once the loss has been computed, both $q(s,a)$
+and $q(s^{\prime},a^{\prime})$ are approximated using the same weights. This introduces undesirable properties for learning as both sets of network parameters are coupled. As the network weights adjust, $q(s,a)$ approaches the target value while our approximation of $q^\star(s^{\prime}$,a$^{\prime}$) continues to change. Using a second DQN allows us to adjust a separate set of weights for outputting target Q-values. These are then
 adjusted at arbitrary time steps to match the current weights of the policy network.
 
 \begin{theorem}[Experience Replay]
@@ -226,30 +209,12 @@ adjusted at arbitrary time steps to match the current weights of the policy netw
 \end{theorem}
 
 \subsection{MDPs}
-The essential process behind RL is that of gamification [45, 46, 47]. Imagine a player has
-been placed in some game environment with no knowledge regarding their objective or
-the scope of the environment. Depending on the task we wish the agent to learn, our
-environment is encoded with a rule set which describes performable actions and a reward scheme to either penalise or reinforce agent decisions, see Fig. 5.1. We treat this reward as
-an in-game score the agent can see. The action set available to the agent influences new
-states of the environment. Agents are then incentivised to explore their environments
-through repeated sequences of actions while reacting to each reward. Formally, we define
-the environment our agent must traverse as a sequential mathematical framework known
-as a Markov decision process (MDP). RL differs from other supervised learning methods in some fundamental yet subtle
-ways. Agents, unlike models aim to optimise decision making in order to reach some goal.
-Supervised and unsupervised learning typically involve training a statistical model on real
-world samples, necessitating a data set for training. RL, through repeated simulation can
-produce an agent having learned an optimal policy of which humans would be incapable.
-That is to say the agent learns independently without the need for external observations.
-RL interpreters issue positive or negative reward depending on agent behaviour.
-Action sequences we wish to reward are done so with a positive score. Otherwise the
-agent is assigned a negative score. Consequently, agents will attempt to find the optimal
-policy to maximise cumulative positive reward and minimise negative rewards. This
-can be expressed probabilistically $P(s^{\prime},r|s,a)$. Given the current state s and an action a is performed, what is the probability of a subsequent state $s^{\prime}$ leading to a reward r.
-Depending on the learning strategy chosen, agents will attempt to maximise the cumulative
-reward, meaning future decisions will be considered at each step. What constitutes the terminal step depends on the environment and how it is imple-
-mented. In our case we require some metric of agent performance other than reward
-to determine whether the environment should reset. Such problems are referred to as
-episodic tasks.1. To this end we introduce a terminal condition which computes the total
+The essential process behind RL is that of gamification [45, 46, 47]. Depending on the task we wish the agent to learn, our environment is encoded with a rule set which describes performable actions and a reward scheme capable of issuing signals which penalise or reinforce agent decisions. We treat this reward as an in-game score, of which the agent is aware. The action set available to the agent, paired with some state transition rules, yield subsequent environment states. Agents are then incentivised to explore their environments through sampling actions, storing observations regarding the environment.
+
+Formally, we define the environment our agent must traverse as a sequential mathematical framework known
+as a Markov decision process (MDP). 
+
+Consequently, agents attempt to converge toward an optimal deterministic or stochastic policy which maximises cumulative future reward. This can be expressed probabilistically $P(s^{\prime},r|s,a)$. Given the current state $s$ and an action $a$ is performed, what is the probability of a subsequent state $s^{\prime}$ leading to a reward $r$. Rewards signals are often sparse, meaning agents may traverse several states before receiving any feedback. Thus future states must be considered at each time step $t$. Complex tasks oft comprise  What constitutes the terminal step depends on the environment and how it is implemented. In our case we require some metric of agent performance other than reward to determine whether the environment should reset. Such problems are referred to as episodic tasks.1. To this end we introduce a terminal condition which computes the total
 number of unique transitions and states to check if the agent has discovered them all.
 Throughout the training process it is expected the agent will minimise the number of
 necessary transitions to the point an optimal path is learned. Continuous tasks, which
@@ -375,7 +340,7 @@ Designing appropriate reward systems is arguably one of the greatest challenges 
 % Definition 5.10
 
 \section{Mapping Formal Methods to RL}
-
+Machine learning means translating the model to another model - "...Which requires some partial translation, process is expanded in sect \ref{sec:preliminaries}".
 
 \section{Implementation}
 \subsection{LL program generator}
@@ -517,6 +482,8 @@ and a homepage~\cite{ref_url1}. Multiple citations are grouped
 % ---- Bibliography ----
 %
 % BibTeX users should specify bibliography style 'splncs04'.
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
 % References will then be sorted and formatted in the correct style.
 %
 % \bibliographystyle{splncs04}

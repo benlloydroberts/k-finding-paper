@@ -140,91 +140,36 @@ various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
 
-Reinforcement learning (RL) is a principle ML paradigm which leverages human ability to formalise sequential decision making problems with respect to some goal-orientated tasks as optimal control of some incompletely-known MDP \cite{sutton2018reinforcement}. Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn the optimal action $a$ to take from state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. 
+Reinforcement learning (RL) is a principle machine learning paradigm which leverages human ability to formalise sequential decision making problems with respect to some goal-orientated tasks as the optimal control of some incompletely-known MDP, or variant thereof \cite{sutton2018reinforcement}. Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn a policy $\pi$ which suggests the optimal action $a$ to take from a given state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. Agents then attempt to converge toward an optimal deterministic $\pi(s)$ or stochastic policy $\pi(a|s)$ with the aim of learning which state-action pairs maximise cumulative future reward. Successive agent observations regarding $\mathcal{E}$ and used to update $\pi$ are stored as a \textit{trajectory} $\tau$. This sequence comprises states, actions, and rewards experienced by an agent at contiguous time-steps:
+\begin{math}
+	\tau = (s_0, a_0, r_0, s_1,a_1,r_1,...,s_h,a_h,r_h)
+\end{math}
+where $h$ denotes the horizon, a time-step beyond which rewards are no longer considered. \\
 
-Agents then attempt to converge toward an optimal deterministic or stochastic policy $P(s^{\prime},r|s,a)$ which maximises cumulative future reward. Rewards signals are often sparse, meaning agents may traverse several states before receiving any feedback. Thus determining rewards over future time steps, the \textit{expected return}, becomes desirable \begin{math}
-	G_t = r_{t+1} + r_{t+2} +,...,+ r_{\mathcal{T}}
-\end{math}. In episodic tasks $\mathcal{T}$ refers to the time step where a terminal condition is triggered. Subsequently the environment is reset to its initial state $I_s \in $. In continuous or sparsely rewarded episodic tasks, we apply a scalar discount factor $\gamma \in [0,1]$ at each time step to help enumerate future cumulative reward over a potentially infinite horizon.
+Reward signals are often sparse, meaning agents are expected to naively interact with $\mathcal{E}$ over multiple time-steps before receiving feedback. Hence identifying potential rewards over future time steps, an \textit{expected return} given the present state $s_t$, becomes desirable: \begin{math}
+	G_t = \sum_{i=0}^{T} \gamma^{i}r_{t+i}.
+\end{math}
+$T$ refers to the time step a task-specific terminal condition is met. Subsequently the environment returns to the initial state $I_s \in $. In continuous or sparsely rewarded episodic tasks, a scalar discount factor $\gamma \in [0,1]$ is applied to successive rewards at each time step. This helps enumerate expectation over a potentially infinite horizon, weighting rewards according to their distance from the current time step. \\
 
-
-\subsubsection{Policies}
-A policy is a rule set learned by an agent which determines the next best action. This is determined based on samples from the current probability distribution over any given action yielding a positive reward given the state.
-
-\begin{definition}[Policy]A probability distribution $\pi(a|s)$ describing the likelihood of action $a$ returning a positive reward given environment state $s$.
-\end{definition}
-
-\begin{definition}[Trajectory]
-	A sequence $\tau$, comprised of the states $s_0,...,s_n$, actions
-	$a_0,...,a_n$, and rewards $r_0,...,r_n$ experienced by an agent following a policy $\pi$
-\end{definition}
-
-\begin{theorem}	[Optimal Policy]: Given a finite MDP, there exists at least one optimal policy $J$, over a set of parameters $\theta$, such that:
-	$J(\theta) = E_\pi[r(\tau)]$
-	Finding the optimal policy requires some measure of decision quality. These are referred to as value functions.
-\end{theorem}
-
-\subsubsection{Value Functions}
-Value functions return an expected reward, which determines the overall benefit of a given policy. They can be differentiated by the observations they use to determine the value. So called state-value functions, denoted $v_\pi$, provide the expected future reward given a state $s_t$ and adhering to policy  $\pi$. 
-
+Given a finite MDP, there exists at least one optimal
+policy $\pi^*(s)$. Finding the optimal policy requires some measure of decision quality. Value functions $v_\pi = E \left[G_t \ | \ S_t = s\right]$ can provide an estimate of how beneficial it is for an agent to be in state $s$ and adhere to $\pi$ thereafter using expected return $G_t$. An optimal policy $\pi^\star$ has an optimal state-value function: $v^{*}(s) = \max_\pi v_\pi(s)$ which returns the maximum possible expected return of any policy for all $s \in S$. Additionally action-value functions provides the value assigned to a state-action under policy $\pi$:  $q_\pi(s,a) = E \left[G_t \ | S_t = s, A_t = a \right]$. An optimal policy, $\pi^*$ has an optimal Q-function 
+\begin{math}
+	Q^\star(s,a) = \max_\pi Q_\pi(s,a)
+\end{math} which returns the maximum possible expected return
+of any policy for all state-action pairs. The Bellman principle of optimality [48], states for any state-action pair at the current time step, the expected return from an initial state $s$, taking action $a$ and following the optimal policy thereafter is equal to the expected reward from taking action $a$ in state $s$, plus the maximum achievable expected discounted return from any subsequent state-action pairs.
 \begin{equation}
-	v_\pi = E[G_t \ | \ S_t = s]  
-	= E \left[\sum_{i=0}^{\infty}\gamma^{i}r_{t+i} \ | \ S_t = s\right]
+	q^\star(a,s) = E \left[r_{t+1} + \gamma \max_{a^\prime} q^\star(s^\prime, a^\prime)\right]
 \end{equation}
+The Bellman optimality equation is an integral metric used to learn the optimal Q-function which in turn is used to learn the optimal policy. Given an optimal Q-function action $a^{\prime}$, a Q-learning algorithm will find the best action $a^{\prime}$ which maximises the Q-value for $s^{\prime}$. \\
 
-\begin{theorem}	[Optimal state-value function]: An optimal policy J($\theta$) has an optimal state-value function for all $s \in S$, defined:
-	\begin{equation}
-		v^{*}(s) = \max_\pi v_\pi(s)
-	\end{equation}
-\end{theorem}
-
-Informally the optimal state-value function returns the maximum possible expected return of any policy for each state. Additionally action-value functions, denoted q$\pi$, provides the value assigned to an action under policy $\pi$. Action-value functions, also knowns as Q-functions, produce a quality valuation assigned to the current action which determines the expected reward from subsequently adhering to the same policy $\pi$. We define the value function q$\pi$(s):
-
-\begin{equation}
-	q_\pi(s,a) = E [G_t \ | \ S_t = s, A_t = a]
-	= E \left[\sum_{i=0}^{\infty} \gamma^{i}r_{t+i} \ | S_t = s, A_t = a \right]
-\end{equation}
-The output of our Q-function is known as the Q-value.
+Following Q-value initialisation, agents have no a priori estimates regarding optimal state-action pairs. Pure exploitation, $\max_{a^{\prime}} q_\pi(s,a)$,  according to $\pi$ likely results in sub-optimal solutions where insufficient observations have been made regarding the global environment. Conversely, sustained exploration, randomly sampling $A_t$, reduces the likelihood of an agent leveraging previous observations to maximise $G_t$. An initial exploration rate $\epsilon \in [0,1]$ is used at each time step to opt for exploitation with probability 1-$\epsilon$ or exploration with probability $\epsilon$, reducing $\epsilon$ by a small decay factor at each episode.
 
 
-\begin{theorem}[Optimal Q-function]
-	An optimal policy, $J\theta$ has an optimal Q-function for
-	all s $\in$ S and all a $\in$A:
-	\begin{equation}
-		Q^\star(s,a) = \max_\pi Q_\pi(s,a)
-	\end{equation} 
-\end{theorem}
+To support the training of our policy network we generate a dataset of capacity $N$ experiences representing an agent's replay memory, a 4-tuple $(S,A,R,S^{\prime})$, sampled at each time step $t$. Each experience 
+\begin{math}
+	e_{t} = (s_t,a_t,r_{t+1},s_{t+1})
+\end{math} is associating with an importance weight to both avoid learning linear correlations over short sequences of steps and prioritise experiences according to the . An agent's experience at time step $t$ is defined:
 
-Informally, the optimal Q-function returns the maximum possible expected return
-of any policy for all state-action pairs. The Bellman principle of optimality [48], states for any state-action pair at the current time step, the expected return from an initial state $s$, taking action $a$ and following the optimal policy J($\theta$) thereafter is equal to the expected reward from taking action $a$ in state $s$, plus the maximum achievable expected discounted return from any subsequent state-action pairs.
-
-\begin{equation}
-	q^\star(a,s) = E \left[r_{t+1} + \gamma \max_a^\prime q^\star(s\prime, a^\prime)\right]
-\end{equation}
-
-The Bellman optimality equation is an integral metric used to learn the optimal Q-function which in turn is used to learn the optimal policy. Given an optimal Q-function action a$^{prime}$, a Q-learning algorithm will find the best action $a^{\prime}$ which maximises the Q-value for $s^{\prime}$.
-
-\subsection{Reward/Goal Shaping}
-Designing appropriate reward systems is arguably one of the greatest challenges in RL. We determine the cumulative reward for a trajectory  \begin{equation}
-	\mathcal{R} = \sum_{t=0}^{T-1} R(s_t, a_t)
-\end{equation}. We introduce a scalar discount factor $\gamma$ to adapt modify returns such that rewards are weighted according to their distance from the current time step \begin{equation}
-	G_t = \sum_{i=0}^{\infty} \gamma^{i}r_{t+i}
-\end{equation}. While we wish to both encourage the agent to make optimal decisions at each time step, the discount factor helps prioritise rewards for immediate actions yet will determine the future reward of subsequent actions for several potential routes.
-
-
-\subsection{Exploration Strategy}
-Following Q-value initialisation, agents have share no estimates regarding optimal state-action pairs. Therefore we set an initial exploration rate $\epsilon \in [0,1]$, and scalar decay value  applied at each time step, to balance action sampling according to the learned policy or by some random probability distribution over $A_t$ [53, 54]. Pure exploitation according to $\pi$ likely results in sub-optimal solution where insufficient observations have been made regarding the global environment. Conversely, sustained exploration reduces the likelihood of an agent leveraging any previous observations to maximise reward. The $\epsilon$-greedy strategy is a popular approach to achieving this balance [49, 50, 51, 52]. Values nearing 0 represent a greedy strategy where the agent solely adheres to $\pi$. Values nearing 1 encourage random sampling of the $A_t$. epsilon decay value to decrease the exploration rate for each episode. Including an epsilon decay value provides some beneficial learning properties. As the agent learns more about the environment it relies less on exploration. Instead we expect to have observed a sufficiently comprehensive
-understanding of the environment thus settle on a purely greedy strategy. We also influence exploration and exploitation at every time step. First we randomly generate a number, $0 \leq i \leq 1$ to compare with $\epsilon$. If $i > \epsilon$ the agent selects an action according to $\pi$. Where $i < \epsilon$, the agent randomly samples an action to explore the environment. 
-% Equations 5.8, 5.9
-
-\subsubsection{Replay Memory}
-To support the training of our policy network we generate a dataset of maximum $N$ experiences representing an agent's replay memory, sampled at each time step $t$. We characterise experiences as the 4-tuple $(S,A,R,S^{\prime})$, associating each sample with an importance weight to avoid learning linear correlations over short sequences of steps. 
-
-\begin{theorem}[Experience Replay]
-	An agent's experience at time step $t$ is defined:
-	\begin{equation}
-		e_{t} = (s_t,a_t,r_{t+1},s_{t+1})
-	\end{equation}
-\end{theorem}
 
 \subsubsection{DQNs}
 Deep reinforcement learning (DRL) addresses the limited capacity of Q-functions in determining an optimal policy for complex problems. Instead a policy network, or deep Q-Network, is implemented to approximate the optimal Q-function [46]. The DQN receives a number of states from the environment as input to approximate a function generating the optimal Q-value such that it satisfies the Bellman equation. Q-values output by the network are then compared to an approximated 'optimal' target value in order to compute the loss. Q-learning refers to a policy learning method which uses Q-functions to calculate maximum expected future reward. Learning is formulated as an iterative process of parameter adjustment known as value iteration

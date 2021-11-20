@@ -17,7 +17,7 @@
 
 \begin{document}
 %
-\title{Finding \textit{k}: Asynchronous Reinforcement Learning for \textit{k}-Induction Bounded Model Checking\thanks{Supported by Siemens Mobility UK \& EPSRC}}
+\title{Computing Coverage for Bounded Model Checking using Asynchronous Reinforcement Learning\thanks{Supported by Siemens Mobility UK \& EPSRC}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -141,7 +141,10 @@ various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
 
-Reinforcement learning (RL) is a principle machine learning paradigm which leverages human ability to formalise sequential decision making problems with respect to some goal-orientated tasks as the optimal control of some incompletely-known MDP, or variant thereof \cite{sutton2018reinforcement}. Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn a policy $\pi$ which suggests the optimal action $a$ to take from a given state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. Agents then attempt to converge toward an optimal deterministic $\pi(s)$ or stochastic policy $\pi(a|s)$ with the aim of learning which state-action pairs maximise cumulative future reward. Successive agent observations regarding $\mathcal{E}$ used to update $\pi$ are stored as a \textit{trajectory} $\tau$. This sequence comprises states, actions, and rewards experienced by an agent at contiguous time-steps:
+Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, or variant thereof \cite{sutton2018reinforcement}. A user defined environment intends to reflect the discrete dynamics of the problem where software agents sample a permitted set actions at each time step, observe how the environment state changes and learn a policy to dictate which future actions return the greatest cumulative reward signal. We need an observation space to represent the environment state at discrete time steps, a set of formally defined actions which change the observations space, a stable reward function to provide feedback, a policy to dictate learned behaviour, and a way of storing past information. 
+
+\section{Mapping Formal Methods to RL}
+Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn a policy $\pi$, a function which maps optimal actions $a$ to take from a given state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. Agents then attempt to converge toward an optimal deterministic $\pi(s)$ or stochastic policy $\pi(a|s)$ with the aim of learning which state-action pairs maximise cumulative future reward. Successive agent observations regarding $\mathcal{E}$ used to update $\pi$ are stored as a \textit{trajectory} $\tau$. This sequence comprises states, actions, and rewards experienced by an agent at contiguous time-steps:
 \begin{math}
 	\tau = (s_0, a_0, r_0, s_1,a_1,r_1,...,s_h,a_h,r_h)
 \end{math}
@@ -150,7 +153,7 @@ where $h$ denotes the horizon, a time-step beyond which rewards are no longer co
 Reward signals are often sparse, meaning agents are expected to naively interact with $\mathcal{E}$ over multiple time-steps before receiving feedback. Hence identifying potential rewards over future time steps, an \textit{expected return} given the present state $s_t$, becomes desirable: \begin{math}
 	G_t = \sum_{i=0}^{T} \gamma^{i}r_{t+i}.
 \end{math}
-$T$ refers to the time step a task-specific terminal condition is met. Subsequently the environment returns to the initial state $I_s \in $. In continuous or sparsely rewarded episodic tasks, a scalar discount factor $\gamma \in [0,1]$ is applied to successive rewards at each time step. This helps enumerate expectation over a potentially infinite horizon, weighting rewards according to their distance from the current time step. \\
+$T$ refers to the time step a task-specific terminal condition is met. Subsequently the environment returns to the initial state $I_s \subset S^+ $. In continuous or sparsely rewarded episodic tasks, a scalar discount factor $\gamma \in [0,1]$ is applied to successive rewards at each time step. This helps enumerate expectation over a potentially infinite horizon, weighting rewards according to their distance from the current time step. \\
 
 Given a finite MDP, there exists at least one optimal
 policy $\pi^*(s)$. Finding the optimal policy requires some measure of decision quality. Action-value functions from Q-learning $Q_\pi(s,a) = E \left[G_t \ | S_t = s, A_t = a \right]$ help provide an estimate of which state-action pairs under a given policy are likely to maximise future returns. An optimal policy, $\pi^*$ has an optimal Q-function which returns the maximum possible expected return of any policy for all state-action pairs,
@@ -167,29 +170,28 @@ The Bellman principle of optimality [48], states for any state-action pair at th
 \begin{equation}
 	\nabla_{Q_i} L_i(Q_i) = E_{s,a\sim p(\cdot); s^\prime \sim \mathcal{E}} \left[(r_t + \gamma \max_{a^\prime} Q(s^\prime, a^\prime; \theta_{i-1})- Q(s,a;\theta)) \nabla_{\theta_{i}}Q(s,a;\theta_i)\right]
 \end{equation}
-Following Q-value initialisation, agents have no a priori estimates regarding optimal state-action pairs. Acting greedily, $\max_{a^{\prime}} Q_\pi(s,a)$,  according to $\pi$ likely results in sub-optimal solutions where insufficient experience is accumulated regarding $\mathcal{E}$. Conversely, sustained exploration, randomly sampling $a_t \sim A_t$, reduces the likelihood of an agent leveraging previous observations to maximise returns. An initial exploration rate $\epsilon \in [0,1]$ is used to dictate how $p(s,a)$ is sampled for each episode. Agents act greedily with probability 1-$\epsilon$ or randomly with probability $\epsilon$, reducing $\epsilon$ by a small decay factor at each episode.
 
-
-To support the training of our policy network we generate a dataset $D$ of capacity $N$ experiences representing an agent's replay memory, a 5-tuple \begin{math}
-	e_{t} = (s_t,a_t,r_{t+1},s_{t+1}, p_t)
-\end{math}, sampled at each time-step. Network updates are applied using minibatch samples from replay memory, $e_t \sim D$, with the aim of decorrelating consecutive experiences. Modifying experiences with an importance weight allows the network to prioritise minibatch samples with probability $p_t$ according to the magnitude of  their TD-error; the absolute difference between policy network and target network estimates of the Q-value.
-
-\begin{equation}
-	p_t \propto \left| r_{t+1} + \gamma_{t_1} \max_{a^\prime} Q_{\bar\theta}(s_t+1, a^\prime) - Q_{\theta(s_t, a_t)} \right|^\omega
-\end{equation}
-
-Under a single policy network $J(\theta)$ both $q(s,a)$ and $q(s^{\prime},a^{\prime})$ are approximated using the same weights $\theta$.  This introduces undesirable over-approximations of future return given both estimates are coupled. As the network weights update, $q(s,a)$ approaches the target value while the approximation of $q(s^{\prime}$,$a^{\prime}$) continues to change. A second DQN, the target network, adjusts a separate set of weights, $\bar{\theta}$, at time-step intervals to match those of the policy network, stabilising learning.
+Under a single policy network $J(\theta)$ both $q(s,a)$ and $q(s^{\prime},a^{\prime})$ are approximated using the same weights $\theta$.  This introduces over-approximations of future return since both estimates are coupled. As the network weights update, $q(s,a)$ approaches the target value while the approximation of $q(s^{\prime}$,$a^{\prime}$) continues to change. A second DQN, the target network, adjusts a separate set of weights, $\bar{\theta}$, at time-step intervals to match those of the policy network, stabilising learning.
 
 \begin{equation}
 	L_i(\theta_i) = E_{s,a\sim p(\cdot)} \left[(r_{t+1} + \gamma_{t+1}Q_{\bar{\theta}}(s_{t+1}, \argmax_{a^\prime} Q_{\theta}(s_t+1, a^\prime)) - Q_{\theta}(s_t, a_t))^{2} \right] 
 \end{equation}
 
-\section{Mapping Formal Methods to RL}
+Following Q-value initialisation, agents have no a priori estimates regarding optimal state-action pairs. Acting greedily, $\max_{a^{\prime}} Q_\pi(s,a)$,  according to $\pi$ likely results in sub-optimal solutions where insufficient experience is accumulated regarding $\mathcal{E}$. Conversely, sustained exploration, randomly sampling $a_t \sim A_t$, reduces the likelihood of an agent leveraging previous observations to maximise returns. An initial exploration rate $\epsilon \in [0,1]$ is used to dictate how $p(s,a)$ is sampled for each episode. Agents act greedily with probability 1-$\epsilon$ or randomly with probability $\epsilon$, reducing $\epsilon$ by a small decay factor at each episode.
 
-Machine learning means translating the model to another model - "...Which requires some partial translation, process is expanded in sect \ref{sec:preliminaries}".
+To support the training of our policy network we generate a dataset $D$ of capacity $N$ experiences representing an agent's replay memory, a 5-tuple \begin{math}
+	e_{t} = (s_t,a_t,r_{t+1},s_{t+1}, p_t)
+\end{math}, sampled at each time-step. Network updates are applied using minibatch samples from replay memory, $e_t \sim D$, with the aim of decorrelating consecutive experiences. This replicates i.i.d data traditionally used in supervised learning. Modifying experiences with an importance weight allows the network to prioritise minibatch samples with probability $p_t$ according to the magnitude of their absolute TD-error; the difference between policy network and target network estimates of the Q-value for that time-step.
+
+\begin{equation}
+	p_t \propto \left| r_{t+1} + \gamma_{t+1} \max_{a^\prime} Q_{\bar\theta}(s_{t+1}, a^\prime) - Q_{\theta(s_t, a_t)} \right|^\omega
+\end{equation}
+
+
+Machine learning means translating the model to another model - "...Which requires some partial translation.
+
 
 labelled transition systems to MDPs
-
 
 We implement our environment as the subset of all reachable states produced by executions of some arbitrary ladder logic program.  Thus our action set comprises all propositional variables in $V$ where a single action entails negating a single boolean.
 

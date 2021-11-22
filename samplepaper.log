@@ -1,58 +1,51 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.28)  22 NOV 2021 06:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.6) (preloaded format=pdflatex 2021.9.7)  22 NOV 2021 12:10
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
-**samplepaper.tex
-(./samplepaper.tex
-LaTeX2e <2020-02-02> patch level 2
-L3 programming layer <2020-02-14> (./llncs.cls
+**./samplepaper.tex
+(samplepaper.tex
+LaTeX2e <2021-06-01> patch level 1
+L3 programming layer <2021-08-27> (llncs.cls
 Document Class: llncs 2018/03/10 v2.20 
  LaTeX document class for Lecture Notes in Computer Science
-(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+(/usr/local/share/miktex-texmf/tex/latex/base/article.cls
+Document Class: article 2021/02/12 v1.4n Standard LaTeX document class
+(/usr/local/share/miktex-texmf/tex/latex/base/size10.clo
+File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count167
-\c@section=\count168
-\c@subsection=\count169
-\c@subsubsection=\count170
-\c@paragraph=\count171
-\c@subparagraph=\count172
-\c@figure=\count173
-\c@table=\count174
+\c@part=\count182
+\c@section=\count183
+\c@subsection=\count184
+\c@subsubsection=\count185
+\c@paragraph=\count186
+\c@subparagraph=\count187
+\c@figure=\count188
+\c@table=\count189
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
-\bibindent=\dimen134
+\bibindent=\dimen138
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+(/usr/local/share/miktex-texmf/tex/latex/tools/multicol.sty
 Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
-\c@tracingmulticols=\count175
-\mult@box=\box45
-\multicol@leftmargin=\dimen135
-\c@unbalance=\count176
-\c@collectmore=\count177
-\doublecol@number=\count178
-\multicoltolerance=\count179
-\multicolpretolerance=\count180
-\full@width=\dimen136
-\page@free=\dimen137
-\premulticols=\dimen138
-\postmulticols=\dimen139
+\c@tracingmulticols=\count190
+\mult@box=\box50
+\multicol@leftmargin=\dimen139
+\c@unbalance=\count191
+\c@collectmore=\count192
+\doublecol@number=\count193
+\multicoltolerance=\count194
+\multicolpretolerance=\count195
+\full@width=\dimen140
+\page@free=\dimen141
+\premulticols=\dimen142
+\postmulticols=\dimen143
 \multicolsep=\skip49
 \multicolbaselineskip=\skip50
-\partial@page=\box46
-\last@line=\box47
-\maxbalancingoverflow=\dimen140
-\mult@rightbox=\box48
-\mult@grightbox=\box49
-\mult@gfirstbox=\box50
-\mult@firstbox=\box51
-\@tempa=\box52
-\@tempa=\box53
-\@tempa=\box54
-\@tempa=\box55
-\@tempa=\box56
+\partial@page=\box51
+\last@line=\box52
+\maxbalancingoverflow=\dimen144
+\mult@rightbox=\box53
+\mult@grightbox=\box54
+\mult@gfirstbox=\box55
+\mult@firstbox=\box56
 \@tempa=\box57
 \@tempa=\box58
 \@tempa=\box59
@@ -85,20 +78,25 @@ Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
 \@tempa=\box86
 \@tempa=\box87
 \@tempa=\box88
-\c@minrows=\count181
-\c@columnbadness=\count182
-\c@finalcolumnbadness=\count183
-\last@try=\dimen141
-\multicolovershoot=\dimen142
-\multicolundershoot=\dimen143
-\mult@nat@firstbox=\box89
-\colbreak@box=\box90
-\mc@col@check@num=\count184
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\c@minrows=\count196
+\c@columnbadness=\count197
+\c@finalcolumnbadness=\count198
+\last@try=\dimen145
+\multicolovershoot=\dimen146
+\multicolundershoot=\dimen147
+\mult@nat@firstbox=\box94
+\colbreak@box=\box95
+\mc@col@check@num=\count199
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/aliascnt.sty
+(/usr/local/share/miktex-texmf/tex/latex/oberdiek/aliascnt.sty
 Package: aliascnt 2018/09/07 v1.5 Alias counters (HO)
 )
-\c@chapter=\count185
+\c@chapter=\count266
 LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 362.
 LaTeX Font Info:    Redeclaring math symbol \Delta on input line 363.
 LaTeX Font Info:    Redeclaring math symbol \Theta on input line 364.
@@ -110,131 +108,131 @@ LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 369.
 LaTeX Font Info:    Redeclaring math symbol \Phi on input line 370.
 LaTeX Font Info:    Redeclaring math symbol \Psi on input line 371.
 LaTeX Font Info:    Redeclaring math symbol \Omega on input line 372.
-\tocchpnum=\dimen144
-\tocsecnum=\dimen145
-\tocsectotal=\dimen146
-\tocsubsecnum=\dimen147
-\tocsubsectotal=\dimen148
-\tocsubsubsecnum=\dimen149
-\tocsubsubsectotal=\dimen150
-\tocparanum=\dimen151
-\tocparatotal=\dimen152
-\tocsubparanum=\dimen153
-\@tempcntc=\count186
-\fnindent=\dimen154
-\c@@inst=\count187
-\c@@auth=\count188
-\c@auco=\count189
-\instindent=\dimen155
-\authrun=\box91
-\authorrunning=\toks14
-\tocauthor=\toks15
-\titrun=\box92
-\titlerunning=\toks16
-\toctitle=\toks17
-\c@theorem=\count190
-\c@case=\count191
-\c@conjecture=\count192
-\c@corollary=\count193
-\c@definition=\count194
-\c@example=\count195
-\c@exercise=\count196
-\c@lemma=\count197
-\c@note=\count198
-\c@problem=\count199
-\c@property=\count266
-\c@proposition=\count267
-\c@question=\count268
-\c@solution=\count269
-\c@remark=\count270
-\headlineindent=\dimen156
+\tocchpnum=\dimen148
+\tocsecnum=\dimen149
+\tocsectotal=\dimen150
+\tocsubsecnum=\dimen151
+\tocsubsectotal=\dimen152
+\tocsubsubsecnum=\dimen153
+\tocsubsubsectotal=\dimen154
+\tocparanum=\dimen155
+\tocparatotal=\dimen156
+\tocsubparanum=\dimen157
+\@tempcntc=\count267
+\fnindent=\dimen158
+\c@@inst=\count268
+\c@@auth=\count269
+\c@auco=\count270
+\instindent=\dimen159
+\authrun=\box96
+\authorrunning=\toks16
+\tocauthor=\toks17
+\titrun=\box97
+\titlerunning=\toks18
+\toctitle=\toks19
+\c@theorem=\count271
+\c@case=\count272
+\c@conjecture=\count273
+\c@corollary=\count274
+\c@definition=\count275
+\c@example=\count276
+\c@exercise=\count277
+\c@lemma=\count278
+\c@note=\count279
+\c@problem=\count280
+\c@property=\count281
+\c@proposition=\count282
+\c@question=\count283
+\c@solution=\count284
+\c@remark=\count285
+\headlineindent=\dimen160
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+(/usr/local/share/miktex-texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 2020/12/05 v1.2c Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/local/share/miktex-texmf/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks18
+\KV@toks@=\toks20
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/share/miktex-texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/local/share/miktex-texmf/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+(/usr/local/share/miktex-texmf/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 105.
+Package graphics Info: Driver file: pdftex.def on input line 107.
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+(/usr/local/share/miktex-texmf/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen157
-\Gin@req@width=\dimen158
+\Gin@req@height=\dimen161
+\Gin@req@width=\dimen162
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2020/01/20 v2.17e AMS math features
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2021/04/20 v2.17j AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks19
-\ex@=\dimen159
+\@emptytoks=\toks21
+\ex@=\dimen163
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen160
+\pmbraise@=\dimen164
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count271
-LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count272
-\leftroot@=\count273
-LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count274
-\DOTSCASE@=\count275
-LaTeX Info: Redefining \ldots on input line 486.
-LaTeX Info: Redefining \dots on input line 489.
-LaTeX Info: Redefining \cdots on input line 610.
-\Mathstrutbox@=\box93
-\strutbox@=\box94
-\big@size=\dimen161
-LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count276
-\c@MaxMatrixCols=\count277
+\inf@bad=\count286
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count287
+\leftroot@=\count288
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count289
+\DOTSCASE@=\count290
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box98
+\strutbox@=\box99
+\big@size=\dimen165
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count291
+\c@MaxMatrixCols=\count292
 \dotsspace@=\muskip16
-\c@parentequation=\count278
-\dspbrk@lvl=\count279
-\tag@help=\toks20
-\row@=\count280
-\column@=\count281
-\maxfields@=\count282
-\andhelp@=\toks21
-\eqnshift@=\dimen162
-\alignsep@=\dimen163
-\tagshift@=\dimen164
-\tagwidth@=\dimen165
-\totwidth@=\dimen166
-\lineht@=\dimen167
-\@envbody=\toks22
+\c@parentequation=\count293
+\dspbrk@lvl=\count294
+\tag@help=\toks22
+\row@=\count295
+\column@=\count296
+\maxfields@=\count297
+\andhelp@=\toks23
+\eqnshift@=\dimen166
+\alignsep@=\dimen167
+\tagshift@=\dimen168
+\tagwidth@=\dimen169
+\totwidth@=\dimen170
+\lineht@=\dimen171
+\@envbody=\toks24
 \multlinegap=\skip52
 \multlinetaggap=\skip53
-\mathdisplay@stack=\toks23
-LaTeX Info: Redefining \[ on input line 2859.
-LaTeX Info: Redefining \] on input line 2860.
+\mathdisplay@stack=\toks25
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/local/share/miktex-texmf/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
@@ -242,12 +240,12 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
-File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count283
-\l__pdf_internal_box=\box95
+(/usr/local/share/miktex-texmf/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count298
+\l__pdf_internal_box=\box100
 )
-(./samplepaper.aux)
+(samplepaper.aux)
 \openout1 = `samplepaper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
@@ -265,38 +263,37 @@ LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
 
-(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/usr/local/share/miktex-texmf/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count284
-\scratchdimen=\dimen168
-\scratchbox=\box96
-\nofMPsegments=\count285
-\nofMParguments=\count286
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count287
-\MPscratchDim=\dimen169
-\MPnumerator=\count288
-\makeMPintoPDFobject=\count289
-\everyMPtoPDFconversion=\toks25
-) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+\scratchcounter=\count299
+\scratchdimen=\dimen172
+\scratchbox=\box101
+\nofMPsegments=\count300
+\nofMParguments=\count301
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count302
+\MPscratchDim=\dimen173
+\MPnumerator=\count303
+\makeMPintoPDFobject=\count304
+\everyMPtoPDFconversion=\toks27
+) (/usr/local/share/miktex-texmf/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
+(/usr/local/share/miktex-texmf/tex/latex/00miktex/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
 
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+(/usr/local/share/miktex-texmf/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
 
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+(/usr/local/share/miktex-texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 
@@ -312,7 +309,7 @@ Title too long for running head. Please supply
 a shorter form with \titlerunning prior to \maketitle
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/home/user/.miktex/texmfs/data/pdftex/config/pdftex.map}]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
@@ -323,63 +320,62 @@ LaTeX Warning: Command \L invalid in math mode on input line 85.
 Underfull \vbox (badness 1102) has occurred while \output is active []
 
  [4]
-Underfull \hbox (badness 10000) in paragraph at lines 147--152
+Underfull \hbox (badness 10000) in paragraph at lines 159--164
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--157
+Underfull \hbox (badness 10000) in paragraph at lines 165--169
 
  []
 
 [5]
-Overfull \hbox (6.2755pt too wide) detected at line 172
+Overfull \hbox (6.2755pt too wide) detected at line 184
 \OMS/cmsy/m/n/10 r[]\OML/cmm/m/it/10 L[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]\O
 T1/cmr/m/n/10 ) = \OML/cmm/m/it/10 E[] []
  []
 
-[6] [7] [8]
+[6] [7] [8] [9]
 
-LaTeX Warning: Reference `fig1' on page 9 undefined on input line 267.
-
-[9]
-
-LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 287.
+LaTeX Warning: Reference `fig1' on page 10 undefined on input line 279.
 
 
-LaTeX Warning: Citation `ref_lncs1' on page 10 undefined on input line 287.
+LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 299.
 
 
-LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 288.
+LaTeX Warning: Citation `ref_lncs1' on page 10 undefined on input line 299.
 
 
-LaTeX Warning: Citation `ref_proc1' on page 10 undefined on input line 288.
+LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 300.
 
 
-LaTeX Warning: Citation `ref_url1' on page 10 undefined on input line 289.
+LaTeX Warning: Citation `ref_proc1' on page 10 undefined on input line 300.
 
 
-LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 290.
+LaTeX Warning: Citation `ref_url1' on page 10 undefined on input line 301.
 
 
-LaTeX Warning: Citation `ref_lncs1' on page 10 undefined on input line 290.
+LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 302.
 
 
-LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 290.
+LaTeX Warning: Citation `ref_lncs1' on page 10 undefined on input line 302.
 
 
-LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 291.
+LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 302.
 
 
-LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 291.
+LaTeX Warning: Citation `ref_article1' on page 10 undefined on input line 303.
 
 
-LaTeX Warning: Citation `ref_proc1' on page 10 undefined on input line 291.
+LaTeX Warning: Citation `ref_book1' on page 10 undefined on input line 303.
 
 
-LaTeX Warning: Citation `ref_url1' on page 10 undefined on input line 291.
+LaTeX Warning: Citation `ref_proc1' on page 10 undefined on input line 303.
 
-(./samplepaper.bbl) [10] (./samplepaper.aux)
+
+LaTeX Warning: Citation `ref_url1' on page 10 undefined on input line 303.
+
+(samplepaper.bbl) [10] (samplepaper.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -388,39 +384,38 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2760 strings out of 483183
- 34950 string characters out of 5966292
- 275548 words of memory out of 5000000
- 17749 multiletter control sequences out of 15000+600000
- 544189 words of font info for 68 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 32i,10n,31p,1359b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/skaff/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600
-pk> </home/skaff/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.60
-0pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+ 2869 strings out of 478993
+ 37727 string characters out of 2860390
+ 347404 words of memory out of 3000000
+ 20634 multiletter control sequences out of 15000+600000
+ 415281 words of font info for 71 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,10n,66p,1365b,259s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/user/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.
+pk> </home/user/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm0900
+.pk></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
+usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/lo
+cal/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/sha
+re/miktex-texmf/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/share/mik
+tex-texmf/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/share/miktex-te
+xmf/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/share/miktex-texmf/fon
+ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/share/miktex-texmf/fonts/type
+1/public/amsfonts/cm/cmmi7.pfb></usr/local/share/miktex-texmf/fonts/type1/publi
+c/amsfonts/cm/cmmi9.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfo
+nts/cm/cmmib10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/c
+m/cmr10.pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr6.
+pfb></usr/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr7.pfb></us
+r/local/share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/
+share/miktex-texmf/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/share/
+miktex-texmf/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/share/miktex-
+texmf/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/share/miktex-texmf/f
+onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/share/miktex-texmf/fonts/ty
+pe1/public/amsfonts/cm/cmti10.pfb></usr/local/share/miktex-texmf/fonts/type1/pu
+blic/amsfonts/cm/cmti9.pfb></usr/local/share/miktex-texmf/fonts/type1/public/am
 sfonts/cm/cmtt9.pfb>
-Output written on samplepaper.pdf (10 pages, 268989 bytes).
+Output written on samplepaper.pdf (10 pages, 304915 bytes).
 PDF statistics:
- 131 PDF objects out of 1000 (max. 8388607)
- 95 compressed objects within 1 object stream
+ 150 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

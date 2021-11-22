@@ -82,7 +82,7 @@ Ladder logic programs used to implement interlocking systems allow engineers to 
 \subsection{Labelled Transition Systems}
 Each rung computes a new coil value to be used in the next execution cycle hence the significance of rung ordering in ladder logic programs. Labelled transition systems are commonly used to model this change in valuation over execution cycles.
 \begin{definition}[Labelled Transition System]
-	A labelled transition system $\mathcal{L}$, given a ladder logic formula $\psi L$ is denoted $\mathcal{L(\psi\L)}$ and represented by the 4-tuple $\langle S, T, R, S_0 \rangle$, where $S$ is a finite set of states, $T$ is a finite set of transition labels, $R$ is a labelled transition relation and $S_0$ is the set of initial states. 
+	A labelled transition system $\mathcal{L}$, given a ladder logic formula $\psi L$ is denoted $\mathcal{L(\psi\L)}$ and represented by the 4-tuple $\langle S, R, S_0 \rangle$, where $S$ is a finite set of states, $R$ is a labelled transition relation and $S_0$ is the set of initial states. 
 \end{definition}
 
 \subsection{Bounded Model-Checking}
@@ -141,9 +141,21 @@ various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
 
-Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, known as the environment  \cite{sutton2018reinforcement}. Given a permitted set of actions to perform over a series of discrete time steps, a software agent is trained to interact with and observe changes in its environment based on intermittent reward signals. Over a process of accelerated trial-and-error agents learn a function, or policy, mapping states to optimal actions likely to return the greatest cumulative reward. We need an observation space to represent the environment state at discrete time steps, a set of formally defined actions which change the observations space, a stable reward function to provide feedback, a policy to dictate learned behaviour, and a way of storing past information. 
+Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, known as the environment  \cite{sutton2018reinforcement}. Given a permitted set of actions to perform over a series of discrete time steps, a software agent is trained to interact with and observe changes in its environment based on intermittent reward signals. Over a process of accelerated trial-and-error agents learn a function, or policy, mapping states to optimal actions likely to return the greatest cumulative future reward. A formal definition of the RL framework and its components \textit{w.r.t} a ladder logic model-checking problem is provided in section \ref{sec:mapping_fm_to_ml}. 
 
-\section{Mapping Formal Methods to RL}
+
+\section{Mapping Formal Methods to RL} \label{sec:mapping_fm_to_ml}
+We need an observation space to represent the environment state at discrete time steps,
+
+a set of formally defined actions which change the observations space
+
+a stable reward function to provide feedback
+
+and a way of storing past information. 
+
+a policy to dictate learned behaviour
+
+
 Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn a policy $\pi$, a function which maps optimal actions $a$ to take from a given state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. Agents then attempt to converge toward an optimal deterministic $\pi(s)$ or stochastic policy $\pi(a|s)$ with the aim of learning which state-action pairs maximise cumulative future reward. Successive agent observations regarding $\mathcal{E}$ used to update $\pi$ are stored as a \textit{trajectory} $\tau$. This sequence comprises states, actions, and rewards experienced by an agent at contiguous time-steps:
 \begin{math}
 	\tau = (s_0, a_0, r_0, s_1,a_1,r_1,...,s_h,a_h,r_h)

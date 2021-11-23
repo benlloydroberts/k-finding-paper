@@ -145,16 +145,62 @@ Reinforcement learning is a principle machine learning paradigm which models seq
 
 
 \section{Mapping Formal Methods to RL} \label{sec:mapping_fm_to_ml}
-We need an observation space to represent the environment state at discrete time steps,
 
-a set of formally defined actions which change the observations space
+\begin{align}
+	crossing^\prime & \leftrightarrow (req \land \lnot crossing), \\
+	req^\prime & \leftrightarrow (pressed \land \lnot req), \\
+	tlag^\prime & \leftrightarrow ((\lnot corssing^\prime) \land (\lnot pressed \lor req^\prime)), \\
+	tlbg ^\prime & \leftrightarrow ((\lnot corssing^\prime) \land (\lnot pressed \lor req^\prime)), \\
+	tlar^\prime & \leftrightarrow crossing^\prime \\
+	tlbr^\prime & \leftrightarrow crossing^\prime \\
+	plag^\prime & \leftrightarrow crossing^\prime \\
+	plbg^\prime & \leftrightarrow crossing^\prime \\
+	plar^\prime & \leftrightarrow \lnot crossing^\prime \\
+	plbr^\prime & \leftrightarrow \lnot crossing^\prime \\ 
+	audio^\prime & \leftrightarrow crossing^\prime
+\end{align}
+For the above ladder logic propositional formulae, we define a set of input and output variables, $I = {pressed}$ and
+$C = \{crossing, req, pressed, tlag, tlbg, tlar, \\ tlbr, plag, plbg, plar, plbr, audio\}$. $C^\prime = \{c^\prime \ | \ c \in C \}$ respectively. A ladder logic formula $\Psi$ with $n$ rungs, has the form:
 
-a stable reward function to provide feedback
+\begin{equation}
+	\Psi \equiv ((c^\prime_1 \leftrightarrow \psi_1) \land(c^\prime_2 \leftrightarrow \psi_2) \land ... \land (c_n^\prime \leftrightarrow \psi_n)), 
+\end{equation}   
+such that $\forall i,j,  \ 1 \leq i,j \leq n:$
+ \begin{itemize}
+	\item $c^{\prime}_i \in C^\prime,$
+	\item $ i \neq j \to c^\prime_i \neq c^\prime_j$
+	\item $vars(\psi_i) \subseteq I \cup \{c_i, ...,c_n\} \cup \{c^\prime_1, ..., c^\prime_n\} \}$
+\end{itemize} 
+\begin{align}
+	V_I & = \{\mu_I | \mu_I : I \to \{0,1\}\} = \{0,1\}^I \\
+	V_C & = \{\mu_C | \mu_C : C \to \{0,1\}\} = \{0,1\}^C 
+\end{align}
 
-and a way of storing past information. 
+The semantics of a ladder logic program is defined as a function of input and output variable valuations:
+\begin{math}
+	[\psi] : V_I \times V_C \to V_C
+\end{math}. Therefore $\psi(\mu_I, \mu_C) = \mu_{C^\prime}$, where
+\begin{align}
+	\mu_{C^\prime}(c_i) & = [\psi](\mu_I, \{c_i,...,c_n\}, \{c^\prime_1,...,c^\prime_{i-1}\}) \\
+	\mu_{C^\prime}(c) & = \mu_C \ \mathbf{if} \ c \notin \{c_1,...,c_n\} 
+\end{align} 
 
-a policy to dictate learned behaviour
+A Ladder logic labelled transition system $LTS(\psi)$ is defined as the three tuple $(V_C, \to, V_0)$:
+\begin{itemize}
+	\item $\mu_C \to \mu_{C^\prime} \ \textit{iff} \ [\psi](\mu_C,\mu_I)=\mu_{C^\prime}$
+	\item $V_0 = \{\mu_C \ | \ init(\mu_C)\}$
+\end{itemize} 
+where the function $init()$ produces the initial valuation of variables $\mu_C$.
 
+
+We now define the finite MDP, or environment $\mathcal{E}$ used to represent the ladder logic program. A Ladder logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma) \rangle$, where 
+\begin{itemize}
+	\item $S = V_I \cup V_C$, an observation space to represent the environment state at discrete time steps.
+	\item $\mathcal{A} = V_I$, set of formally defined actions which change the observations space
+	\item $P_a(s,s^\prime) = Pr(S_{t+1} = s^\prime | s_t, a_t)$
+	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
+	\item $\gamma$ is a discount scalar applied to the reward estimate for future time steps.
+\end{itemize}
 
 Given a user defined environment $\mathcal{E}$ comprising a set of states $S$, a set of actions $\mathcal{A}$ and a state transition function $f: S \times \mathcal{A} \to S^+$, a software agent is trained to learn a policy $\pi$, a function which maps optimal actions $a$ to take from a given state $s$ at time step $t$ given a positive or negative reward signal $r \in \mathcal{R}$ [45, 46, 47]. Agents then attempt to converge toward an optimal deterministic $\pi(s)$ or stochastic policy $\pi(a|s)$ with the aim of learning which state-action pairs maximise cumulative future reward. Successive agent observations regarding $\mathcal{E}$ used to update $\pi$ are stored as a \textit{trajectory} $\tau$. This sequence comprises states, actions, and rewards experienced by an agent at contiguous time-steps:
 \begin{math}

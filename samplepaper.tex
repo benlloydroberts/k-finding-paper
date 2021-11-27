@@ -17,7 +17,7 @@
 
 \begin{document}
 %
-\title{Computing Coverage for Bounded Model Checking using Asynchronous Reinforcement Learning\thanks{Supported by Siemens Mobility UK \& EPSRC}}
+\title{Reinforcement Learning  State Space Properties for Model Checking of Interlockings\thanks{Supported by Siemens Mobility UK \& EPSRC}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -25,8 +25,7 @@
 %
 \author{Ben Lloyd-Roberts\inst{1} \and
 Phil James\inst{1} \and
-Michael Edwards\inst{1} \and 
-Tom Werner\inst{2}}
+Michael Edwards\inst{1}}
 %
 \authorrunning{F. Author et al.}
 % First names are abbreviated in the running head.,
@@ -34,17 +33,15 @@ Tom Werner\inst{2}}
 %
 
 
-\institute{Swansea University, Swansea, UK \and 
-	Siemens Rail Automation UK, Chippenham, UK \\
-\email{\{ben.lloyd-roberts, p.d.james, michael.edwards\}@swansea.ac.uk}\\
-\email{WT.Werner@siemens.com}}
+\institute{Swansea University, Swansea, UK  \\
+\email{\{ben.lloyd-roberts, p.d.james, michael.edwards\}@swansea.ac.uk}}
 %
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-Solid State interlockings in the railway domain are computerised safety critical systems responsible for operating the signalling components directing railway traffic. The formal verification of such systems using inductive methods, such as bounded model-checking (BMC), often face limited guarantees of correctness given they operate within a bounded region of $k$ depth. In this work we devise a reinforcement learning (RL) strategy to support SAT-based bounded model checking by improving measures of completeness. We outline a mapping from labelled transition systems traditionally used as BMC abstractions, to Markov decision processes (MDP) used as interactive RL environments. Thereafter software agents are trained to explore this environment for the longest acyclic sequences of execution to an upper bound $k$. We test the feasibility of our approach against a series of artificially generated ladder logic programs with incrementally larger state spaces. A number of metrics suggested in RL literature are then gathered to evaluate the robustness and scalability of the approach, particularly in industrial contexts. Finally we produce an \textit{exploration graph} representing the structure of the traversed state space. These visualisations are then fed back to engineers responsible for designing such programs.
+Railway interlockings serve as safety layer within railway signalling systems by ensuring proposed signalling requests are safe given the current state of the railway. As a vital part of any railway signalling system, interlockings are critical systems developed with the highest safety integrity level (SIL4) according to the CENELEC 50128 standard. The application of formal methods, in particular model-checking, in order to verify interlockings operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake of formal methods research within the UK rail industry has yet to make a substantial impact due to current approaches often producing false positives that require manual analysis during verification. Here, it is accepted that so-called invariants can be added to reduce the number of such false positives, however automatically computing these invariants remains a challenge. In this work we present a first approach illustrating how reinforcement learning can be used to learn properties of a state space for a given railway interlocking. Understanding how a verification problem can be formulated as one where machine learning can be successfully applied is the first step towards automated learning of invariants.
 
-\keywords{First keyword \and Second keyword \and Another keyword.}
+\keywords{Reinforcement Learning \and Interlocking \and Model Checking.}
 \end{abstract}
 
 
@@ -82,7 +79,7 @@ Ladder logic programs used to implement interlocking systems allow engineers to 
 \subsection{Labelled Transition Systems}
 Each rung computes a new coil value to be used in the next execution cycle hence the significance of rung ordering in ladder logic programs. Labelled transition systems are commonly used to model this change in valuation over execution cycles.
 \begin{definition}[Labelled Transition System]
-	A labelled transition system $\mathcal{L}$, given a ladder logic formula $\psi L$ is denoted $\mathcal{L(\psi\L)}$ and represented by the 4-tuple $\langle S, R, S_0 \rangle$, where $S$ is a finite set of states, $R$ is a labelled transition relation and $S_0$ is the set of initial states. 
+	A labelled transition system $\mathcal{L}$, given a ladder logic formula $\psi L$ is denoted $\mathcal{L(\psi\L)}$ and represented by the 4-tuple $\langle S, R, S_0 \rangle$, where $S$ is a finite set of states, $R$ is a transition relation and $S_0$ is the set of initial states. 
 \end{definition}
 
 \subsection{Bounded Model-Checking}
@@ -188,16 +185,15 @@ The semantics of a ladder logic program is defined as a function of input and ou
 A Ladder logic labelled transition system $LTS(\psi)$ is defined as the three tuple $(V_C, \to, V_0)$:
 \begin{itemize}
 	\item $\mu_C \to \mu_{C^\prime} \ \textit{iff} \ [\psi](\mu_C,\mu_I)=\mu_{C^\prime}$
-	\item $V_0 = \{\mu_C \ | \ init(\mu_C)\}$
-\end{itemize} 
-where the function $init()$ produces the initial valuation of variables $\mu_C$.
+	\item $V_0 = \{\mu_C \ | \ init(\mu_C)\}$,
+\end{itemize}where the function $init()$ produces the initial valuation of variables $\mu_C$, setting all as false.
 
 
 We now define the finite MDP, or environment $\mathcal{E}$ used to represent the ladder logic program. A Ladder logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma) \rangle$, where 
 \begin{itemize}
 	\item $S = V_I \cup V_C$, an observation space to represent the environment state at discrete time steps.
 	\item $\mathcal{A} = V_I$, set of formally defined actions which change the observations space
-	\item $P_a(s,s^\prime) = Pr(S_{t+1} = s^\prime | s_t, a_t)$
+	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$
 	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
 	\item $\gamma$ is a discount scalar applied to the reward estimate for future time steps.
 \end{itemize}

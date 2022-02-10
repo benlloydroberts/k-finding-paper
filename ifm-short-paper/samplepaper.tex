@@ -1,0 +1,153 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\DeclareMathOperator*{\argmax}{argmax}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+% \renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+%
+\title{Reinforcement Learning  State Space Properties for Model Checking of Interlockings\thanks{Supported by Siemens Mobility UK \& EPSRC}}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Ben Lloyd-Roberts\inst{1} \and
+Phil James\inst{1} \and
+Michael Edwards\inst{1}}
+%
+\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.,
+% If there are more than two authors, 'et al.' is used.
+%
+
+
+\institute{Swansea University, Swansea, UK  \\
+\email{\{ben.lloyd-roberts, p.d.james, michael.edwards\}@swansea.ac.uk}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+Railway interlockings serve as safety layer within railway signalling systems by ensuring proposed signalling requests are safe given the current state of the railway. As a vital part of any railway signalling system, interlockings are critical systems developed with the highest safety integrity level (SIL4) according to the CENELEC 50128 standard. The application of formal methods, in particular model-checking, in order to verify interlockings operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake of formal methods research within the UK rail industry has yet to make a substantial impact due to current approaches often producing false positives that require manual analysis during verification. Here, it is accepted that so-called invariants can be added to reduce the number of such false positives, however automatically computing these invariants remains a challenge. In this work we present a first approach illustrating how reinforcement learning can be used to learn properties of a state space for a given railway interlocking. Understanding how a verification problem can be formulated as one where machine learning can be successfully applied is the first step towards automated learning of invariants.
+
+\keywords{Reinforcement Learning \and Interlocking \and Model Checking.}
+\end{abstract}
+
+
+\section{Introduction}
+
+Interlockings serve as a filter or ‘safety layer’ between inputs from operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
+(SIL4) according to the CENELEC 50128 standard. The application of model-checking
+to Ladder Logic programs in order to verify interlockings is well established within academia and is beginning to see real applications in industry.
+Bounded model-checking is an efficient means of verifying a system through refutation. Given an abstracted model of a target system $M$ and some safety properties $\phi$, BMC searches for counterexamples up to some precomputed bound $k$. Search terminates when either an error trace is produced or the bound $k$ is reached. Determining this completeness threshold to sufficiently cover all states is often computationally intractable given it's true value will depend on model dynamics and size of the search space. Additionally, the k-induction rule, which checks if the property $\phi$ holds inductively for $k$ sequences of states, is constrained to acyclic graphs for guarantees of completeness. \\
+
+An invariance rule allows us to establish an invariant property $\psi$ which holds for all initial states and transitions up to a given bound. Invariants may hold for sub-regions of the state space, meaning complete coverage isn't necessary to learn them. Supporting k-induction with strengthening invariants helps reduce the overall search space for bounded model checking, proving that invariant aspects of the system need not be considered. This can help filter cases where false negative counter examples are triggered by unreachable states. Generating sufficiently strong invariants is a non-trivial process given their construction is heavily program dependent. Usually such invariants require domain knowledge, typically devised by engineers responsible for the program implementation. \\
+
+We infer two principle challenges to address. First, formulating theoretical and practical frameworks in an academic-industry partnership with Siemens Rail Automation UK to represent interlocking verification as a goal-orientated reinforcement learning task. Second, devising an appropriate strategy for learning invariants within those frameworks.\\
+
+The aim of this paper is to address this first challenge. Reinforcement learning is a popular machine learning paradigm with a demonstrably impressive capacity for learning near optimal strategies for goal-orientated tasks. Such approaches are well suited to problems where one need systematically learn the behaviour of a deterministic system, record observations regarding different states of being and identify patterns across those states. Generalisation of learned policies across different 'environments' being one of the key challenges in RL, we first aim to learn conceptually simpler goals, such as finding the progressively larger upper bounds for BMC. Understanding how a verification problem can be formulated as one of where machine learning can be successfully applied suggests the promise of learning invariants this way.
+
+\section{BMC \& Program Invariants}\label{sec:preliminaries}
+
+
+\subsection{Reinforcement Learning}
+
+Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, known as the environment  \cite{sutton2018reinforcement}. Given a permitted set of actions to perform over a series of discrete time steps, a software agent is trained to interact with and observe changes in its environment based on intermittent reward signals. Over a process of accelerated trial-and-error agents learn a function, or policy, mapping states to optimal actions likely to return the greatest cumulative future reward. \\ 
+
+For purposes of invariant finding, we aim to maximise state space, or environment, coverage. In order to reinforce this behaviour, we motivate agents to pursue the longest loop free path where a reward scheme positively rewards sequences of novel observations. Inversely, we issue a negative reward for observing similar states within a single episode. \\
+
+We select asynchronous advantage actor-critic which estimates both the value function and behaviour policy when exploring an environment. The asynchronous nature of the algorithm facilitates distributed exploration of state-action pairs via separate workers with a shared global model of their environment. \\
+
+\subsection{Environment Generation}
+Given exhaustive search of large state spaces is often computationally intractable, we generate a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. Using the well established pelican crossing example as a base template, we introduce a single contact and coil for each additional rung during program generation. Where $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
+
+\section{Learning Framework}
+For each environment we set a max number of episodes $T_{\max}$ to constrain the duration of training. Additionally we introduce two forms of early termination to avoid superfluous interaction with the environment. First, if the performance curve of a given agent converges to some local minima. Second, if all reachable states have been observed at least once. Given agents accumulate experience within separate environment instances, they update shared sets of observations and rewards intermittently. This update frequency depends on both the number of workers and precomputed size of the environment.
+
+\section{Results}
+\begin{table}
+	\centering
+	\arrayrulecolor[rgb]{0.906,0.91,0.914}
+	\begin{tabular}{|c|c|c!{\color{black}\vrule}c|c|c|c|} 
+		\arrayrulecolor{black}\hline
+		\multicolumn{3}{!{\color{white}\vrule}c!{\color{black}\vrule}}{\textbf{Environment Metrics}}                                                                                                                                                                                                            & \multicolumn{4}{c!{\color{white}\vrule}}{\textbf{Training Metrics}}                                                                                                                                                                                                                                                                                                                                                                                                                                                             \\ 
+		\hline
+		\multicolumn{1}{!{\color{white}\vrule}c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\textbf{States}} & \multicolumn{1}{c!{\color{white}\vrule}}{\begin{tabular}[c]{@{}c@{}}\textbf{~Reachable~ }\\\textbf{ States }\end{tabular}} & {\cellcolor[rgb]{0.933,0.933,0.925}}\textbf{Actions} & \multicolumn{1}{c!{\color{white}\vrule}}{\textbf{Max K~ }} & \multicolumn{1}{c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\begin{tabular}[c]{@{}>{\cellcolor[rgb]{0.933,0.933,0.925}}c@{}}\textbf{States}\\\textbf{Observed~~ }\end{tabular}} & \multicolumn{1}{c!{\color{white}\vrule}}{\textbf{Coverage}} & \multicolumn{1}{c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\begin{tabular}[c]{@{}>{\cellcolor[rgb]{0.933,0.933,0.925}}c@{}}\textbf{Total }\\\textbf{~ Episodes }\end{tabular}}  \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{12}                                                           & 7                                                                                                                          & {\cellcolor[rgb]{0.933,0.933,0.925}}2                & 6                                                          & {\cellcolor[rgb]{0.933,0.933,0.925}}7                                                                                                                                                            & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\arrayrulecolor[rgb]{0.906,0.91,0.914}\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{14}                                                           & 15                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}4                & 14                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}15                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{16}                                                           & 31                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}8                & 28                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}31                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{18}                                                           & 63                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}16               & 48                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}63                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{20}                                                           & 127                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}32               & 33                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}127                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{22}                                                           & 255                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}64               & 76                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}255                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{24}                                                           & 511                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}128              & 49                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}377                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{26}                                                           & 1023                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}256              & 306                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}1023                                                                                                                                                         & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{28}                                                           & 2047                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}512              & 538                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}2047                                                                                                                                                         & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{30}                                                           & 4095                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}1024             & 1418                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}4084                                                                                                                                                         & 99.731                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{32}                                                           & 8191                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}2048             & 1712                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}7907                                                                                                                                                         & 96.532                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{34}                                                           & 16383                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}4096             & 1498                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}15654                                                                                                                                                        & 95.550                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{36}                                                           & 32767                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}8192             & 2879                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}27752                                                                                                                                                        & 84.694                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{38}                                                           & 65535                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}16384            & 1969                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}58373                                                                                                                                                        & 89.071                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{40}                                                           & 131071                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}32768            & 2692                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}108638                                                                                                                                                       & 82.884                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}2.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{42}                                                           & 262143                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}65536            & 1406                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}5199317                                                                                                                                                      & 76.033                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{44}                                                           & 524287                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}131072           & 1782                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}325781                                                                                                                                                       & 62.137                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}2.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{46}                                                           & 1048575                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}262144           & 1593                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}671645                                                                                                                                                       & 64.053                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{48}                                                           & 2097151                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}524288           & 1598                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}1206867                                                                                                                                                      & 57.547                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{50}                                                           & 4194303                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}1048576          & 2527                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}1625338                                                                                                                                                      & 38.751                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}5.00E+05                                                                                                                                                      \\
+		\hline
+	\end{tabular}
+	\arrayrulecolor{black}
+\end{table}
+
+
+
+\section{Conclusion \& Future Work }
+
+
+
+ 
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+
+\end{document}

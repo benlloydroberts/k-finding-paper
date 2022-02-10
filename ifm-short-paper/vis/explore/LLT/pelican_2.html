@@ -1,0 +1,123 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1250px;
+            height: 1000px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "black", "id": 141412391031381794, "label": "s0", "shape": "dot", "title": "[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]"}, {"color": "green", "id": -871233334502615197, "label": "s1", "shape": "dot", "title": "[0 0 0 1 1 0 0 0 0 1 1 0 0 0 0 0]"}, {"id": -6641597416757455691, "label": "s2", "shape": "dot", "title": "[0 1 1 1 1 0 0 0 0 1 1 0 0 0 0 0]"}, {"id": -9005163277402076130, "label": "s3", "shape": "dot", "title": "[1 0 1 0 0 1 1 1 1 0 0 1 0 0 0 0]"}, {"id": 867194218312281411, "label": "s4", "shape": "dot", "title": "[0 1 1 1 1 0 0 0 0 1 1 0 0 0 0 1]"}, {"id": 6478250571853012162, "label": "s5", "shape": "dot", "title": "[1 0 1 0 0 1 1 1 1 0 0 1 0 0 0 1]"}, {"id": 4241674273952309991, "label": "s6", "shape": "dot", "title": "[0 0 0 1 1 0 0 0 0 1 1 0 0 0 0 1]"}, {"id": -2867029411631758228, "label": "s7", "shape": "dot", "title": "[0 0 0 1 1 0 0 0 0 1 1 0 1 1 1 1]"}, {"id": -7898372772846043056, "label": "s8", "shape": "dot", "title": "[0 1 1 1 1 0 0 0 0 1 1 0 0 1 0 1]"}, {"id": 1836419154973880562, "label": "s9", "shape": "dot", "title": "[1 0 1 0 0 1 1 1 1 0 0 1 0 1 0 0]"}, {"id": 8533580379015949191, "label": "s10", "shape": "dot", "title": "[0 0 0 1 1 0 0 0 0 1 1 0 1 1 0 0]"}, {"id": 1683111858070207574, "label": "s11", "shape": "dot", "title": "[0 1 1 1 1 0 0 0 0 1 1 0 0 1 0 0]"}, {"id": 2194208295256888654, "label": "s12", "shape": "dot", "title": "[1 0 0 0 0 1 1 1 1 0 0 1 0 1 0 0]"}, {"id": -2830812943860273371, "label": "s13", "shape": "dot", "title": "[1 0 1 0 0 1 1 1 1 0 0 1 0 1 0 1]"}, {"id": 4066567725809773207, "label": "s14", "shape": "dot", "title": "[1 0 0 0 0 1 1 1 1 0 0 1 0 1 0 1]"}, {"id": 1838061378760134091, "label": "s15", "shape": "dot", "title": "[1 0 0 0 0 1 1 1 1 0 0 1 0 0 0 1]"}, {"id": 6677766435782380061, "label": "s16", "shape": "dot", "title": "[1 0 0 0 0 1 1 1 1 0 0 1 0 0 0 0]"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 141412391031381794, "title": "ACT_2 = 0", "to": -871233334502615197}, {"arrows": "to", "from": -871233334502615197, "title": "ACT_2 = 0", "to": -871233334502615197}, {"arrows": "to", "from": -871233334502615197, "title": "ACT_1 = 0", "to": -871233334502615197}, {"arrows": "to", "from": -871233334502615197, "title": "PRESSED = 1", "to": -6641597416757455691}, {"arrows": "to", "from": -6641597416757455691, "title": "ACT_2 = 0", "to": -9005163277402076130}, {"arrows": "to", "from": -9005163277402076130, "title": "ACT_2 = 1", "to": 867194218312281411}, {"arrows": "to", "from": 867194218312281411, "title": "ACT_2 = 1", "to": 6478250571853012162}, {"arrows": "to", "from": 6478250571853012162, "title": "PRESSED = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 4241674273952309991, "title": "ACT_1 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": -2867029411631758228, "title": "ACT_1 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": -2867029411631758228, "title": "ACT_2 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": -2867029411631758228, "title": "PRESSED = 0", "to": -2867029411631758228}, {"arrows": "to", "from": -2867029411631758228, "title": "ACT_1 = 0", "to": 4241674273952309991}, {"arrows": "to", "from": -2867029411631758228, "title": "PRESSED = 1", "to": -7898372772846043056}, {"arrows": "to", "from": -7898372772846043056, "title": "ACT_2 = 0", "to": 1836419154973880562}, {"arrows": "to", "from": 1836419154973880562, "title": "ACT_2 = 1", "to": -7898372772846043056}, {"arrows": "to", "from": 1836419154973880562, "title": "PRESSED = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 8533580379015949191, "title": "PRESSED = 1", "to": 1683111858070207574}, {"arrows": "to", "from": 1683111858070207574, "title": "PRESSED = 0", "to": 2194208295256888654}, {"arrows": "to", "from": 2194208295256888654, "title": "PRESSED = 1", "to": 1683111858070207574}, {"arrows": "to", "from": 2194208295256888654, "title": "ACT_1 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 2194208295256888654, "title": "PRESSED = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 2194208295256888654, "title": "ACT_2 = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 2194208295256888654, "title": "ACT_2 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": 2194208295256888654, "title": "ACT_1 = 1", "to": 8533580379015949191}, {"arrows": "to", "from": 1683111858070207574, "title": "PRESSED = 1", "to": 1836419154973880562}, {"arrows": "to", "from": 1683111858070207574, "title": "ACT_2 = 1", "to": -2830812943860273371}, {"arrows": "to", "from": -2830812943860273371, "title": "ACT_2 = 0", "to": 1683111858070207574}, {"arrows": "to", "from": -2830812943860273371, "title": "PRESSED = 0", "to": -2867029411631758228}, {"arrows": "to", "from": -2830812943860273371, "title": "ACT_2 = 1", "to": -7898372772846043056}, {"arrows": "to", "from": -2830812943860273371, "title": "ACT_1 = 0", "to": 867194218312281411}, {"arrows": "to", "from": -2830812943860273371, "title": "PRESSED = 1", "to": -7898372772846043056}, {"arrows": "to", "from": -2830812943860273371, "title": "ACT_1 = 1", "to": -7898372772846043056}, {"arrows": "to", "from": 1683111858070207574, "title": "ACT_2 = 0", "to": 1836419154973880562}, {"arrows": "to", "from": 1683111858070207574, "title": "ACT_1 = 0", "to": -9005163277402076130}, {"arrows": "to", "from": 1683111858070207574, "title": "ACT_1 = 1", "to": 1836419154973880562}, {"arrows": "to", "from": 8533580379015949191, "title": "PRESSED = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 8533580379015949191, "title": "ACT_2 = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 8533580379015949191, "title": "ACT_1 = 1", "to": 8533580379015949191}, {"arrows": "to", "from": 8533580379015949191, "title": "ACT_2 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": 8533580379015949191, "title": "ACT_1 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 1836419154973880562, "title": "ACT_1 = 0", "to": -6641597416757455691}, {"arrows": "to", "from": 1836419154973880562, "title": "ACT_1 = 1", "to": 1683111858070207574}, {"arrows": "to", "from": 1836419154973880562, "title": "ACT_2 = 0", "to": 1683111858070207574}, {"arrows": "to", "from": 1836419154973880562, "title": "PRESSED = 1", "to": 1683111858070207574}, {"arrows": "to", "from": -7898372772846043056, "title": "PRESSED = 1", "to": -2830812943860273371}, {"arrows": "to", "from": -7898372772846043056, "title": "ACT_1 = 0", "to": 6478250571853012162}, {"arrows": "to", "from": -7898372772846043056, "title": "PRESSED = 0", "to": 4066567725809773207}, {"arrows": "to", "from": 4066567725809773207, "title": "ACT_1 = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 4066567725809773207, "title": "PRESSED = 1", "to": -7898372772846043056}, {"arrows": "to", "from": 4066567725809773207, "title": "ACT_1 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": 4066567725809773207, "title": "PRESSED = 0", "to": -2867029411631758228}, {"arrows": "to", "from": 4066567725809773207, "title": "ACT_2 = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 4066567725809773207, "title": "ACT_2 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": -7898372772846043056, "title": "ACT_2 = 1", "to": -2830812943860273371}, {"arrows": "to", "from": -7898372772846043056, "title": "ACT_1 = 1", "to": -2830812943860273371}, {"arrows": "to", "from": -2867029411631758228, "title": "ACT_2 = 0", "to": 8533580379015949191}, {"arrows": "to", "from": 4241674273952309991, "title": "PRESSED = 1", "to": 867194218312281411}, {"arrows": "to", "from": 4241674273952309991, "title": "ACT_1 = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 4241674273952309991, "title": "PRESSED = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 4241674273952309991, "title": "ACT_2 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 4241674273952309991, "title": "ACT_2 = 1", "to": 4241674273952309991}, {"arrows": "to", "from": 6478250571853012162, "title": "PRESSED = 1", "to": 867194218312281411}, {"arrows": "to", "from": 6478250571853012162, "title": "ACT_1 = 1", "to": -7898372772846043056}, {"arrows": "to", "from": 6478250571853012162, "title": "ACT_2 = 0", "to": -6641597416757455691}, {"arrows": "to", "from": 6478250571853012162, "title": "ACT_2 = 1", "to": 867194218312281411}, {"arrows": "to", "from": 6478250571853012162, "title": "ACT_1 = 0", "to": 867194218312281411}, {"arrows": "to", "from": 867194218312281411, "title": "ACT_1 = 0", "to": 6478250571853012162}, {"arrows": "to", "from": 867194218312281411, "title": "PRESSED = 1", "to": 6478250571853012162}, {"arrows": "to", "from": 867194218312281411, "title": "ACT_1 = 1", "to": -2830812943860273371}, {"arrows": "to", "from": 867194218312281411, "title": "PRESSED = 0", "to": 1838061378760134091}, {"arrows": "to", "from": 1838061378760134091, "title": "ACT_1 = 1", "to": -2867029411631758228}, {"arrows": "to", "from": 1838061378760134091, "title": "PRESSED = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 1838061378760134091, "title": "ACT_2 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 1838061378760134091, "title": "ACT_2 = 1", "to": 4241674273952309991}, {"arrows": "to", "from": 1838061378760134091, "title": "PRESSED = 1", "to": 867194218312281411}, {"arrows": "to", "from": 1838061378760134091, "title": "ACT_1 = 0", "to": 4241674273952309991}, {"arrows": "to", "from": 867194218312281411, "title": "ACT_2 = 0", "to": -9005163277402076130}, {"arrows": "to", "from": -9005163277402076130, "title": "PRESSED = 1", "to": -6641597416757455691}, {"arrows": "to", "from": -9005163277402076130, "title": "ACT_2 = 0", "to": -6641597416757455691}, {"arrows": "to", "from": -9005163277402076130, "title": "ACT_1 = 1", "to": 1683111858070207574}, {"arrows": "to", "from": -9005163277402076130, "title": "PRESSED = 0", "to": -871233334502615197}, {"arrows": "to", "from": -9005163277402076130, "title": "ACT_1 = 0", "to": -6641597416757455691}, {"arrows": "to", "from": -6641597416757455691, "title": "PRESSED = 1", "to": -9005163277402076130}, {"arrows": "to", "from": -6641597416757455691, "title": "ACT_1 = 0", "to": -9005163277402076130}, {"arrows": "to", "from": -6641597416757455691, "title": "PRESSED = 0", "to": 6677766435782380061}, {"arrows": "to", "from": 6677766435782380061, "title": "ACT_1 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 6677766435782380061, "title": "ACT_2 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 6677766435782380061, "title": "ACT_1 = 1", "to": 8533580379015949191}, {"arrows": "to", "from": 6677766435782380061, "title": "ACT_2 = 1", "to": 4241674273952309991}, {"arrows": "to", "from": 6677766435782380061, "title": "PRESSED = 0", "to": -871233334502615197}, {"arrows": "to", "from": 6677766435782380061, "title": "PRESSED = 1", "to": -6641597416757455691}, {"arrows": "to", "from": -6641597416757455691, "title": "ACT_2 = 1", "to": 6478250571853012162}, {"arrows": "to", "from": -6641597416757455691, "title": "ACT_1 = 1", "to": 1836419154973880562}, {"arrows": "to", "from": -871233334502615197, "title": "ACT_2 = 1", "to": 4241674273952309991}, {"arrows": "to", "from": -871233334502615197, "title": "ACT_1 = 1", "to": 8533580379015949191}, {"arrows": "to", "from": -871233334502615197, "title": "PRESSED = 0", "to": -871233334502615197}, {"arrows": "to", "from": 141412391031381794, "title": "ACT_1 = 1", "to": 8533580379015949191}, {"arrows": "to", "from": 141412391031381794, "title": "PRESSED = 0", "to": -871233334502615197}, {"arrows": "to", "from": 141412391031381794, "title": "PRESSED = 1", "to": -6641597416757455691}, {"arrows": "to", "from": 141412391031381794, "title": "ACT_1 = 0", "to": -871233334502615197}, {"arrows": "to", "from": 141412391031381794, "title": "ACT_2 = 1", "to": 4241674273952309991}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

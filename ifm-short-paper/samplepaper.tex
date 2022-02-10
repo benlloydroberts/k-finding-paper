@@ -65,9 +65,23 @@ The aim of this paper is to address this first challenge. Reinforcement learning
 
 \subsection{Reinforcement Learning}
 
-Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, known as the environment  \cite{sutton2018reinforcement}. Given a permitted set of actions to perform over a series of discrete time steps, a software agent is trained to interact with and observe changes in its environment based on intermittent reward signals. Over a process of accelerated trial-and-error agents learn a function, or policy, mapping states to optimal actions likely to return the greatest cumulative future reward. \\ 
+Reinforcement learning is a principle machine learning paradigm which models sequential decision making problems with respect to some goal-orientated task as the optimal control of some incompletely-known MDP, known as the environment  \cite{sutton2018reinforcement}. Given a permitted set of actions to perform over a series of discrete time steps, software agent(s) are trained to interact with and observe changes in the environment based on intermittent reward signals. Over a process of accelerated trial-and-error a function, or policy, is learned mapping states to optimal actions likely to return the greatest cumulative future reward. Interactions with the MDP can be characterised as continuous or episodic, depending on constraints of the learned task. \\ 
+What are the applications of RL?
+RL has experienced a significant increase in popularity, particularly in games [atari,], robotics [atlas, ] and operations research [].  
 
-For purposes of invariant finding, we aim to maximise state space, or environment, coverage. In order to reinforce this behaviour, we motivate agents to pursue the longest loop free path where a reward scheme positively rewards sequences of novel observations. Inversely, we issue a negative reward for observing similar states within a single episode. \\
+Why has it been successful?
+Tabular reinforcement learning has existed for decades. RL algorithms have ranged from traditional dynamic programming methods (Q-learning, SARSA, temporal difference learning), which orientated learning around value functions, to policy search methods (Policy gradients) which explicitly dictate the learned behaviour of agents. Recent advancements in most machine learning approaches can be attributed to the advent of Deep learning for function approximation.
+
+Actor-critic methods combine both worlds and have seen  - learning both the policy which dictates behaviour (actor) and the value functions which estimate the quality of a given state (critic).
+
+What are the known limitations?
+Prior to actor-critic with experience replay, On policy nature of actor critic meant previous experiences from old policy iterations were forgotten, thus  biasing behaviour to the most recent model updates and introducing sample inefficiency.  
+
+How does this help our problem and why are we using it?
+
+Probabilistic learning is unlikely to provide us with guarantees of completeness so there's not much scope to replace formal methods- but it can be used to supplement them. For purposes of learning heuristics, we would ideally like to maximise the information gathered, so that there is more data from which to identify patterns. With respect to invariant finding, we aim to maximise state space, or environment, coverage. Fortunately existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures (heuristics paper), distributing the task among concurrent workers for accelerated performance (A3C and all distributed GPU cluster papers) and prioritising exploration in unfamiliar environments (count based-exploration, maximising network entropy, coverage via curiosity).
+
+Reinforcing this behaviour requires motivating  agents via a sparse reward signal with potentially strong temporal dependence. In light of this, we influence agents to pursue the longest loop free path where a reward scheme positively rewards sequences of novel observations. Inversely, we issue a negative reward for observing similar states within a single episode. \\
 
 We select asynchronous advantage actor-critic which estimates both the value function and behaviour policy when exploring an environment. The asynchronous nature of the algorithm facilitates distributed exploration of state-action pairs via separate workers with a shared global model of their environment. \\
 
@@ -75,7 +89,9 @@ We select asynchronous advantage actor-critic which estimates both the value fun
 Given exhaustive search of large state spaces is often computationally intractable, we generate a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. Using the well established pelican crossing example as a base template, we introduce a single contact and coil for each additional rung during program generation. Where $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
 
 \section{Learning Framework}
-For each environment we set a max number of episodes $T_{\max}$ to constrain the duration of training. Additionally we introduce two forms of early termination to avoid superfluous interaction with the environment. First, if the performance curve of a given agent converges to some local minima. Second, if all reachable states have been observed at least once. Given agents accumulate experience within separate environment instances, they update shared sets of observations and rewards intermittently. This update frequency depends on both the number of workers and precomputed size of the environment.
+ For practicality, each environment has an associated max number of episodes $T_{\max}$ to constrain the duration of training. Additionally we introduce two forms of early termination to avoid superfluous interaction with the environment. First, if the performance curve of a given agent converges to some local minima. Second, if all reachable states have been observed at least once. Given agents accumulate experience within separate environment instances, they update shared sets of observations and rewards intermittently. This update frequency depends on both the number of workers and precomputed size of the environment.
+ 
+ What do observations look like? What are our actions?
 
 \section{Results}
 \begin{table}
@@ -134,7 +150,12 @@ For each environment we set a max number of episodes $T_{\max}$ to constrain the
 
 
 \section{Conclusion \& Future Work }
+A3C shows some promising preliminary results but is clearly limited in its capacity to scale. The algorithm shows proclivity to collapse following small network adjustments in previously unexplored regions of large environments. 
+Introduce experience replay for distributed learning to improve on-policy bias and sample efficiency. Additional algorithms to implement for scalability - we can guarantee the increase of action spaces when transitioning to industry scale ladder logic programs where the number of contacts are known. It may be worth exploring DDPG to improve learning solely based on the observation space. 
 
+Intrinsic motivation for exploration.
+
+IMPALA to improve both sample efficiency over A3C and robustness to network architectures and hyperparameters. Use of LSTM also improves performance given GPU acceleration is maximised on larger batch updates. A3C in our setting experiences variable episodic updates.
 
 
  

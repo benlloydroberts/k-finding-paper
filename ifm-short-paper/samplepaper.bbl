@@ -3,11 +3,22 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{1688959}
+Awedh, M., Somenzi, F.: Automatic invariant strengthening to prove properties
+  in bounded model checking. In: 2006 43rd ACM/IEEE Design Automation
+  Conference. pp. 1073--1076 (2006). \doi{10.1145/1146909.1147180}
+
 \bibitem{bloesch2022towards}
 Bloesch, M., Humplik, J., Patraucean, V., Hafner, R., Haarnoja, T., Byravan,
   A., Siegel, N.Y., Tunyasuvunakool, S., Casarini, F., Batchelor, N., et~al.:
   Towards real robot learning in the wild: A case study in bipedal locomotion.
   In: Conference on Robot Learning. pp. 1502--1511. PMLR (2022)
+
+\bibitem{espeholt2018impala}
+Espeholt, L., Soyer, H., Munos, R., Simonyan, K., Mnih, V., Ward, T., Doron,
+  Y., Firoiu, V., Harley, T., Dunning, I., Legg, S., Kavukcuoglu, K.: Impala:
+  Scalable distributed deep-rl with importance weighted actor-learner
+  architectures (2018)
 
 \bibitem{gordillo2021improving}
 Gordillo, C., Bergdahl, J., Tollmar, K., Gissl{\'e}n, L.: Improving playtesting
@@ -35,6 +46,15 @@ James, P., Lawrence, A., Moller, F., Roggenbach, M., Seisenberger, M., Setzer,
   A., Kanso, K., Chadwick, S.: Verification of solid state interlocking
   programs. In: International Conference on Software Engineering and Formal
   Methods. pp. 253--268. Springer (2013)
+
+\bibitem{kakade2001natural}
+Kakade, S.M.: A natural policy gradient. Advances in neural information
+  processing systems  \textbf{14} (2001)
+
+\bibitem{kanso2009automated}
+Kanso, K., Moller, F., Setzer, A.: Automated verification of signalling
+  principles in railway interlocking systems. Electronic Notes in Theoretical
+  Computer Science  \textbf{250}(2),  19--31 (2009)
 
 \bibitem{lecun2015deep}
 LeCun, Y., Bengio, Y., Hinton, G.: Deep learning. nature  \textbf{521}(7553),
@@ -72,6 +92,10 @@ Schaul, T., Quan, J., Antonoglou, I., Silver, D.: Prioritized experience
 Schulman, J., Levine, S., Moritz, P., Jordan, M.I., Abbeel, P.: Trust region
   policy optimization (2017)
 
+\bibitem{schulman2017proximal}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
+  policy optimization algorithms (2017)
+
 \bibitem{silver2016mastering}
 Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den~Driessche,
   G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M.,
@@ -87,6 +111,10 @@ Vinyals, O., Babuschkin, I., Czarnecki, W.M., Mathieu, M., Dudzik, A., Chung,
   J., Choi, D.H., Powell, R., Ewalds, T., Georgiev, P., et~al.: Grandmaster
   level in starcraft ii using multi-agent reinforcement learning. Nature
   \textbf{575}(7782),  350--354 (2019)
+
+\bibitem{wang2017sample}
+Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuoglu, K.,
+  de~Freitas, N.: Sample efficient actor-critic with experience replay (2017)
 
 \bibitem{watkins1992q}
 Watkins, C.J., Dayan, P.: Q-learning. Machine learning  \textbf{8}(3),

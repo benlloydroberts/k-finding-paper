@@ -1,10 +1,57 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{bloesch2022towards}
+Bloesch, M., Humplik, J., Patraucean, V., Hafner, R., Haarnoja, T., Byravan,
+  A., Siegel, N.Y., Tunyasuvunakool, S., Casarini, F., Batchelor, N., et~al.:
+  Towards real robot learning in the wild: A case study in bipedal locomotion.
+  In: Conference on Robot Learning. pp. 1502--1511. PMLR (2022)
+
+\bibitem{gu2017deep}
+Gu, S., Holly, E., Lillicrap, T., Levine, S.: Deep reinforcement learning for
+  robotic manipulation with asynchronous off-policy updates. In: 2017 IEEE
+  international conference on robotics and automation (ICRA). pp. 3389--3396.
+  IEEE (2017)
+
+\bibitem{lecun2015deep}
+LeCun, Y., Bengio, Y., Hinton, G.: Deep learning. nature  \textbf{521}(7553),
+  436--444 (2015)
+
+\bibitem{mazyavkina2021reinforcement}
+Mazyavkina, N., Sviridov, S., Ivanov, S., Burnaev, E.: Reinforcement learning
+  for combinatorial optimization: A survey. Computers \& Operations Research
+  \textbf{134},  105400 (2021)
+
+\bibitem{mnih2016asynchronous}
+Mnih, V., Badia, A.P., Mirza, M., Graves, A., Lillicrap, T.P., Harley, T.,
+  Silver, D., Kavukcuoglu, K.: Asynchronous methods for deep reinforcement
+  learning (2016)
+
+\bibitem{mnih2013playing}
+Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra,
+  D., Riedmiller, M.: Playing atari with deep reinforcement learning. arXiv
+  preprint arXiv:1312.5602  (2013)
+
+\bibitem{schaul2015prioritized}
+Schaul, T., Quan, J., Antonoglou, I., Silver, D.: Prioritized experience
+  replay. arXiv preprint arXiv:1511.05952  (2015)
+
+\bibitem{silver2016mastering}
+Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den~Driessche,
+  G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M.,
+  et~al.: Mastering the game of go with deep neural networks and tree search.
+  nature  \textbf{529}(7587),  484--489 (2016)
+
 \bibitem{sutton2018reinforcement}
 Sutton, R.S., Barto, A.G.: Reinforcement learning: An introduction. MIT press
   (2018)
+
+\bibitem{vinyals2019grandmaster}
+Vinyals, O., Babuschkin, I., Czarnecki, W.M., Mathieu, M., Dudzik, A., Chung,
+  J., Choi, D.H., Powell, R., Ewalds, T., Georgiev, P., et~al.: Grandmaster
+  level in starcraft ii using multi-agent reinforcement learning. Nature
+  \textbf{575}(7782),  350--354 (2019)
 
 \end{thebibliography}

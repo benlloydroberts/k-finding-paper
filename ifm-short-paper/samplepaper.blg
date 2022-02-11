@@ -5,50 +5,44 @@ Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: splncs04.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "ref_article1"
-Warning--I didn't find a database entry for "ref_lncs1"
-Warning--I didn't find a database entry for "ref_book1"
-Warning--I didn't find a database entry for "ref_proc1"
-Warning--I didn't find a database entry for "ref_url1"
-You've used 1 entry,
+You've used 10 entries,
             2850 wiz_defined-function locations,
-            604 strings with 4655 characters,
-and the built_in function-call counts, 407 in all, are:
-= -- 27
-> -- 12
-< -- 0
-+ -- 5
-- -- 4
-* -- 22
-:= -- 61
-add.period$ -- 1
-call.type$ -- 1
-change.case$ -- 4
+            657 strings with 6843 characters,
+and the built_in function-call counts, 7097 in all, are:
+= -- 547
+> -- 345
+< -- 10
++ -- 140
+- -- 130
+* -- 489
+:= -- 932
+add.period$ -- 13
+call.type$ -- 10
+change.case$ -- 95
 chr.to.int$ -- 0
-cite$ -- 1
-duplicate$ -- 36
-empty$ -- 44
-format.name$ -- 5
-if$ -- 85
+cite$ -- 10
+duplicate$ -- 575
+empty$ -- 551
+format.name$ -- 140
+if$ -- 1501
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 8
-newline$ -- 9
-num.names$ -- 2
-pop$ -- 18
+int.to.str$ -- 10
+missing$ -- 133
+newline$ -- 36
+num.names$ -- 20
+pop$ -- 258
 preamble$ -- 1
-purify$ -- 4
+purify$ -- 82
 quote$ -- 0
-skip$ -- 9
+skip$ -- 173
 stack$ -- 0
-substring$ -- 13
-swap$ -- 13
-text.length$ -- 0
+substring$ -- 336
+swap$ -- 352
+text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 2
+type$ -- 38
 warning$ -- 0
-while$ -- 3
-width$ -- 2
-write$ -- 14
-(There were 5 warnings)
+while$ -- 47
+width$ -- 12
+write$ -- 101

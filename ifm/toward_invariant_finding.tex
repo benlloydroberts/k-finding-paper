@@ -21,7 +21,7 @@
 
 \begin{document}
 %
-\title{Towards Reinforcement Learning of Invariants for Model Checking of Interlockings\thanks{Supported by Siemens Mobility UK \& EPSRC}}
+\title{Towards Reinforcement Learning of Invariants for Model Checking of Interlockings}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -43,7 +43,7 @@ Michael Edwards\inst{1}}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-The application of formal methods, in particular model-checking, in order to verify interlockings operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake of formal methods research within the UK rail industry has yet to make a substantial impact due to current approaches often producing false positives that require manual analysis during verification. Here, it is accepted that so-called invariants can be added to reduce the number of such false positives, however automatically computing these invariants remains a challenge. In this work we present first steps towards using reinforcement learning to learn properties of a state space.
+The application of formal methods, in particular model checking, in order to verify interlockings operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake of formal methods research within the UK rail industry has yet to make a substantial impact due to current approaches often producing false positives that require manual analysis during verification. Here, it is accepted that so-called invariants can be added to reduce the number of such false positives, however automatically computing these invariants remains a challenge. In this work we present first steps towards using reinforcement learning to learn properties of a state space.
 
 \keywords{Reinforcement Learning \and Interlocking \and Model Checking.}
 \end{abstract}
@@ -52,31 +52,29 @@ The application of formal methods, in particular model-checking, in order to ver
 \section{Introduction}
 
 Interlockings serve as a filter or ‘safety layer’ between inputs from operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
-(SIL4) according to the CENELEC 50128 standard. The application of model-checking
+(SIL4) according to the CENELEC 50128 standard. The application of model checking
 to Ladder Logic programs in order to verify interlockings is well established within
 academia and is beginning to see real applications in industry. As early as 1995, Groote
-et al. [5] applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. They conjecture the feasibility of verification techniques
+et al. ~\cite{groote1995safety} applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. They conjecture the feasibility of verification techniques
 as means of ensuring correctness criteria on larger railway yards. In 1998, Fokkink
-and Hollingshead [6] suggested a systematic translation of Ladder Logic into Boolean
+and Hollingshead ~\cite{fokkink1998verification} suggested a systematic translation of Ladder Logic into Boolean
 formulae. Newer approaches to interlocking verification have also been proposed in recent
-years [7, 8, 9, 10, 11]. This includes work by Linh et al. which explores the verification
+years ~\cite{fantechi2012some, ferrari2011model, haxthausen2008modelling}. This includes work by Linh et al. which explores the verification
 of interlockings written in a similar language to Ladder Logic using SAT-based model
-checking. After two decades of research, academic work [12, 13] has shown that verification
-approaches for Ladder Logic can indeed scale; in an industrial pilot, Duggan et al. [14]
-conclude: “Formal proof as a means to verify safety has matured to the point where it
-can be applied for any railway interlocking system.” In spite of this, such approaches
-still lack widespread use within the Rail industry. Principally our work aims to address one of the issues hindering its uptake, by removing the need for manual analysis of false positive error traces produced during verification.
+checking. After two decades of research, academic work ~\cite{kanso2009automated, james2013verification} has shown that verification
+approaches for Ladder Logic can indeed scale; in an industrial pilot, Duggan et al. [14] conclude: “Formal proof as a means to verify safety has matured to the point where it
+can be applied for any railway interlocking system.” In spite of this, such approaches still lack widespread use within the Rail industry. Principally our work aims to address one of the issues hindering its uptake, by removing the need for manual analysis of false positive error traces produced during verification. 
 
 In this work, we firstly formulate the theoretical and practical frameworks to represent interlocking verification as a goal-orientated reinforcement learning task and secondly, devise an appropriate strategy for learning invariants within those frameworks.
 
 \section{Preliminaries}\label{sec:preliminaries}
 We now briefly discuss both model checking of railway interlockings and reinforcement learning. For further details we refer the reader to \cite{kanso2009automated, james2013verification} and \cite{mnih2016asynchronous} respectively.
 
-\subsection{Bounded Model-Checking and Invariants}
+\subsection{Bounded Model Checking and Invariants}
 
 Model checking is a formal verification technique stemming from the need to systematically
 check whether certain properties hold for different configurations (states) of a given system.
-Given a finite transition system $T$ and a formula $F$, model-checking attempts to verify
+Given a finite transition system $T$ and a formula $F$, model checking attempts to verify
 that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. 
 
 The model checking process culminates in verification results being generated. Properties which hold for all tested states
@@ -85,24 +83,24 @@ is $s \nvdash F$, a counter example trace is provided by the model checker indic
 caused the violation. Results may also indicate that the model, property formulation or
 simulation process are insufficient for verification and therefore require further refinement.
 
-Primary limitations of several model checking solutions [16, 12, 17, 18] indicate that verification can fail due to overapproximation of the model being checked, typically when using techniques such as inductive verification\cite{}. Such inductive verification checks to see if a given state satisfies
+Primary limitations of several model checking solutions indicate that verification can fail due to over approximation of the model being checked, typically when using techniques such as inductive verification. Such inductive verification checks to see if a given state satisfies
 some condition but does not consider whether these states which violate
-the same safety condition are reachable by the system. These false counter examples often require manual inspection by an
-experienced engineer. Here, one solution that is proposed~\cite{1688959} is to introduce so-called invariants to suppress false negatives. Invariants are properties that hold for sub-regions of the state space. The aim is to introduce invariants that help bound the region of reachable states when model-checking. However generating sufficiently strong invariants automatically is a complex task, one which has received considerable attention in academic
-literature. From software engineering techniques [21, 22, 23, 24, 25, 26, 27] to hybrid methods incorporating machine learning [28, 29, 30, 31, 32], researchers have proposed various approaches to invariant finding with varying degrees of success.
+the same safety condition are reachable by the system. These false positive  counter examples often require manual inspection by an
+experienced engineer. Here, one solution that is proposed~\cite{1688959} is to introduce so-called invariants to suppress false positives. Invariants are properties that hold for sub-regions of the state space. The aim is to introduce invariants that help bound the region of reachable states when model checking. However generating sufficiently strong invariants automatically is a complex task, one which has received considerable attention in academic
+literature. From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
-Reinforcement Learning (RL) is a popular machine learnig paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. Given a permitted set of actions, performable over a series of discrete time steps, software agents learn a function mapping MDP states to optimal actions likely to maximise cumulative reward signals. Interactions with the environment can be characterised as continuous or episodic, depending on constraints of the learned task.
+Reinforcement Learning (RL) is a popular machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. Given a permitted set of actions, performable over a series of discrete time steps, software agents learn a function mapping MDP states to optimal actions likely to maximise cumulative reward signals. Interactions with the environment can be characterised as continuous or episodic, depending on constraints of the learned task.
  
 Resurgence in RL research over the last decade has seen applications in games~\cite{schaul2015prioritized, silver2016mastering, vinyals2019grandmaster}, robotics~\cite{gu2017deep, bloesch2022towards} and operations research~\cite{mazyavkina2021reinforcement} and can be attributed to the fusion of existing methods~\cite{watkins1992q} with powerful approximate learning techniques~\cite{lecun2015deep} following the advent of deep learning~\cite{mnih2013playing}. Subsequent popularity in deep reinforcement learning (DRL) gave rise to improvements of historic methods~\cite{schulman2017trust}. Actor-Critic methods, combining policy learning~\cite{kakade2001natural} and value function approximation saw particular successes in state-of-the-art performance~\cite{schulman2017proximal}.
 
-Probabilistic learning is unlikely to provide guarantees of completeness, but can be used to supplement formal methods, such as model-checking. For purposes of learning heuristics, we would like to maximise the information gathered, so that there is more data from which to identify patterns. With the aim of learning invariant properties that hold across states, state space coverage would be ideally maximised. Fortunately existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures~\cite{manchanda2019learning}, distributing learning for accelerated performance~\cite{hoffman2020acme} and prioritising exploration in unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
+Probabilistic learning is unlikely to provide guarantees of completeness, but can be used to supplement formal methods, such as model checking. For purposes of learning heuristics, we would like to maximise the information gathered, so that there is more data from which to identify patterns. With the aim of learning invariant properties that hold across states, state space coverage would be ideally maximised. Fortunately existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures~\cite{manchanda2019learning}, distributing learning for accelerated performance~\cite{hoffman2020acme} and prioritising exploration in unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
 
 Throughout this work we have used asynchronous advantage actor-critic (A3C) to estimate both the value function and behaviour policy while exploring an environment. The asynchronous nature of the algorithm facilitates distributed exploration of state-action pairs via separate workers with a shared global policy network.
 
 
 \section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
-For this work, we have concentrated on trying to produce invariants for the approaches take by Kanso et al~\cite{} and James et al~\cite{}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining an environment for learning. For full details of the approach we refer the reader to~\cite{}
+For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al~\cite{kanso2009automated} and James et al~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining an  learning environment.
 \
 The semantics of a ladder logic program is defined as a function of input and output variable valuations:
 \begin{math}
@@ -119,41 +117,37 @@ A Ladder Logic labelled transition system $LTS(\psi)$ is defined as the three tu
 	\item $V_0 = \{\mu_C \ | \ init(\mu_C)\}$,
 \end{itemize}where the function $init()$ produces the initial valuation of variables $\mu_C$, setting all as false.
 
-We now define the finite MDP\todo{expand}, or environment $\mathcal{E}$ used to represent Ladder Logic program. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma) \rangle$, where 
+We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent Ladder Logic program. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 \begin{itemize}
-	\item $S = V_I \cup V_C$, an observation space to represent the environment state at discrete time steps.
+	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
 	\item $\mathcal{A} = V_I$, describes the action space; a set of formally defined actions which change the observation space
-	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, A probability distribution describing the likelihood of observing state $s_{t+1}$ given action $a_t$ is taken from state $s_t$
+	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describing the likelihood of observing state $s_{t+1}$ given action $a_t$ taken from state $s_t$
 	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
 	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
 \end{itemize}
 
 Subsequently the environment unfolds as a set of reachable states for the respective Ladder Logic program. As workers improve their value estimates according to the reward function, a balance is maintained between stochastic action sampling and predictions from the policy network.
 
-Given invariant properties hold for some subregion of program states, we aim to reinforce exploration to maximise MDP coverage. In light of this, we influence agents to pursue the longest loop free path, or max $k$ value for BMC. Consequently we design a reward scheme which positively rewards sequences of novel observations. Inversely, negative rewards are issued for repeated observations within a training episodes. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by each worker at set intervals to compile shared experiences.    
+Given invariant properties hold for some subregion of program states, we aim to reinforce exploration to maximise MDP coverage. In light of this, we influence agents to pursue the longest loop free path, or max $k$ value for BMC. Consequently we design a reward scheme which positively rewards sequences of novel observations. Inversely, negative rewards are issued for repeated observations within a training episodes. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences.    
 
-For practicality, each environment has an associated max number of episodes $T_{\max}$ to bound training runs. Additionally we utilise two forms of early termination to avoid superfluous interaction with the environment. First, if the worker performance curves converges to some local minima. Second, if all reachable states have been observed at least once. This update frequency depends on both the number of workers and precomputed size of the environment. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
+For practicality, each environment has an associated max number of episodes $T_{\max}$ to constrain runtime. We utilise two forms of early termination to avoid superfluous training. First, if worker performance curves converges to some local minima. Second, if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
 
 
 \section{Results}
-\todo{add a short intro.. we now present results of applying our approach to ....}
+We now present a set of results from applying our approach to a series of generated Ladder Logic programs, modelled as learning environments. 
 \subsection{Environment Generation}
 
-Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyze the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
+Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
 
 
 \subsection{Discussion}
-Preliminary results from applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each Ladder Logic program. `$K$', refers to the greatest number of steps taken before encountering a loop within the environment, across all workers.
+Preliminary results applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each Ladder Logic program. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
 
-Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. 
+Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
 
+Performance plots illustrating the cumulative reward  which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. This may be due to tendencies for large network updates to shift the network gradients into a bad local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy,  thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding experience replay \cite{wang2017sample} may help avoid this in future applications
 
-\todo{try and reword this more positively... }
-Interestingly, we observed longer training durations seldom improved coverage metrics beyond a certain threshold. For instance, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment. 
-
-Performance plots illustrating the cumulative reward  which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. This may be due to tendencies for large network updates to shift the network gradients into a bas local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy,  thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding experience replay \cite{wang2017sample} may help avoid this in future applications
-
-Given the A3C algorithm requires workers to asynchronously update their shared network every $T_{\max}$ steps or on episode termination, larger values for $T_{\max}$ consolidate more information regarding worker trajectories before applying gradient updates to their local network. We found the most significant improvements to performance in terms of coverage metrics and increasing the $k$ bound when introducing workers to larger environments, was lower update frequencies and random start state initialisation. Prior to these adjustments workers, irrespective of their number, seldom covered 80\% of the smaller environments. Similarly, for the largest environment with $2^{50}$ states, coverage improved from 3.2\% to 41.48\%
+Given the A3C algorithm requires workers to asynchronously update their shared network every $T_{\max}$ steps or on episode termination, larger values for $T_{\max}$ consolidate more information regarding worker trajectories before applying gradient updates to their local network. We found the most significant improvements to performance in terms of coverage metrics and increasing the $k$ bound when introducing workers to larger environments, was lower update frequencies and random start state initialisation. Prior to these adjustments workers, irrespective of their number, seldom covered 80\% of most smaller environments. Similarly, for the largest environment with $2^{50}$ states, coverage improved from 3.2\% to 41.48\%
 
 \begin{table}[h]
 	\caption{Initial results applying A3C learning over progressively larger environments. }
@@ -210,17 +204,15 @@ Given the A3C algorithm requires workers to asynchronously update their shared n
 	\arrayrulecolor{black}
 \end{table}
 
-
-
 \section{Conclusion \& Future Work }
-In this paper we have applied a basic asynchronous deep reinforcement learning method to maximise state space coverage of a Ladder Logic transition system, mapped to a finite MDP. A3C shows some promising preliminary results but is clearly limited in its capacity to scale across large observation spaces. 
+In this paper we have applied a basic asynchronous deep reinforcement learning method to maximise program state coverage, motivated by a reward scheme . some promising preliminary results but limited in its capacity to scale across large observation spaces. 
 
-In light of our findings, we aim to improve several aspects of our approach, predominantly concerning learning stability, sample efficiency and training speed. Experience replay for distributed learning may improve on-policy bias and sample efficiency. As we expected increased actions and observation spaces  when transitioning to industry scale Ladder Logic programs. 
+In light of our findings, we aim to improve several aspects of our approach, predominantly concerning learning stability, sample efficiency and training speed. Experience replay for distributed learning may improve on-policy bias and sample efficiency. 
 
-Fortunately due to the low dimensionality of program state spaces, we also aim to expore the utility of count-based exploration models to dampen the reward issued for states Intrinsic motivation has also illustrated successes in environment exploration.
+The low dimensionality of our state spaces representation may allow us to introduce count-based exploration models to dampen the reward issued for states repeatedly observed~\cite{ostrovski2017countbased}. Intrinsic motivation has also illustrated successes in environment exploration~\cite{houthooft2017vime}.
 
-IMPALA~\cite{espeholt2018impala} to improve both sample efficiency over A3C and robustness to network architectures and hyperparameters. Use of LSTM also improves performance given GPU acceleration is maximised on larger batch updates. A3C in our setting experiences variable episodic updates.
-
+Applying IMPALA~\cite{espeholt2018impala} to improve both sample efficiency over A3C and robustness to network architectures and hyperparameter adjustments. The adoption of a Long Short-Term Memory model (LSTM) also improves performance given GPU acceleration is maximised on larger batch updates.
+\footnote{\textbf{Acknowledgment:} We thank Tom Werner and Andrew Lawrence at Siemens Mobility UK \& EPSRC for their support in these works. }
 
  
 %

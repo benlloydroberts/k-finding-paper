@@ -1,0 +1,229 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{colortbl}
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{todo}
+\DeclareMathOperator*{\argmax}{argmax}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+% \renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+%
+\title{Towards Reinforcement Learning of Invariants for Model Checking of Interlockings}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Ben Lloyd-Roberts\inst{1} \and
+Phillip James\inst{1} \and
+Michael Edwards\inst{1}}
+%
+\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.,
+% If there are more than two authors, 'et al.' is used.
+%
+
+
+\institute{Swansea University, Swansea, UK  \\
+\email{\{ben.lloyd-roberts, p.d.james, michael.edwards\}@swansea.ac.uk}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+The application of formal methods, in particular model checking, in order to verify interlockings operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake of formal methods research within the UK rail industry has yet to make a substantial impact due to current approaches often producing false positives that require manual analysis during verification. Here, it is accepted that so-called invariants can be added to reduce the number of such false positives, however automatically computing these invariants remains a challenge. In this work we present first steps towards using reinforcement learning to learn properties of a state space.
+
+\keywords{Reinforcement Learning \and Interlocking \and Model Checking.}
+\end{abstract}
+
+
+\section{Introduction}
+
+Interlockings serve as a filter or ‘safety layer’ between inputs from operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
+(SIL4) according to the CENELEC 50128 standard. The application of model checking
+to Ladder Logic programs in order to verify interlockings is well established within
+academia and is beginning to see real applications in industry. As early as 1995, Groote
+et al. ~\cite{groote1995safety} applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. They conjecture the feasibility of verification techniques
+as means of ensuring correctness criteria on larger railway yards. In 1998, Fokkink
+and Hollingshead ~\cite{fokkink1998verification} suggested a systematic translation of Ladder Logic into Boolean
+formulae. Newer approaches to interlocking verification have also been proposed in recent
+years ~\cite{fantechi2012some, ferrari2011model, haxthausen2008modelling}. This includes work by Linh et al. which explores the verification
+of interlockings written in a similar language to Ladder Logic using SAT-based model
+checking. After two decades of research, academic work ~\cite{kanso2009automated, james2013verification} has shown that verification
+approaches for Ladder Logic can indeed scale; in an industrial pilot, Duggan et al. [14] conclude: “Formal proof as a means to verify safety has matured to the point where it
+can be applied for any railway interlocking system.” In spite of this, such approaches still lack widespread use within the Rail industry. Principally our work aims to address one of the issues hindering its uptake, by removing the need for manual analysis of false positive error traces produced during verification. 
+
+In this work, we firstly formulate the theoretical and practical frameworks to represent interlocking verification as a goal-orientated reinforcement learning task and secondly, devise an appropriate strategy for learning invariants within those frameworks.
+
+\section{Preliminaries}\label{sec:preliminaries}
+We now briefly discuss both model checking of railway interlockings and reinforcement learning. For further details we refer the reader to \cite{kanso2009automated, james2013verification} and \cite{mnih2016asynchronous} respectively.
+
+\subsection{Bounded Model Checking and Invariants}
+
+Model checking is a formal verification technique stemming from the need to systematically
+check whether certain properties hold for different configurations (states) of a given system.
+Given a finite transition system $T$ and a formula $F$, model checking attempts to verify through refutation that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. 
+
+The model checking process culminates in verification results being generated. Properties which hold for all tested states
+produce a ‘safe’ output. In the event a state is found to violate any specified properties, that 
+is $s \nvdash F$, a counter example trace is provided by the model checker indicating which state(s)
+caused the infraction. Results may indicate that the model, property formulation or
+simulation process are insufficient for verification, necessitating refinement.
+
+Primary limitations of several model checking solutions indicate that verification can fail due to over approximation of the model being checked, typically when using techniques such as inductive verification. Such inductive verification checks to see if a given state satisfies
+some condition but does not consider whether these states which violate
+the same safety condition are reachable by the system. These false positive  counter examples often require manual inspection by an
+experienced engineer. Here, one solution that is proposed~\cite{1688959} is to introduce so-called invariants to suppress false positives. Invariants are properties that hold for sub-regions of the state space. The aim is to introduce invariants that help bound the region of reachable states when model checking. However generating sufficiently strong invariants automatically is a complex task, one which has received considerable attention in academic
+literature. From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success.
+
+\subsection{Reinforcement Learning}
+Reinforcement Learning (RL) is a popular machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. Given a permitted set of actions, performable over a series of discrete time steps, software agents learn a function mapping MDP states to optimal actions likely to maximise cumulative reward signals. Interactions with the environment can be characterised as continuous or episodic, depending on constraints of the learned task.
+ 
+Resurgence in RL research over the last decade has seen applications in games~\cite{schaul2015prioritized, silver2016mastering, vinyals2019grandmaster}, robotics~\cite{gu2017deep, bloesch2022towards} and operations research~\cite{mazyavkina2021reinforcement} and can be attributed to the fusion of existing methods~\cite{watkins1992q} with powerful approximate learning techniques~\cite{lecun2015deep} following the advent of deep learning~\cite{mnih2013playing}. Subsequent popularity in deep reinforcement learning (DRL) gave rise to improvements of historic methods~\cite{schulman2017trust}. Actor-Critic methods, combining policy learning~\cite{kakade2001natural} and value function approximation saw particular successes in establishing state-of-the-art performance~\cite{schulman2017proximal}.
+
+Probabilistic learning is unlikely to provide guarantees of completeness, but can be used to supplement formal methods, such as model checking, via learned heuristics. We posit an approach of information maximisation, collecting sufficient trajectories from which to identify patterns or sequences. With the aim of learning invariant properties that hold across states, state space coverage should be maximised. Existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures~\cite{manchanda2019learning}, distributing learning for accelerated performance~\cite{hoffman2020acme} and prioritising novelty when exploration unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
+
+Throughout this work we have used asynchronous advantage actor-critic (A3C) to estimate both the value function and behaviour policy while exploring an environment. The asynchronous nature of the algorithm facilitates distributed exploration of state-action pairs via separate workers with a shared global policy network.
+
+
+\section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
+For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al~\cite{kanso2009automated} and James et al~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining an  learning environment.
+\
+The semantics of a ladder logic program is defined as a function of input and output variable valuations:
+\begin{math}
+	[\psi] : V_I \times V_C \to V_C
+\end{math}. Therefore $\psi(\mu_I, \mu_C) = \mu_{C^\prime}$, where
+\begin{align}
+	\mu_{C^\prime}(c_i) & = [\psi](\mu_I, \{c_i,...,c_n\}, \{c^\prime_1,...,c^\prime_{i-1}\}) \\
+	\mu_{C^\prime}(c) & = \mu_C \ \mathbf{if} \ c \notin \{c_1,...,c_n\} 
+\end{align} 
+
+A Ladder Logic labelled transition system $LTS(\psi)$ is defined as the three tuple $(V_C, \to, V_0)$:
+\begin{itemize}
+	\item $\mu_C \to \mu_{C^\prime} \ \textit{iff} \ [\psi](\mu_C,\mu_I)=\mu_{C^\prime}$
+	\item $V_0 = \{\mu_C \ | \ init(\mu_C)\}$,
+\end{itemize}where the function $init()$ produces the initial valuation of variables $\mu_C$, setting all as false.
+
+We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent Ladder Logic program. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
+\begin{itemize}
+	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
+	\item $\mathcal{A} = V_I$, describes the action space; a set of formally defined actions which change the observation space
+	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describing the likelihood of observing state $s_{t+1}$ given action $a_t$ taken from state $s_t$
+	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
+	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
+\end{itemize}
+
+Subsequently the environment unfolds as a set of reachable states for the respective Ladder Logic program. As workers improve their value estimates according to the reward function, a balance is maintained between stochastic action sampling and predictions from the policy network.
+
+Given invariant properties hold for some subregion of program states, we aim to reinforce exploration to maximise MDP coverage. In light of this, we influence agents to pursue the longest loop free path, or max $k$ value for BMC. Consequently we design a reward scheme which positively rewards sequences of novel observations. Inversely, negative rewards are issued for repeated observations within a training episodes. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences.    
+
+For practicality, each environment has an associated max number of episodes $T_{\max}$ to constrain runtime. We utilise two forms of early termination to avoid superfluous training. First, if worker performance curves converges to some local minima. Second, if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
+
+
+\section{Results}
+We now present a set of results from applying our approach to a series of generated Ladder Logic programs, modelled as learning environments. 
+\subsection{Environment Generation}
+
+Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
+
+
+\subsection{Discussion}
+Preliminary results applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each Ladder Logic program. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
+
+Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
+
+Performance plots illustrating the cumulative reward  which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. This may be due to tendencies for large network updates to shift the network gradients into a bad local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy,  thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding experience replay \cite{wang2017sample} may help avoid this in future applications
+
+Given the A3C algorithm requires workers to asynchronously update their shared network every $T_{\max}$ steps or on episode termination, larger values for $T_{\max}$ consolidate more information regarding worker trajectories before applying gradient updates to their local network. We found the most significant improvements to performance in terms of coverage metrics and increasing the $k$ bound when introducing workers to larger environments, was lower update frequencies and random start state initialisation. Prior to these adjustments workers, irrespective of their number, seldom covered 80\% of most smaller environments. Similarly, for the largest environment with $2^{50}$ states, coverage improved from 3.2\% to 41.48\%
+
+\begin{table}[h]
+	\caption{Initial results applying A3C learning over progressively larger environments. }
+	\centering
+	\arrayrulecolor[rgb]{0.906,0.91,0.914}
+	\begin{tabular}{|c|c|c!{\color{black}\vrule}c|c|c|c|} 
+		\arrayrulecolor{black}\hline
+		\multicolumn{3}{!{\color{white}\vrule}c!{\color{black}\vrule}}{\textbf{Environment Metrics}}                                                                                                                                                                                                            & \multicolumn{4}{c!{\color{white}\vrule}}{\textbf{Training Metrics}}                                                                                                                                                                                                                                                                                                                                                                                                                                                             \\ 
+		\hline
+		\multicolumn{1}{!{\color{white}\vrule}c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\textbf{States}} & \multicolumn{1}{c!{\color{white}\vrule}}{\begin{tabular}[c]{@{}c@{}}\textbf{~Reachable~ }\\\textbf{ States }\end{tabular}} & {\cellcolor[rgb]{0.933,0.933,0.925}}\textbf{Actions} & \multicolumn{1}{c!{\color{white}\vrule}}{\textbf{ $K$~ }} & \multicolumn{1}{c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\begin{tabular}[c]{@{}>{\cellcolor[rgb]{0.933,0.933,0.925}}c@{}}\textbf{States}\\\textbf{  Reached~~ }\end{tabular}} & \multicolumn{1}{c!{\color{white}\vrule}}{\textbf{Coverage}} & \multicolumn{1}{c!{\color{white}\vrule}}{{\cellcolor[rgb]{0.933,0.933,0.925}}\begin{tabular}[c]{@{}>{\cellcolor[rgb]{0.933,0.933,0.925}}c@{}}\textbf{Total }\\\textbf{~ Episodes }\end{tabular}}  \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{12}                                                           & 7                                                                                                                          & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{1}$                & 6                                                          & {\cellcolor[rgb]{0.933,0.933,0.925}}7                                                                                                                                                            & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\arrayrulecolor[rgb]{0.906,0.91,0.914}\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{14}                                                           & 15                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{2}$                & 14                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}15                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{16}                                                           & 31                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{3}$                & 28                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}31                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{18}                                                           & 63                                                                                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{4}$               & 48                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}63                                                                                                                                                           & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{20}                                                           & 127                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{5}$               & 33                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}127                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{22}                                                           & 255                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{6}$               & 76                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}255                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+04                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{24}                                                           & 511                                                                                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{7}$              & 49                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}377                                                                                                                                                          & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}1.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{26}                                                           & 1023                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{8}$              & 306                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}1023                                                                                                                                                         & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{28}                                                           & 2047                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{9}$              & 538                                                        & {\cellcolor[rgb]{0.933,0.933,0.925}}2047                                                                                                                                                         & 100                                                         & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{30}                                                           & 4095                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{10}$             & 1418                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}4084                                                                                                                                                         & 99.731                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{32}                                                           & 8191                                                                                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{11}$             & 1712                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}7907                                                                                                                                                         & 96.532                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{34}                                                           & 16383                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{12}$             & 1498                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}15654                                                                                                                                                        & 95.550                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{36}                                                           & 32767                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{13}$             & 2879                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}27752                                                                                                                                                        & 84.694                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{38}                                                           & 65535                                                                                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{14}$            & 1969                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}58373                                                                                                                                                        & 89.071                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{40}                                                           & 131071                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{15}$            & 2692                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}108638                                                                                                                                                       & 82.884                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}2.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{42}                                                           & 262143                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{16}$            & 1406                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}5199317                                                                                                                                                      & 76.033                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{44}                                                           & 524287                                                                                                                     & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{17}$           & 1782                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}325781                                                                                                                                                       & 62.137                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}2.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{46}                                                           & 1048575                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{18}$           & 1593                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}671645                                                                                                                                                       & 64.053                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{48}                                                           & 2097151                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{19}$           & 1598                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}1206867                                                                                                                                                      & 57.547                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}3.00E+05                                                                                                                                                      \\ 
+		\hline
+		{\cellcolor[rgb]{0.933,0.933,0.925}}2\textsuperscript{50}                                                           & 4194303                                                                                                                    & {\cellcolor[rgb]{0.933,0.933,0.925}}$2^{20}$          & 2527                                                       & {\cellcolor[rgb]{0.933,0.933,0.925}}1739939                                                                                                                                                      & 41.48                                                      & {\cellcolor[rgb]{0.933,0.933,0.925}}1.50E+05                                                                                                                                                      \\
+		\hline
+	\end{tabular}
+	\label{tab:results}
+	\arrayrulecolor{black}
+\end{table}
+
+\section{Conclusion \& Future Work }
+In this paper we have applied a basic asynchronous deep reinforcement learning method to maximise program state coverage, motivated by a reward scheme . some promising preliminary results but limited in its capacity to scale across large observation spaces. 
+
+In light of our findings, we aim to improve several aspects of our approach, predominantly concerning learning stability, sample efficiency and training speed. Experience replay for distributed learning may improve on-policy bias and sample efficiency. 
+
+The low dimensionality of our state spaces representation may allow us to introduce count-based exploration models to dampen the reward issued for states repeatedly observed~\cite{ostrovski2017countbased}. Intrinsic motivation has also illustrated successes in environment exploration~\cite{houthooft2017vime}.
+
+Applying IMPALA~\cite{espeholt2018impala} to improve both sample efficiency over A3C and robustness to network architectures and hyperparameter adjustments. The adoption of a Long Short-Term Memory model (LSTM) also improves performance given GPU acceleration is maximised on larger batch updates.
+\footnote{\textbf{Acknowledgment:} We thank Tom Werner and Andrew Lawrence at Siemens Mobility UK \& EPSRC for their support in these works. }
+
+ 
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+
+\end{document}

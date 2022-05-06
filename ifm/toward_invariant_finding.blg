@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: toward_invariant_finding.aux
+The style file: splncs04.bst
+Database file #1: bibliography.bib
+I was expecting a `,' or a `}'---line 10 of file bibliography.bib
+ : 
+ : @article{kanso2009automated,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 33 entries,
+            2850 wiz_defined-function locations,
+            775 strings with 11499 characters,
+and the built_in function-call counts, 20976 in all, are:
+= -- 1643
+> -- 931
+< -- 27
++ -- 381
+- -- 346
+* -- 1381
+:= -- 2728
+add.period$ -- 43
+call.type$ -- 33
+change.case$ -- 287
+chr.to.int$ -- 0
+cite$ -- 33
+duplicate$ -- 1735
+empty$ -- 1740
+format.name$ -- 378
+if$ -- 4491
+int.to.chr$ -- 0
+int.to.str$ -- 33
+missing$ -- 383
+newline$ -- 105
+num.names$ -- 66
+pop$ -- 810
+preamble$ -- 1
+purify$ -- 235
+quote$ -- 0
+skip$ -- 518
+stack$ -- 0
+substring$ -- 1001
+swap$ -- 988
+text.length$ -- 27
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 130
+warning$ -- 0
+while$ -- 151
+width$ -- 35
+write$ -- 316
+(There was 1 error message)

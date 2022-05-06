@@ -1,0 +1,167 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{1688959}
+Awedh, M., Somenzi, F.: Automatic invariant strengthening to prove properties
+  in bounded model checking. In: 2006 43rd ACM/IEEE Design Automation
+  Conference. pp. 1073--1076 (2006). \doi{10.1145/1146909.1147180}
+
+\bibitem{bensalem1996powerful}
+Bensalem, S., Lakhnech, Y., Saidi, H.: Powerful techniques for the automatic
+  generation of invariants. In: International Conference on Computer Aided
+  Verification. pp. 323--335. Springer (1996)
+
+\bibitem{bloesch2022towards}
+Bloesch, M., Humplik, J., Patraucean, V., Hafner, R., Haarnoja, T., Byravan,
+  A., Siegel, N.Y., Tunyasuvunakool, S., Casarini, F., Batchelor, N., et~al.:
+  Towards real robot learning in the wild: A case study in bipedal locomotion.
+  In: Conference on Robot Learning. pp. 1502--1511. PMLR (2022)
+
+\bibitem{case2007automated}
+Case, M.L., Mishchenko, A., Brayton, R.K.: Automated extraction of inductive
+  invariants to aid model checking. In: Formal Methods in Computer Aided Design
+  (FMCAD'07). pp. 165--172. IEEE (2007)
+
+\bibitem{espeholt2018impala}
+Espeholt, L., Soyer, H., Munos, R., Simonyan, K., Mnih, V., Ward, T., Doron,
+  Y., Firoiu, V., Harley, T., Dunning, I., Legg, S., Kavukcuoglu, K.: Impala:
+  Scalable distributed deep-rl with importance weighted actor-learner
+  architectures (2018)
+
+\bibitem{fantechi2012some}
+Fantechi, A., Fokkink, W., Morzenti, A.: Some trends in formal methods
+  applications to railway signaling. Formal methods for industrial critical
+  systems: A survey of applications pp. 61--84 (2012)
+
+\bibitem{ferrari2011model}
+Ferrari, A., Magnani, G., Grasso, D., Fantechi, A.: Model checking interlocking
+  control tables. In: FORMS/FORMAT 2010, pp. 107--115. Springer (2011)
+
+\bibitem{fokkink1998verification}
+Fokkink, W., Hollingshead, P., Groote, J., Luttik, S., van Wamel, J.:
+  Verification of interlockings: from control tables to ladder logic diagrams.
+  In: Proceedings of FMICS. vol.~98, pp. 171--185 (1998)
+
+\bibitem{garg2016learning}
+Garg, P., Neider, D., Madhusudan, P., Roth, D.: Learning invariants using
+  decision trees and implication counterexamples. ACM Sigplan Notices
+  \textbf{51}(1),  499--512 (2016)
+
+\bibitem{gordillo2021improving}
+Gordillo, C., Bergdahl, J., Tollmar, K., Gissl{\'e}n, L.: Improving playtesting
+  coverage via curiosity driven reinforcement learning agents. arXiv preprint
+  arXiv:2103.13798  (2021)
+
+\bibitem{groote1995safety}
+Groote, J.F., van Vlijmen, S.F., Koorn, J.W.: The safety guaranteeing system at
+  station hoorn-kersenboogerd. In: COMPASS'95 Proceedings of the Tenth Annual
+  Conference on Computer Assurance Systems Integrity, Software Safety and
+  Process Security'. pp. 57--68. IEEE (1995)
+
+\bibitem{gu2017deep}
+Gu, S., Holly, E., Lillicrap, T., Levine, S.: Deep reinforcement learning for
+  robotic manipulation with asynchronous off-policy updates. In: 2017 IEEE
+  international conference on robotics and automation (ICRA). pp. 3389--3396.
+  IEEE (2017)
+
+\bibitem{haarnoja2018soft}
+Haarnoja, T., Zhou, A., Abbeel, P., Levine, S.: Soft actor-critic: Off-policy
+  maximum entropy deep reinforcement learning with a stochastic actor (2018)
+
+\bibitem{haxthausen2008modelling}
+Haxthausen, A.E., Bliguet, M.L., Kj{\ae}r, A.A.: Modelling and verification of
+  relay interlocking systems. In: Monterey Workshop. pp. 141--153. Springer
+  (2008)
+
+\bibitem{hoffman2020acme}
+Hoffman, M., Shahriari, B., Aslanides, J., Barth-Maron, G., Behbahani, F.,
+  Norman, T., Abdolmaleki, A., Cassirer, A., Yang, F., Baumli, K., et~al.:
+  Acme: A research framework for distributed reinforcement learning. arXiv
+  preprint arXiv:2006.00979  (2020)
+
+\bibitem{houthooft2017vime}
+Houthooft, R., Chen, X., Duan, Y., Schulman, J., Turck, F.D., Abbeel, P.: Vime:
+  Variational information maximizing exploration (2017)
+
+\bibitem{james2013verification}
+James, P., Lawrence, A., Moller, F., Roggenbach, M., Seisenberger, M., Setzer,
+  A., Kanso, K., Chadwick, S.: Verification of solid state interlocking
+  programs. In: International Conference on Software Engineering and Formal
+  Methods. pp. 253--268. Springer (2013)
+
+\bibitem{kakade2001natural}
+Kakade, S.M.: A natural policy gradient. Advances in neural information
+  processing systems  \textbf{14} (2001)
+
+\bibitem{kanso2009automated}
+Kanso, K., Moller, F., Setzer, A.: Automated verification of signalling
+  principles in railway interlocking systems. Electronic Notes in Theoretical
+  Computer Science  \textbf{250}(2),  19--31 (2009)
+
+\bibitem{lecun2015deep}
+LeCun, Y., Bengio, Y., Hinton, G.: Deep learning. nature  \textbf{521}(7553),
+  436--444 (2015)
+
+\bibitem{manchanda2019learning}
+Manchanda, S., Mittal, A., Dhawan, A., Medya, S., Ranu, S., Singh, A.: Learning
+  heuristics over large graphs via deep reinforcement learning. arXiv preprint
+  arXiv:1903.03332  (2019)
+
+\bibitem{mazyavkina2021reinforcement}
+Mazyavkina, N., Sviridov, S., Ivanov, S., Burnaev, E.: Reinforcement learning
+  for combinatorial optimization: A survey. Computers \& Operations Research
+  \textbf{134},  105400 (2021)
+
+\bibitem{mnih2016asynchronous}
+Mnih, V., Badia, A.P., Mirza, M., Graves, A., Lillicrap, T.P., Harley, T.,
+  Silver, D., Kavukcuoglu, K.: Asynchronous methods for deep reinforcement
+  learning (2016)
+
+\bibitem{mnih2013playing}
+Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra,
+  D., Riedmiller, M.: Playing atari with deep reinforcement learning. arXiv
+  preprint arXiv:1312.5602  (2013)
+
+\bibitem{ostrovski2017countbased}
+Ostrovski, G., Bellemare, M.G., van~den Oord, A., Munos, R.: Count-based
+  exploration with neural density models (2017)
+
+\bibitem{schaul2015prioritized}
+Schaul, T., Quan, J., Antonoglou, I., Silver, D.: Prioritized experience
+  replay. arXiv preprint arXiv:1511.05952  (2015)
+
+\bibitem{schulman2017trust}
+Schulman, J., Levine, S., Moritz, P., Jordan, M.I., Abbeel, P.: Trust region
+  policy optimization (2017)
+
+\bibitem{schulman2017proximal}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
+  policy optimization algorithms (2017)
+
+\bibitem{silver2016mastering}
+Silver, D., Huang, A., Maddison, C.J., Guez, A., Sifre, L., Van Den~Driessche,
+  G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V., Lanctot, M.,
+  et~al.: Mastering the game of go with deep neural networks and tree search.
+  nature  \textbf{529}(7587),  484--489 (2016)
+
+\bibitem{sutton2018reinforcement}
+Sutton, R.S., Barto, A.G.: Reinforcement learning: An introduction. MIT press
+  (2018)
+
+\bibitem{vinyals2019grandmaster}
+Vinyals, O., Babuschkin, I., Czarnecki, W.M., Mathieu, M., Dudzik, A., Chung,
+  J., Choi, D.H., Powell, R., Ewalds, T., Georgiev, P., et~al.: Grandmaster
+  level in starcraft ii using multi-agent reinforcement learning. Nature
+  \textbf{575}(7782),  350--354 (2019)
+
+\bibitem{wang2017sample}
+Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuoglu, K.,
+  de~Freitas, N.: Sample efficient actor-critic with experience replay (2017)
+
+\bibitem{watkins1992q}
+Watkins, C.J., Dayan, P.: Q-learning. Machine learning  \textbf{8}(3),
+  279--292 (1992)
+
+\end{thebibliography}

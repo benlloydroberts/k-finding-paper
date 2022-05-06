@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.28)  11 FEB 2022 23:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.8.28)  6 MAY 2022 10:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -291,42 +291,47 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@lastruleclass=\count286
 \@thisrulewidth=\dimen182
 )
+(/usr/share/texlive/texmf-dist/tex/latex/todo/todo.sty
+Package: todo 2010/03/31 v2.4142 To-do list (Federico Garcia)
+\@todotoks=\toks26
+\c@todo=\count287
+)
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count287
+\l__kernel_color_stack_int=\count288
 \l__pdf_internal_box=\box97
 )
 (./samplepaper.aux)
 \openout1 = `samplepaper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count288
+\scratchcounter=\count289
 \scratchdimen=\dimen183
 \scratchbox=\box98
-\nofMPsegments=\count289
-\nofMParguments=\count290
-\everyMPshowfont=\toks26
-\MPscratchCnt=\count291
+\nofMPsegments=\count290
+\nofMParguments=\count291
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count292
 \MPscratchDim=\dimen184
-\MPnumerator=\count292
-\makeMPintoPDFobject=\count293
-\everyMPtoPDFconversion=\toks27
+\MPnumerator=\count293
+\makeMPintoPDFobject=\count294
+\everyMPtoPDFconversion=\toks28
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -336,55 +341,39 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 43.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 43.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 
-42.
-LaTeX Font Info:    No file OMScmtt.fd. on input line 42.
+43.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 43.
 
 
 LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 42.
+(Font)              for symbol `textbraceleft' on input line 43.
 
 Title too long for running head. Please supply
 a shorter form with \titlerunning prior to \maketitle
 
-Overfull \hbox (15.2937pt too wide) in paragraph at lines 45--46
+Overfull \hbox (2.44656pt too wide) in paragraph at lines 46--47
 []\OT1/cmr/m/n/9 The ap-pli-ca-tion of for-mal meth-ods, in par-tic-u-lar model
--checking,
+ check-
  []
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (24.87715pt too wide) in paragraph at lines 96--97
-\OT1/cmr/m/n/10 elling se-quen-tial de-ci-sion mak-ing prob-lems as the op-ti-m
-al con-trol of some incompletely-
- []
-
-[2] [3]
-Overfull \hbox (24.56976pt too wide) in paragraph at lines 123--124
-\OT1/cmr/m/n/10 Logic pro-gram. A Lad-der Logic MDP $\OML/cmm/m/it/10 M\OT1/cmr
-/m/n/10 (\OML/cmm/m/it/10  \OT1/cmr/m/n/10 )$ is a five tu-ple $\OMS/cmsy/m/n/1
-0 h\OML/cmm/m/it/10 S; \OMS/cmsy/m/n/10 A\OML/cmm/m/it/10 ; P[]\OT1/cmr/m/n/10 
-(\OML/cmm/m/it/10 s; s[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; R[]\OT1/cmr/m/n/10 
-(\OML/cmm/m/it/10 s; s[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; ^^M\OT1/cmr/m/n/10 
-)\OMS/cmsy/m/n/10 i$\OT1/cmr/m/n/10 ,
- []
-
-
-Overfull \hbox (0.5854pt too wide) in paragraph at lines 143--144
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+Overfull \hbox (0.5854pt too wide) in paragraph at lines 139--140
 \OT1/cmr/m/n/10 Given ex-haus-tive search of large state spaces is of-ten com-p
 u-ta-tion-ally in-tractable,
  []
@@ -393,11 +382,8 @@ u-ta-tion-ally in-tractable,
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \vbox (badness 3343) has occurred while \output is active []
-
- [5]
-Overfull \hbox (0.65494pt too wide) in paragraph at lines 217--218
+[5]
+Overfull \hbox (0.65494pt too wide) in paragraph at lines 209--210
 \OT1/cmr/m/n/10 pre-dom-i-nantly con-cern-ing learn-ing sta-bil-ity, sam-ple ef
 -fi-ciency and train-ing speed.
  []
@@ -408,36 +394,34 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 3084 strings out of 483183
- 39362 string characters out of 5966292
- 295819 words of memory out of 5000000
- 18056 multiletter control sequences out of 15000+600000
- 544519 words of font info for 69 fonts, out of 8000000 for 9000
+ 3127 strings out of 483183
+ 39948 string characters out of 5966292
+ 298251 words of memory out of 5000000
+ 18101 multiletter control sequences out of 15000+600000
+ 541444 words of font info for 58 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 32i,16n,31p,852b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 32i,16n,31p,943b,318s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/skaff/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm0900.600
 pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on samplepaper.pdf (8 pages, 227552 bytes).
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on samplepaper.pdf (8 pages, 215066 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
- 81 compressed objects within 1 object stream
+ 104 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -437,8 +437,14 @@ In this work, we firstly formulate the theoretical and practical frameworks to r
 \section{Preliminaries}\label{sec:preliminaries}
 We now briefly discuss both model checking of railway interlockings and reinforcement learning. For further details we refer the reader to \cite{kanso2009automated, james2013verification} and \cite{mnih2016asynchronous} respectively.
 
+\subsection{Ladder Logic \& Interlockings}
+\todo{Brief overview of ladder logic structure?}
+
+\subsection{Verification in the Railway}
+\todo{Overview of verification attempts in railway domain}
+
 \subsection{Bounded Model Checking and Invariants}
-\todo[inline]{Add specifics of BMC, Ladder logic and interlockings }
+\todo{Add specifics of BMC and interlockings }
 Model checking is a formal verification technique stemming from the need to systematically
 check whether certain properties hold for different configurations (states) of a given system.
 Given a finite transition system $T$ and a formula $F$, model checking attempts to verify through refutation that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. 
@@ -467,7 +473,7 @@ Throughout this work we have used asynchronous advantage actor-critic (A3C) to e
 
 \section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
 For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al.~\cite{kanso2009automated} and James et al.~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining an  learning environment. \todo{Explain why the LTS in James et al. [17] uses four transition but our version doesn't}
-\
+\subsection{Modelling Ladder Logic}
 The semantics of a ladder logic program is defined as a function of input and output variable valuations \todo{Describe 3-tuple for LTS} label :
 \begin{math}
 	[\psi] : V_I \times V_C \to V_C 
@@ -491,6 +497,7 @@ A Ladder Logic labelled transition system $LTS(\psi)$ is defined as the three tu
 
 where the function $init()$ produces the initial valuation of variables $\mu_C$, setting all as false.\\
 
+\subsection{Markov Decision Process}
 We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent Ladder Logic program. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 \begin{itemize}
 	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
@@ -506,6 +513,13 @@ Given invariant properties hold for some subregion of program states, we aim to 
 
 For practicality, each environment has an associated max number of episodes $T_{\max}$ to constrain runtime. We utilise two forms of early termination to avoid superfluous training. First, if worker performance curves converges to some local minima. Second, if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
 
+\section{Related Work}
+Here we briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
+
+\subsection{Invariant Finding}
+\todo{}
+
+\subsection{Reinforcement Learning}
 
 \section{Results}
 We now present a set of results from applying our approach to a series of generated Ladder Logic programs, modelled as learning environments. 
@@ -516,8 +530,8 @@ Given exhaustive search of large state spaces is often computationally intractab
 
 \subsection{Discussion}
 \todo{Elaborate on the efficacy of approach - is it actually promising?}
-\todo{Verify whether coverage metrics generalise to real world problems}
-\todo{Compare existing BCM approaches to learning heuristic}
+\todo{Add results on some Loch Ness interlocking examples}
+\todo{Compare existing BCM approaches to learning heuristic?}
 Preliminary results applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each Ladder Logic program. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
 
 Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. \todo{Fix scientific notation} This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
@@ -647,12 +661,7 @@ Applying IMPALA~\cite{espeholt2018impala} to improve both sample efficiency over
   % regular IEEE prefers the singular form
   \section*{Acknowledgment}
 \fi
-We thank Tom Werner and Andrew Lawrence at Siemens Mobility UK \& EPSRC for their support in these works
-
-
-
-
-\newpage
+We thank Tom Werner and Andrew Lawrence at Siemens Mobility UK \& EPSRC for their support in these works.
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
 % adjust value as needed - may need to be readjusted if

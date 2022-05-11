@@ -410,11 +410,22 @@ The application of formal methods, in particular model checking, to verify inter
 
 Interlockings serve as a filter or ‘safety layer’ between inputs from railway operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
 (SIL4) according to the CENELEC 50128 standard. The application of model checking
-to Ladder Logic programs in order to verify interlockings is well established within
+to Ladder Logic programs (LLPs) in order to verify interlockings is well established within
 academia and is beginning to see real applications in industry.  
 
-% This isn't really true
-In this work, we first propose a theoretical and practical framework for navigating state space representations of ladder logic programs as a goal-orientated reinforcement learning task. Software agents are encouraged to maximise state space coverage by finding the max acyclic subgraph for a given interlocking program. During the agent's exploration phase state sequences are generated, from which we eventually hope to mine invariant properties. 
+
+% Builing on existing approaches to model ladder logic dynamics
+% Use of LLP semantics to extract its inputs / outputs to model state transitions 
+% Provides an interactive environment for software agents (vars comprise the state and inputs the means to move between them)
+% RL provides a sensible inerface for learning patterns over finite graph structures where software agents have autonomy in how they choose to interact with the model, based on a rather simplistic reward scheme and reset logic
+% Probabilistic methods won't provide guarantees of completeness but may be able to provide useful heuristics for more comprehensive verification approaches
+% Our aim is to incentivise agents to explore long sequences of novel states for state coverage maximisation.
+% Motivation for this is two-fold:
+% (1) Invariants should hold for substanital subregions or entirety of LLP's reachable state space, therfore agents should try to observe as many unique states / transitions as possible. (they may also hold for unreachable states but we're not interested in them)
+% (2) Agent behaviour molded by reward scheme (and some other optional variables) and this must reflect our coverage objective - agents must be rewarded for discovering new states and penalised for state loops (they've potential to get stuck in subregions otherwise and will soley rely on any explorative parameters during training).
+% Exploration phase then automatically generates a dataset of state sequences (known as trajectories) from which we hope to mine invariant properties.
+
+In this work we build upon existing techniques in modelling LLP dynamics. First we propose a theoretical and practical framework for navigating state space representations of LLPs as a goal-orientated reinforcement learning task. Paired with selective reset logic during the training phase, see section \ref{subsect:MDP}, software agents are incentivised to maximise state space coverage by pursuing sequences of unobserved states, i.e the max acyclic subgraph, for a given interlocking program.   During the agent's exploration phase state sequences are generated, from which we eventually hope to mine invariant properties. 
 
  \todo{Elaborate on invariant finding problem}
 
@@ -425,6 +436,7 @@ We now briefly discuss  model checking of railway interlockings and reinforcemen
 
 \subsection{Ladder Logic \& Interlockings}
 \todo{Brief overview of ladder logic structure?}
+% Def 1 from 
 
 \subsection{Verification in the Railway}
 \todo{Overview of verification attempts in railway domain}
@@ -458,7 +470,7 @@ experienced engineer. Here, one solution that is proposed~\cite{1688959} is to i
 literature. From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
-Reinforcement Learning (RL) is a popular machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known environment $\mathcal{E}$, implemented as a Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. Given a user defined environment, a set of actions $\mathcal{A}$, performable over discrete time steps $t$, a state transition function $f : S \times \mathcal{A} \to S^{+}$ and a scalar reward signal $r_t$, software agents aim to optimise a behaviour function known as the policy $\pi$, mapping MDP states to optimal actions likely to maximise cumulative rewards over time. We refer to the summary reward objective as the \textit{expected return}, $\mathbb{E}=[G_t | S_t = s, A_t = a]$, an empirical average over future \textit{discounted returns} from the current time step $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$. Here, $T$ refers to a terminal time step where simulation ends according to some stopping criteria. Thereafter, learning may conclude having achieved adequate performance or resume from some initial state following an environment reset. The discount factor $\gamma \in [0,1]$ applies to successive rewards at each time step to help enumerate returns over a potentially infinite horizon. Policies may be deterministic $\pi(s)$ or stochastic $\pi(a|s)$ depending on the environment, task and learning algorithm. Simulations are characterised as continuous or episodic depending on the learned task, and summarised by a sequence of states, actions and rewards known as the trajectory $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_T, a_T, r_T)$.
+Reinforcement Learning (RL) is a popular machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. This user defined \textit{environment}, $\mathcal{E}$, comprises a set of unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{+}$ and a scalar reward signal $r_t$. States, actions and rewards are measured over discrete time steps $t$, where simulations are summarised through the \textit{trajectory}, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, where $h$ refers to the \textit{horizon}, a time step beyond which rewards are no longer considered. Through repeated simulations, software agents aim to optimise a deterministic or stochastic behaviour function known as the policy, denoted $\pi(s)$ or  $\pi(a|s)$ respectively, mapping MDP states to optimal actions expected to maximise cumulative rewards over time. We refer to the summary reward objective as the \textit{expected return}, $\mathbb{E}=[G_t | S_t = s, A_t = a]$, an empirical average taken over future \textit{discounted returns} from the current time step $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$. Here, $T$ refers to a terminal time step where simulation ends according to some stopping criteria. Thereafter, learning may conclude having achieved adequate performance or resume from some initial state following an environment reset. The discount factor $\gamma \in [0,1]$ applies to successive rewards at each time step to help enumerate returns over a potentially infinite horizon. 
 
 Resurgence in RL research over the last decade has seen applications in games~\cite{schaul2015prioritized, silver2016mastering, vinyals2019grandmaster}, robotics~\cite{gu2017deep, bloesch2022towards} and operations research~\cite{mazyavkina2021reinforcement} and can be attributed to the fusion of existing methods~\cite{watkins1992q} with powerful approximate learning techniques~\cite{lecun2015deep} following the advent of deep learning~\cite{mnih2013playing}. Subsequent popularity in deep reinforcement learning (DRL) gave rise to improvements of historic methods~\cite{schulman2017trust}. Actor-Critic methods, combining policy learning~\cite{kakade2001natural} and value function approximation saw particular successes in establishing state-of-the-art performance~\cite{schulman2017proximal}.
 
@@ -470,7 +482,7 @@ Throughout this work we have used asynchronous advantage actor-critic (A3C) to e
 \section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
 For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al.~\cite{kanso2009automated} and James et al.~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining an  learning environment. \todo{Explain why the LTS in James et al. [17] uses four elements (transition label) but our version doesn't}
 \subsection{Modelling Ladder Logic}
-The semantics of a ladder logic program is defined as a function of input and output variable valuations \todo{Describe 3-tuple for LTS} label :
+The semantics of a ladder logic program (LLP) is defined as a function of input and output variable valuations \todo{Describe 3-tuple for LTS} label :
 \begin{math}
 	[\psi] : V_I \times V_C \to V_C 
 \end{math}
@@ -478,7 +490,7 @@ The semantics of a ladder logic program is defined as a function of input and ou
  \begin{math}
  	\psi(\mu_I, \mu_C) = \mu_{C^\prime}
  \end{math}, where
-
+-
 \begin{align}
 \mu_{C^\prime}(c_i) = [\psi](\mu_I, \{c_i,...,c_n\}, \{c^\prime_1,...,c^\prime_{i-1}\}) \\
 \mu_{C^\prime}(c) = \mu_C \ \mathbf{if} \ c \notin \{c_1,...,c_n\}
@@ -493,8 +505,8 @@ A Ladder Logic labelled transition system $LTS(\psi)$ is defined as the three tu
 
 where the function $init()$ produces the initial valuation of variables $\mu_C$, setting all as false.\\
 
-\subsection{Ladder Logic Markov Decision Process}
-We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent Ladder Logic program. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
+\subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP}
+We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 \begin{itemize}
 	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
 	\item $\mathcal{A} = V_I$, describes the action space; a set of formally defined actions which change the observation space
@@ -503,7 +515,7 @@ We now define the finite Markov Decision Process (MDP), or environment $\mathcal
 	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
 \end{itemize}
 
-Subsequently the environment unfolds as a set of reachable states for the respective Ladder Logic program. As workers improve their value estimates according to the reward function, a balance is maintained between stochastic action sampling for exploration and best predictions from the policy network.
+Subsequently the environment unfolds as a set of reachable states for the respective LLP. As workers improve their value estimates according to the reward function, a balance is maintained between stochastic action sampling for exploration and best predictions from the policy network.
 
 Given invariant properties hold for some subregion of program states, we aim to reinforce exploration to maximise MDP coverage. In light of this, we influence agents to pursue the longest loop free path, or max $k$ value for Bounded Model Checking. Consequently we design a reward scheme which positively rewards sequences of novel observations. Inversely, negative rewards are issued for repeated observations within the same training episodes. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences.    
 
@@ -519,17 +531,17 @@ Here we briefly highlight key contributions within related literature, addressin
 Existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures~\cite{manchanda2019learning}, distributing learning for accelerated performance~\cite{hoffman2020acme} and prioritising novelty when exploration unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
 
 \section{Results}
-We now present a set of results from applying our approach to a series of generated Ladder Logic programs, modelled as learning environments. 
+We now present a set of results from applying our approach to a series of generated LLPs, modelled as learning environments. 
 \subsection{Environment Generation}
 
-Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
+Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of LLPs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
 
 
 \subsection{Discussion}
 \todo{Elaborate on the efficacy of approach - is it actually promising?}
 \todo{Add results on some Loch Ness interlocking examples}
 \todo{Compare existing BCM approaches to learning heuristic?}
-Preliminary results applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each Ladder Logic program. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
+Preliminary results applying our approach to a number of generated programs are outlined in Table~\ref{tab:results}. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each LLP. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
 
 Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. \todo{Fix scientific notation} This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
 

@@ -21,6 +21,23 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{kanso2009automated}
+K.~Kanso, F.~Moller, and A.~Setzer, ``Automated verification of signalling
+  principles in railway interlocking systems,'' \emph{Electronic Notes in
+  Theoretical Computer Science}, vol. 250, no.~2, pp. 19--31, 2009.
+
+\bibitem{james2013verification}
+P.~James, A.~Lawrence, F.~Moller, M.~Roggenbach, M.~Seisenberger, A.~Setzer,
+  K.~Kanso, and S.~Chadwick, ``Verification of solid state interlocking
+  programs,'' in \emph{International Conference on Software Engineering and
+  Formal Methods}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2013, pp.
+  253--268.
+
+\bibitem{mnih2016asynchronous}
+V.~Mnih, A.~P. Badia, M.~Mirza, A.~Graves, T.~P. Lillicrap, T.~Harley,
+  D.~Silver, and K.~Kavukcuoglu, ``Asynchronous methods for deep reinforcement
+  learning,'' 2016.
+
 \bibitem{groote1995safety}
 J.~F. Groote, S.~F. van Vlijmen, and J.~W. Koorn, ``The safety guaranteeing
   system at station hoorn-kersenboogerd,'' in \emph{COMPASS'95 Proceedings of
@@ -48,23 +65,6 @@ A.~E. Haxthausen, M.~L. Bliguet, and A.~A. Kj{\ae}r, ``Modelling and
   verification of relay interlocking systems,'' in \emph{Monterey
   Workshop}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2008, pp.
   141--153.
-
-\bibitem{kanso2009automated}
-K.~Kanso, F.~Moller, and A.~Setzer, ``Automated verification of signalling
-  principles in railway interlocking systems,'' \emph{Electronic Notes in
-  Theoretical Computer Science}, vol. 250, no.~2, pp. 19--31, 2009.
-
-\bibitem{james2013verification}
-P.~James, A.~Lawrence, F.~Moller, M.~Roggenbach, M.~Seisenberger, A.~Setzer,
-  K.~Kanso, and S.~Chadwick, ``Verification of solid state interlocking
-  programs,'' in \emph{International Conference on Software Engineering and
-  Formal Methods}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2013, pp.
-  253--268.
-
-\bibitem{mnih2016asynchronous}
-V.~Mnih, A.~P. Badia, M.~Mirza, A.~Graves, T.~P. Lillicrap, T.~Harley,
-  D.~Silver, and K.~Kavukcuoglu, ``Asynchronous methods for deep reinforcement
-  learning,'' 2016.
 
 \bibitem{1688959}
 M.~Awedh and F.~Somenzi, ``Automatic invariant strengthening to prove
@@ -139,17 +139,62 @@ V.~Mnih, K.~Kavukcuoglu, D.~Silver, A.~Graves, I.~Antonoglou, D.~Wierstra, and
   M.~Riedmiller, ``Playing atari with deep reinforcement learning,''
   \emph{arXiv preprint arXiv:1312.5602}, 2013.
 
-\bibitem{schulman2017trust}
-J.~Schulman, S.~Levine, P.~Moritz, M.~I. Jordan, and P.~Abbeel, ``Trust region
-  policy optimization,'' 2017.
-
 \bibitem{kakade2001natural}
 S.~M. Kakade, ``A natural policy gradient,'' \emph{Advances in neural
   information processing systems}, vol.~14, 2001.
 
+\bibitem{schulman2017trust}
+J.~Schulman, S.~Levine, P.~Moritz, M.~I. Jordan, and P.~Abbeel, ``Trust region
+  policy optimization,'' 2017.
+
 \bibitem{schulman2017proximal}
 J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov, ``Proximal
   policy optimization algorithms,'' 2017.
+
+\bibitem{gordillo2021improving}
+C.~Gordillo, J.~Bergdahl, K.~Tollmar, and L.~Gissl{\'e}n, ``Improving
+  playtesting coverage via curiosity driven reinforcement learning agents,''
+  \emph{arXiv preprint arXiv:2103.13798}, 2021.
+
+\bibitem{9231552}
+J.~Bergdahl, C.~Gordillo, K.~Tollmar, and L.~Gisslén, ``Augmenting automated
+  game testing with deep reinforcement learning,'' in \emph{2020 IEEE
+  Conference on Games (CoG)}, 2020, pp. 600--603.
+
+\bibitem{9678703}
+Y.~Cao, Y.~Zheng, S.-W. Lin, Y.~Liu, Y.~S. Teo, Y.~Toh, and V.~V. Adiga,
+  ``Automatic hmi structure exploration via curiosity-based reinforcement
+  learning,'' in \emph{2021 36th IEEE/ACM International Conference on Automated
+  Software Engineering (ASE)}, 2021, pp. 1151--1155.
+
+\bibitem{9402046}
+Y.~Zheng, Y.~Liu, X.~Xie, Y.~Liu, L.~Ma, J.~Hao, and Y.~Liu, ``Automatic web
+  testing using curiosity-driven reinforcement learning,'' in \emph{2021
+  IEEE/ACM 43rd International Conference on Software Engineering (ICSE)}, 2021,
+  pp. 423--435.
+
+\bibitem{9476756}
+A.~Peake, J.~McCalmon, Y.~Zhang, D.~Myers, S.~Alqahtani, and P.~Pauca, ``Deep
+  reinforcement learning for adaptive exploration of unknown environments,'' in
+  \emph{2021 International Conference on Unmanned Aircraft Systems (ICUAS)},
+  2021, pp. 265--274.
+
+\bibitem{s21041067}
+\BIBentryALTinterwordspacing
+K.~G.~S. Apuroop, A.~V. Le, M.~R. Elara, and B.~J. Sheu, ``Reinforcement
+  learning-based complete area coverage path planning for a modified htrihex
+  robot,'' \emph{Sensors}, vol.~21, no.~4, 2021. [Online]. Available:
+  \url{https://www.mdpi.com/1424-8220/21/4/1067}
+\BIBentrySTDinterwordspacing
+
+\bibitem{electronics10222751}
+\BIBentryALTinterwordspacing
+D.~I. Koutras, A.~C. Kapoutsis, A.~A. Amanatiadis, and E.~B. Kosmatopoulos,
+  ``Marsexplorer: Exploration of unknown terrains via deep reinforcement
+  learning and procedurally generated environments,'' \emph{Electronics},
+  vol.~10, no.~22, 2021. [Online]. Available:
+  \url{https://www.mdpi.com/2079-9292/10/22/2751}
+\BIBentrySTDinterwordspacing
 
 \bibitem{manchanda2019learning}
 S.~Manchanda, A.~Mittal, A.~Dhawan, S.~Medya, S.~Ranu, and A.~Singh, ``Learning
@@ -169,11 +214,6 @@ G.~Ostrovski, M.~G. Bellemare, A.~van~den Oord, and R.~Munos, ``Count-based
 \bibitem{haarnoja2018soft}
 T.~Haarnoja, A.~Zhou, P.~Abbeel, and S.~Levine, ``Soft actor-critic: Off-policy
   maximum entropy deep reinforcement learning with a stochastic actor,'' 2018.
-
-\bibitem{gordillo2021improving}
-C.~Gordillo, J.~Bergdahl, K.~Tollmar, and L.~Gissl{\'e}n, ``Improving
-  playtesting coverage via curiosity driven reinforcement learning agents,''
-  \emph{arXiv preprint arXiv:2103.13798}, 2021.
 
 \bibitem{wang2017sample}
 Z.~Wang, V.~Bapst, N.~Heess, V.~Mnih, R.~Munos, K.~Kavukcuoglu, and

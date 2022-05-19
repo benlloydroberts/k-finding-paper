@@ -175,7 +175,7 @@
 
 % *** MATH PACKAGES ***
 %
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath, amssymb, enumitem}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics.
 %
@@ -421,9 +421,22 @@ The application of formal methods, in particular model checking, to verify inter
 % (2) Agent behaviour molded by reward scheme (and some other optional variables) and this must reflect our coverage objective - agents must be rewarded for discovering new states and penalised for state loops (they've potential to get stuck in subregions otherwise and will soley rely on any explorative parameters during training).
 % Exploration phase then automatically generates a dataset of state sequences (known as trajectories) from which we hope to mine invariant properties.
 
-In this work we build upon existing techniques in modelling LLP dynamics. First we propose a theoretical and practical framework for navigating state space representations of LLPs as a goal-orientated reinforcement learning task. Paired with selective reset logic during the training phase, see section \ref{subsect:MDP}, software agents are incentivised to maximise state space coverage by pursuing sequences of unobserved states, i.e the max acyclic subgraph, for a given interlocking program.   During the agent's exploration phase state sequences are generated, from which we eventually hope to mine invariant properties. 
 
- \todo{Elaborate on invariant finding problem}
+
+Model checking is a formal verification technique stemming from the need to systematically
+check whether certain properties hold for different configurations (states) of a given system.
+Given a transition system $T$ and a formula (or property) $F$, model checking attempts to verify through refutation that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. 
+
+The application of model checking in order to verify railway interlockings is well established within
+academia and is beginning to see real applications in industry. As early as 1995, Groote
+et al. ~\cite{groote1995safety} applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. Newer approaches to interlocking verification have also been proposed in recent
+years ~\cite{fantechi2012some, ferrari2011model, haxthausen2008modelling}. This includes work by Linh et al. which explores the verification
+of interlockings written in a similar language to Ladder Logic using SAT-based model
+checking. In spite of this, such approaches still lack widespread use within the Rail industry. 
+
+In particular, one of the limitations of such model checking solutions is that verification can fail due to over approximation, typically when using techniques such as inductive verification~\cite{}. Inductive verification fails to consider whether system states which violate a given property are indeed reachable by the system from a defined intital configuration. These false positive  often require manual inspection. One solution is to introduce so-called invariants to suppress false positives~\cite{1688959}. Invariants are properties that hold for sub-regions of the state space. The aim is to introduce invariants that help bound the region of reachable states when model checking. However generating sufficiently strong invariants automatically is complex~\cite{}. 
+
+In this work we take first steps towards using machine learning to generate invariants by providing a first formnal mapping of interlocking based state spaces to a machine learning environment. We then explore how such state spaces can be generated in a controlled manner to provide data for reinforcement learning based approaches. Finally we provide an analysis of how various reinforcement learning algorithms can be used to effectively explore state sapces in terms of coverage. We see this as a first step towards mining invariants from such state spaces, as such an approach would indeed require reasonable coverage. Finally we reflect upon future steps on modifying our approach to learn invariants.
 
 
 
@@ -434,8 +447,8 @@ We now briefly discuss  model checking of railway interlockings and reinforcemen
 Interlockings serve as a filter or ‘safety layer’ between inputs from railway operators, such as route setting requests, ensuring proposed changes to the current railway state avoid safety conflicts. As a vital part of any railway signalling system, interlockings are critical systems regarded with the highest safety integrity level
 (SIL4) according to the CENELEC 50128 standard. 
 
-Ladder logic is a graphical language widely used to program Programmable Lofic Controllers\cite{IECstandard} and in partiuclar the Siemens interlocking systems we consider in this work. Ladder logic gets its name from its graphical ``ladder''-like form of the graphical programs that are written.  From an abstract perspective, ladder logic diagrams can be seen to represent
-propositional formulae, here we follow the definition of James et al|\cite{sefm14}. A ladder logic rung consists of the following entities.
+Ladder logic is a graphical language widely used to program Programmable Logic Controllers\cite{IECstandard} and in partiuclar the Siemens interlocking systems we consider in this work. From an abstract perspective, ladder logic diagrams can be represented as
+propositional formulae. Here we follow the definition of James et al|\cite{sefm14}. A ladder logic rung consists of the following entities.
 %(see~\fig{ladderconnectives}).
 \emph{Coils}
 %are used to
@@ -455,152 +468,73 @@ represents logical disjunction.
 
 A interlocking executes such a program froim top-to-bottom over and over, indefinitely.
 
-More formally, a ladder logic program is constructed in terms of disjoint finite sets
-$I$ and $C$ of input and output variables. In our example in
-Fig.~\ref{fig:pelicanladder}, we have $I=\{pressed\}$ and $C =
-\{crossing, req, tlag, tlbg, tlar, tlbr, plag, plbg, plar, plbr\}$.
-We define $C' = \{ c' \, | \, c \in C \}$ to be a set of new variables
-(intended to denote the output variables computed in the current
-cycle).
+More formally, following~\cite{sefm14} a ladder logic program is constructed in terms of disjoint finite sets
+$I$ and $C$ of input and output/state variables. We define $C' = \{ c' \, | \, c \in C \}$ to be a set of new variables
+in order to denote the output variables computed by the interlocking in the current
+cycle.
 
-\textbf{Definition:Ladder Logic Formulae}\todo{make definition}
-A ladder logic formula $\psi$ is a propositional formula 
-%composed from a set of input variables $I$ and a
-%set of output variables $C$ that satisfies the following conditions:
-of the form
+\textit{Defn 1. Ladder Logic Formulae:}
+A ladder logic formula $\psi$ is a propositional formula of the form
 $$\psi \equiv ((c'_1 \leftrightarrow \psi_1) \wedge (c'_2 \leftrightarrow
 \psi_2) \wedge  \ldots \wedge (c'_n \leftrightarrow \psi_n)$$ 
-%
-%For some $n \geq 0$ where each $\psi_i$  with $1 \leq i \leq n$ is a
-%propositional formula which has the following form.
+Where each conjunct represents a rung of the ladder,
 such that the following holds for all $i,j\in \{1,\ldots,n\}$:
 \begin{itemize}
-\item $c'_i \in C'$
-\item $i \neq j \rightarrow c'_i \neq c'_j$
-\item $vars(\psi_i) \subseteq I \cup  \{c'_1, \ldots, c'_{i-1} \} \cup \{ c_i, \ldots , c_n \}$
+\item $c'_i \in C'$ (i.e. c' is a coil)
+\item $i \neq j \rightarrow c'_i \neq c'_j$ (i.e. coils are unique)
+\item $vars(\psi_i) \subseteq I \cup  \{c'_1, \ldots, c'_{i-1} \} \cup \{ c_i, \ldots , c_n \}$ (i.e. the output variable $c_i'$ of  each rung $\psi_i$, may depend on  $\{ c_i, \ldots , c_n \}$ from the previous cycle, 
+but not on $c_j$ with $j<i$, due to the nature of the ladder logic implementation,
+those values are overridden.)
 \end{itemize}
 
 
-\textbf{Remark:} Note that the output variable $c_i'$
-of  each rung $\psi_i$, may depend on  $\{ c_i, \ldots , c_n \}$ from the previous cycle, 
-but not on $c_j$ with $j<i$, due to the imperative nature of the ladder logic implementation. 
-Those values are overridden.
+\subsection{Transistion Systems and Model Checking for Ladder Logic}
+For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al.~\cite{kanso2009automated} and James et al.~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining a learning environment.
 
+Builiding upon the propositional representation of a ladder logic program given in Section~\ref{}, we can define, following~\cite{sefm14}, the semantics of a ladder logic program in terms of labelled transition systems.
 
-% Def 1 from 
+Let $\{0,1\}$ represent the set of boolean values and let
+\begin{align*}
+ Val_I  &= \{ \mu_I \, | \, \mu_I : I \to \{0 , 1 \} \}  = \{0,1 \}^I   \\
+ Val_C &=  \{ \mu_C \, | \, \mu_C : C \to \{ 0 , 1 \} \} = \{ 0,1 \}^C 
+\end{align*}
+be the sets of valuations for input and output variables.
 
-\subsection{Verification of Interlockings}
+The semantics of a ladder logic formula $\psi$ is a function that takes the two current valuations and returns a new
+valuation for output variables.
+\begin{align*}
+ & [ \psi ] : Val_I \times Val_C \to  Val_C \\
+ & [ \psi ] ( \mu_I, \mu_C ) = \mu'_C 
+\end{align*}
+where $\mu'_C$ is computed as follows: the value of each variable $c_i$ is computed using the $i$th rung of the ladder, $\psi_i$, using the valuations $\mu_C$ and $mu_I$ from the last cycle and the current valuations restricted to those evaluated be fore the current variable. We refer the reader to ~\cite{sefm14} for full details.
 
-Model checking is a formal verification technique stemming from the need to systematically
-check whether certain properties hold for different configurations (states) of a given system.
-Given a finite transition system $T$ and a formula $F$, model checking attempts to verify through refutation that $s \vdash F$ for every system state $s \in T$, such that $T \vdash F$. 
+\textit{Defn 2. Ladder Logic Labelled Transition System:}
+We define the labelled transition system $LTS(\psi)$ for a ladder logic formula $\psi$ as the tuple $(Val_C,Val_I,\rightarrow, Val_0)$ where
+\begin{itemize}
+\item $Val_C = \{ \mu_C | \mu_C : C \to \{ 0 , 1 \} \}$ is a set of states.
+\item $Val_I = \{ \mu_I | \mu_I : I \to \{0 , 1 \} \}$ is a set of transition labels.
+\item $\rightarrow \; \subseteq Val_C \times Val_I \times Val_c $ is a labelled transition relation, where $\mu_C \xrightarrow{\mu_I} \mu'_C$ iff  $[ \psi ] ( \mu_I , \mu_C) = \mu'_C$.
+\item $ Val_0 \subseteq Val_C$ is the set of initial states.
 
-The application of model checking
-to Ladder Logic programs (LLPs) in order to verify interlockings is well established within
-academia and is beginning to see real applications in industry.  As early as 1995, Groote
-et al. ~\cite{groote1995safety} applied formal methods to verify an interlocking for controlling the Hoorn-Kersenbooger railway station. They conjecture the feasibility of verification techniques
-as means of ensuring correctness criteria on larger railway yards. In 1998, Fokkink
-and Hollingshead ~\cite{fokkink1998verification} suggested a systematic translation of Ladder Logic into Boolean
-formulae. Newer approaches to interlocking verification have also been proposed in recent
-years ~\cite{fantechi2012some, ferrari2011model, haxthausen2008modelling}. This includes work by Linh et al. which explores the verification
-of interlockings written in a similar language to Ladder Logic using SAT-based model
-checking. After two decades of research, academic work ~\cite{kanso2009automated, james2013verification} has shown that verification
-approaches for Ladder Logic can indeed scale; in an industrial pilot, Duggan et al. [14] conclude: “Formal proof as a means to verify safety has matured to the point where it
-can be applied for any railway interlocking system.” In spite of this, such approaches still lack widespread use within the Rail industry. 
+\end{itemize}
+%
+We write $ s \xrightarrow{t} s'$ for $(s,t,s')\in R$.
+A state $s$ is called \emph{reachable} if 
+$s_0 \xrightarrow{t_0} s_{1} \xrightarrow{t_1} \ldots 
+\xrightarrow{t_{n-1}} s_n$,  
+for some states $s_0,\ldots, s_{n} \in Val_C$, and 
+labels $t_0, \ldots, t_{n-1} \in Val_I$ such that
+$s_0 \in Val_0$.  
 
-
-In particular, one of the limitations of such model checking solutions is that verification can fail due to over approximation of the model being checked, typically when using techniques such as inductive verification~\cite{}. Such inductive verification checks to see if a given state satisfies some condition but does not consider whether these states which violate
-the same safety condition are reachable by the system. These false positive  counter examples often require manual inspection by an
-experienced engineer. Here, one solution that is proposed~\cite{1688959} is to introduce so-called invariants to suppress false positives. Invariants are properties that hold for sub-regions of the state space. The aim is to introduce invariants that help bound the region of reachable states when model checking. However generating sufficiently strong invariants automatically is a complex task, one which has received considerable attention in academic
-literature. From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success. and in this work we take the first steps towards using machine learning to generate invariant by provided a formnal mapping to machine learning and an analysis of state exploration by various algorithms based around reinforcement learning.
-
-
-\subsubsection{Transistion Systems and Model Checking for Ladded Logic}
-For this work, we have concentrated on trying to produce invariants for the approaches taken by Kanso et al.~\cite{kanso2009automated} and James et al.~\cite{james2013verification}. Here we include their model of ladder logic based railway interlocking programs as we use this as a basis for defining a learning environment. \todo{Explain why the LTS in James et al. [17] uses four elements (transition label) but our version doesn't}
-\subsection{Modelling Ladder Logic}
-Builiding upon the propositional representation of a ladder logic program given in Section~\ref{}.
-
-\textbf{Semantics of Ladder Logic Formulae}
-
-% Let $\{0,1\}$ represent the set of boolean values and let
-% \begin{align*}
-% \Val_I  &= \{ \mu_I \, | \, \mu_I : I \to \{0 , 1 \} \}  = \{0,1 \}^I   \\
-% \Val_C &=  \{ \mu_C \, | \, \mu_C : C \to \{ 0 , 1 \} \} = \{ 0,1 \}^C 
-% \end{align*}
-% be the sets of valuations for input and output variables.
-% The semantics of a ladder logic formula $\psi$ is 
-% a function that takes the two current valuations and returns a new
-% valuation for output variables.
-% %
-% \begin{align*}
-% & [ \psi ] : \Val_I \times \Val_C \to  \Val_C \\
-% & [ \psi ] ( \mu_I, \mu_C ) = \mu'_C 
-% \end{align*}
-% %where $\mu'_C$ is computed as follows: the value of each variable $c_i$ is computed
-% %using the $i$th rung of the ladder, $\psi_i$, using the valuations $\mu_C$ and $mu_I$ %from the last cycle and the current valuations restricted to those evaluated be fore the %current variable. The variable remains constant if it does not corresponding ladder logic %rung.
-% where
-% \begin{align*}
-% &\mu'_C (c_i) = [ \psi_i] ( \mu_I, (\mu_C)_{\upharpoonright
-% \{c_i, \ldots , c_n \}} , (\mu'_C\circ \unprime)_{\upharpoonright
-% \{c'_1, \ldots , c'_{i-1} \}}) \\
-% & \mu'_C(c) = \mu_C(c) \  \textbf{if} \ c \notin \{ c_1, \ldots , c_n \} 
-% \end{align*}
-% and $[ \psi_i](\cdot,\cdot,\cdot)$ denotes the usual value of a propositional formula under a valuation.
-
-
-% Next we make use of the above to form a labelled transition system
-% representing the ladder logic program.
-
-% \textbf{Ladder Logic Labelled transition System}
-% %, reachability]
-% We define the labelled transition system $\rm LTS(\psi)$ for a ladder logic formula $\psi$ to be the four tuple $(\Val_C,\Val_I,\rightarrow, \Val_0)$ 
-% %
-% \vspace{-1ex}
-% \begin{itemize}
-% \item $\Val_C$ is a finite set of states.
-% \vspace{-1ex}
-% \item $\Val_I$ is a finite set of transition labels.
-% \vspace{-1ex}
-% \item $\rightarrow \subseteq S \times T \times S $ is a labelled transition relation.
-% \vspace{-1ex}
-% \item $\Val_0 \subseteq S$ is the set of initial states.
-% \vspace{-1ex}
-% \end{itemize}
-% %
-% We write $ s \xrightarrow{t} s'$ for $(s,t,s')\in R$.
-% A state $s$ is called \emph{reachable} if 
-% $s_0 \xrightarrow{t_0} s_{1} \xrightarrow{t_1} \ldots 
-% \xrightarrow{t_{n-1}} s_n$,  
-% for some states $s_0,\ldots, s_{n} \in S$, and 
-% labels $t_0, \ldots, t_{n-1} \in T$ such that
-% $s_0 \in S_0$ and $s_n = s$.  
-% \end{mydef}
-
-% \begin{mydef}[Ladder Logic Labelled Transition System]
-% We define the labelled transition system $\rm LTS(\psi)$ for a ladder logic formula $\psi$ to be the four tuple $(\Val_C,\Val_I,\rightarrow, \Val_0)$ 
-% %of the  finite set of states $\Val_C$,  a finite set of labels $\Val_I$, a transition relation $\rightarrow \s%ubseteq S \times T \times S$ and a set of initial states $S_0 \subseteq S$ as follows:
-% where
-% \begin{itemize}
-% %\item $\Val_C = \{ \mu_C | \mu_C : C \to \{ 0 , 1 \} \}   $
-% %\item $\Val_I = \{ \mu_I | \mu_I : I \to \{0 , 1 \} \} $
-% \item $\mu_C \xrightarrow{\mu_I} \mu'_C$ iff  $[ \psi ] ( \mu_I ,
-%   \mu_C) = \mu'_C$
-% \item $\Val_0 = \{\mu_C \, | \, \mu_C \mbox{ inital valuation}\}$
-% \end{itemize}
-% \end{mydef}
-
-
-
-
-
-
-
+\todo{add figure example}
 
 \subsection{Reinforcement Learning}
-Reinforcement Learning (RL) is a popular machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. This user defined \textit{environment}, $\mathcal{E}$, comprises a set of unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{\prime}$ and a scalar reward signal $r_t$. States, actions and rewards are measured over discrete time steps $t$, where simulations are summarised through the \textit{trajectory}, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, where $h$ refers to the \textit{horizon}, a time step beyond which rewards are no longer considered. Through repeated simulations, software agents aim to optimise a deterministic or stochastic behaviour function known as the policy, denoted $\pi(s)$ or  $\pi(a|s)$ respectively, mapping MDP states to optimal actions expected to maximise cumulative rewards over time. We refer to the summary reward objective as the \textit{expected return}, $\mathbb{E}=[G_t | S_t = s, A_t = a]$, an empirical average taken over future \textit{discounted returns} from the current time step $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$. Here, $T$ refers to a terminal time step where simulation ends according to some stopping criteria. Thereafter, learning may conclude having achieved adequate performance or resume from some initial state following an environment reset. The discount factor $\gamma \in [0,1]$ applies to successive rewards at each time step to help enumerate returns over a potentially infinite horizon. 
+Reinforcement Learning (RL) is a machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. This user defined \textit{environment}, $\mathcal{E}$, comprises a set of unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{\prime}$ and a scalar reward signal $r_t$. States, actions and rewards are measured over discrete time steps $t$, where simulations are summarised through the \textit{trajectory}, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, where $h$ refers to the \textit{horizon}, a time step beyond which rewards are no longer considered. Through repeated simulations, software agents aim to optimise a deterministic or stochastic behaviour function known as the policy, denoted $\pi(s)$ or  $\pi(a|s)$ respectively, mapping MDP states to optimal actions expected to maximise cumulative rewards over time. We refer to the summary reward objective as the \textit{expected return}, $\mathbb{E}=[G_t | S_t = s, A_t = a]$, an empirical average taken over future \textit{discounted returns} from the current time step $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$. Here, $T$ refers to a terminal time step where simulation ends according to some stopping criteria. Thereafter, learning may conclude having achieved adequate performance or resume from some initial state following an environment reset. The discount factor $\gamma \in [0,1]$ applies to successive rewards at each time step to help enumerate returns over a potentially infinite horizon. 
 
 \todo{Introduce policy, value iteration and actor-critic}
 RL comprises two principle aims - prediction (estimating 'good' states to be in) and control (consistently making decision which maximise performance).\\
+
+\todo{shorten}
 
 Dynamic programming - complete model known, value iteration on full returns
 E.g (policy \& value iteration)\\
@@ -626,6 +560,8 @@ Throughout this work we have used asynchronous advantage actor-critic (A3C) to e
 \section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
 ....
 
+ \todo{Explain why the LTS in James et al. [17] uses four elements, but we ignore ...}
+
 \subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP}
 We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 \begin{itemize}
@@ -646,8 +582,10 @@ For practicality, each environment has an associated max number of episodes $T_{
 \section{Related Work}
 Here we briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
 
+
 \subsection{Invariant Finding}
 \todo{Overview of IC3, other invariant finding techniques for interlockings}
+From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success.
 
 \subsection{Reinforcement Learning}
 Game testing, applied algorithms to 3D environment, postition and player movement used as observations with aim of state coverage for bug finding. FPS paper~\cite{9231552} applies vanilla PPO with no reset logic to identify game exploits. HMI paper ~\cite{9678703} apply curiosity function based on an empirical count of state-action pairs to maximise traversal of state transitions over a deterministiv finite state automaton navigation model. Uses vanilla Q-learning with e-greedy exploration. Similar use in web testing~\cite{9402046} simulate user actions to navigate web application, tracking 'uncertain' state transitions for backtracking. Also use vanilla Q-learning and count-based reward scaling during for Q-function updates. \cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems - adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Others~\cite{s21041067} incorporate recurrent networks in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. ACER algorithm used to make the A3C algorithm off-policy and constrain updates with TRPO like parameter updates. \cite{electronics10222751} apply a range of state-of-the-art learning algorithms to help robot navigation in procedurally generated environments. PPO found to have near human-driver level performance, recalling which states are 'expensive' to reach, minimising the frequency of rediscovery.

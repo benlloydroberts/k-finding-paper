@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.10)  19 MAY 2022 12:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.10)  19 MAY 2022 12:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -633,65 +633,102 @@ File: omsptm.fd
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10.03749> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 384.
- [2
+
+
+LaTeX Warning: Citation `IECstandard' on page 2 undefined on input line 437.
+
+
+LaTeX Warning: Citation `sefm14' on page 2 undefined on input line 438.
+
+
+LaTeX Warning: Reference `fig:pelicanladder' on page 2 undefined on input line 
+460.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 458--465
+[]\OT1/ptm/m/n/10.03749 More for-mally, a lad-der logic pro-gram is
+ []
+
+
+Underfull \hbox (badness 5403) in paragraph at lines 458--465
+\OT1/ptm/m/n/10.03749 con-structed in terms of dis-joint fi-nite sets $\OML/cmm
+/m/it/10 I$ \OT1/ptm/m/n/10.03749 and
+ []
+
+
+Underfull \hbox (badness 5105) in paragraph at lines 458--465
+\OML/cmm/m/it/10 C$ \OT1/ptm/m/n/10.03749 of in-put and out-put vari-ables. In 
+our ex-am-ple
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 458--465
+\OT1/ptm/m/n/10.03749 in Fig. [], we have $\OML/cmm/m/it/10 I \OT1/cmr/m/n/10 =
+ \OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 pressed\OMS/cmsy/m/n/10 g$ \OT1/ptm/m/n/10.
+03749 and $\OML/cmm/m/it/10 C \OT1/cmr/m/n/10 =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 458--465
+\OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 crossing; req; tlag; tlbg; tlar; tlbr; plag;
+ plbg; plar; plbr\OMS/cmsy/m/n/10 g$\OT1/ptm/m/n/10.03749 .
+ []
+
+[2
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 477--478
+
+LaTeX Warning: Reference `' on page 3 undefined on input line 521.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 479--481
+Underfull \hbox (badness 10000) in paragraph at lines 605--607
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 483--485
+Underfull \hbox (badness 10000) in paragraph at lines 609--611
+
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 612--614
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 486--488
-
- []
-
-
-Underfull \hbox (badness 2512) in paragraph at lines 489--491
+Underfull \hbox (badness 2512) in paragraph at lines 615--617
 \OT1/ptm/m/n/10.03749 with re-spect to their pa-ram-e-ter vec-tor and ob-jec-ti
 ve
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 489--491
+Underfull \hbox (badness 2012) in paragraph at lines 615--617
 \OT1/ptm/m/n/10.03749 func-tion, max-imised through ex-pe-ri-ences and gra-di-e
 nt
  []
 
 
-Underfull \hbox (badness 4378) in paragraph at lines 489--491
+Underfull \hbox (badness 4378) in paragraph at lines 615--617
 \OT1/ptm/m/n/10.03749 as-cent) Meth-ods May/may not ap-prox-i-mate a value
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 489--491
+Underfull \hbox (badness 10000) in paragraph at lines 615--617
 
  []
 
 
-Underfull \vbox (badness 3281) has occurred while \output is active []
-
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 524--525
-
- []
-
-
-Underfull \hbox (badness 2837) in paragraph at lines 527--529
+Underfull \hbox (badness 2837) in paragraph at lines 630--632
 []\OT1/ptm/m/n/10.03749 We now de-fine the fi-nite Markov De-ci-sion Pro-
  []
 
 
-Underfull \hbox (badness 2744) in paragraph at lines 527--529
+Underfull \hbox (badness 2744) in paragraph at lines 630--632
 \OT1/ptm/m/n/10.03749 LLP. A Lad-der Logic MDP $\OML/cmm/m/it/10 M\OT1/cmr/m/n/
 10 (\OML/cmm/m/it/10  \OT1/cmr/m/n/10 )$ \OT1/ptm/m/n/10.03749 is a five tu-ple
 
@@ -714,35 +751,35 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7
+[7] (toward_invariants.aux)
 
-] (toward_invariants.aux) ) 
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 14758 strings out of 478585
- 299314 string characters out of 2849157
- 578672 words of memory out of 3000000
- 32679 multiletter control sequences out of 15000+600000
- 508003 words of font info for 96 fonts, out of 8000000 for 9000
+ 14740 strings out of 478585
+ 298967 string characters out of 2849157
+ 578218 words of memory out of 3000000
+ 32664 multiletter control sequences out of 15000+600000
+ 506021 words of font info for 91 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 115i,14n,118p,1800b,928s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/skaff/.miktex/texmfs/install/fonts/enc/dvips/
-base/8r.enc}</home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/
-cmbx10.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/c
-mex10.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cm
-mi10.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmm
-i7.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10
-.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pf
-b></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy5.pfb><
-/home/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></h
-ome/skaff/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb
-></home/skaff/.miktex/texmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/sk
-aff/.miktex/texmfs/install/fonts/type1/urw/times/utmbi8a.pfb></home/skaff/.mikt
-ex/texmfs/install/fonts/type1/urw/times/utmr8a.pfb></home/skaff/.miktex/texmfs/
-install/fonts/type1/urw/times/utmri8a.pfb>
-Output written on toward_invariants.pdf (7 pages, 203420 bytes).
+ 115i,8n,118p,1800b,928s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/home/skaff/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/skaff/
+.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/skaff/.
+miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/skaff/.m
+iktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home/skaff/.mik
+tex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb></home/skaff/.mikte
+x/texmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></home/skaff/.miktex/t
+exmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/skaff/.miktex/te
+xmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/skaff/.miktex/texm
+fs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home/skaff/.miktex/
+texmfs/install/fonts/type1/urw/times/utmb8a.pfb></home/skaff/.miktex/texmfs/ins
+tall/fonts/type1/urw/times/utmbi8a.pfb></home/skaff/.miktex/texmfs/install/font
+s/type1/urw/times/utmr8a.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/ur
+w/times/utmri8a.pfb>
+Output written on toward_invariants.pdf (7 pages, 187928 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
+ 90 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

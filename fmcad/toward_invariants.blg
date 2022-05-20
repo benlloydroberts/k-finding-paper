@@ -1,15 +1,16 @@
-This is BibTeX, Version 0.99d
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: toward_invariants.aux
-Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: IEEEtran.bst
-Reallocating 'name_of_file' (item size: 1) to 13 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 6000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliography.bib
+Warning--I didn't find a database entry for ""
+Warning--I didn't find a database entry for "IECstandard"
+Warning--I didn't find a database entry for "sefm14"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -17,42 +18,43 @@ Database file #1: bibliography.bib
 Done.
 You've used 39 entries,
             4087 wiz_defined-function locations,
-            1032 strings with 15802 characters,
-and the built_in function-call counts, 30375 in all, are:
-= -- 2231
-> -- 1019
-< -- 206
-+ -- 538
-- -- 205
-* -- 1445
-:= -- 4287
+            1034 strings with 15803 characters,
+and the built_in function-call counts, 30253 in all, are:
+= -- 2234
+> -- 1007
+< -- 207
++ -- 532
+- -- 202
+* -- 1439
+:= -- 4286
 add.period$ -- 86
 call.type$ -- 39
 change.case$ -- 38
 chr.to.int$ -- 495
 cite$ -- 39
-duplicate$ -- 2187
-empty$ -- 2508
-format.name$ -- 243
-if$ -- 7127
+duplicate$ -- 2180
+empty$ -- 2484
+format.name$ -- 240
+if$ -- 7092
 int.to.chr$ -- 0
 int.to.str$ -- 39
-missing$ -- 445
+missing$ -- 441
 newline$ -- 144
 num.names$ -- 39
-pop$ -- 1170
+pop$ -- 1154
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 2296
+skip$ -- 2287
 stack$ -- 0
 substring$ -- 1205
-swap$ -- 1724
-text.length$ -- 41
+swap$ -- 1722
+text.length$ -- 42
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 39
 warning$ -- 0
 while$ -- 119
 width$ -- 41
-write$ -- 372
+write$ -- 373
+(There were 3 warnings)

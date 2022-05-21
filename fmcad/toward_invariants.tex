@@ -84,6 +84,7 @@
 % \ifCLASSINFOpdf conditional that works the same way.
 % When switching from latex to pdflatex and vice-versa, the compiler may
 % have to be run twice to clear warning/error messages.
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[colorinlistoftodos]{todonotes}
 \setuptodonotes{inline}
 
@@ -386,8 +387,8 @@ Email: \{ben.lloyd-roberts, p.d.james, michael.edwards\}@swansea.ac.uk}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-The application of formal methods to verify that railway signalling systems operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake is yet to make a substantial impact due to current approaches often producing so-called false positives that cause the need for lengthy manual analysis during verification. It is accepted that so-called invariants, properties which hold for all scenarios in which a signalling system operates, can help reduce the number of such false positives. These invariants are often bespoke, manually designed properties created by experienced engineers and automating their generation remain a challenge. In this work we present first steps towards using reinforcement learning to explore state spaces of signalling systems and to generate a dataset of state sequences from which we envisage invariants could be mined.
-\todo{Results and what they suggest}
+The application of formal methods to verify that railway signalling systems operate correctly is well established within academia and is beginning to see real applications in industry. However, the uptake is yet to make a substantial impact due to current approaches often producing so-called false positives that cause the need for lengthy manual analysis during verification. It is accepted that so-called invariants, properties which hold for all scenarios in which a signalling system operates, can help reduce the number of such false positives. These invariants are often bespoke, manually designed properties created by experienced engineers and automating their generation remain a challenge. In this work we present first steps towards using reinforcement learning to explore state spaces of signalling systems and to generate a dataset of state sequences from which we envisage invariants could be mined. Our results suggest the viability of reinforcement learning algorithms in both maximising state space coverage and the longest loop free path for state spaces up to a theoretical size of $2^{50}$. Proximal Policy Optimisation (PPO) demonstrates the most stable learning, particularly in large environments where the optimal behaviour function is most complex. Distributed, multi-agent algorithms, such as Asynchronous Advantage Actor-Critic (A3C) result in the greatest state coverage.
+\todo{Review: Added some sentences on results.}
 \end{abstract}
 
 % no keywords
@@ -534,23 +535,34 @@ Reinforcement Learning (RL) is a machine learning paradigm with demonstrably imp
 \begin{itemize}
 	\item $S$, is a finite set of states, known as the observation space or state space, representing the environment at discrete time steps.
 	\item $\mathcal{A}$, describes the action space; a set of actions performable at discrete time steps, used to compute new states from the observation space.
-	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describe state transition probabilities. The likelihood of observing state $s_{t+1}$ given action $a_t$ is taken from state $s_t$.
+	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describe state transition probabilities; the likelihood of observing state $s_{t+1}$ given action $a_t$ is taken from state $s_t$.
 	\item $R_a(s,s^\prime)$ is a reward function feeding a scalar signal back to the agent at each time step $t$. 
 	\item $\gamma \in [0,1]$ is a discount scalar successively applied at each time step.
 \end{itemize}
 
 %This user defined \textit{environment}, $\mathcal{E}$, comprises a set of %unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{\prime}$ and a scalar reward signal $r_t$.
 
-In an RL setting we refer to the MDP as our environment, $\mathcal{E}$ where through simulation, software agents sample actions $a \in \mathcal{A}$, observe changes in states, $s \in S$ and learn to optimise some objective based on rewards, $r$ issued over discrete time steps $t$. Simulation can be continuous, where agents indefinitely interact with the environment until some termination criterion is met, such as reaching some reward threshold. Alternatively tasks may be episodic, where training is conducted over a sequence of episodes, defined by a finite number of time steps. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, summarises experience accumulated over a single episode or continuous training run. Here, $h$ refers to the horizon; a time step beyond which rewards are no longer considered. Rewards observed from time step $t$ up to some terminal time step $T$ are denoted \todo{check this definition of $G_t$} $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the return. The discount factor $\gamma \in [0,1]$ applies to successive rewards in order to scale the reward at each time step. This helps to enumerate returns over a potentially infinite horizon. Thereafter, learning may conclude having achieved adequate performance or resume from some initial state following an environment reset.
+In an RL setting we refer to the MDP as our environment, $\mathcal{E}$ where through simulation, software agents sample actions $a \in \mathcal{A}$, observe changes in states, $s \in S$ and learn to optimise some objective based on rewards, $r$ issued over discrete time steps $t$. Simulation can be continuous, where agents indefinitely interact with the environment until some termination criterion is met, such as reaching some reward threshold. Alternatively tasks may be episodic, where training is conducted over a sequence of episodes, defined by a finite number of time steps. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, summarises experience accumulated over a single episode or continuous training run. Here, $h$ refers to the horizon; a time step beyond which rewards are no longer considered. Learning may then conclude having achieved adequate performance or resume from some initial state following an environment reset. Rewards observed from time step $t$ up to some terminal time step $T$, are denoted \todo{Review: Happy with $G_t$?} $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the return. Discount factor $\gamma \in [0,1]$ downscales rewards over return time steps while future rewards are reduced as the discount exponent $i-t$ increases. This helps prioritise immediate rewards over distant ones and enumerate returns over a potentially infinite horizon. 
 
 %Resurgence in RL research over the last decade in games~\cite{schaul2015prioritized, silver2016mastering, vinyals2019grandmaster}, robotics~\cite{gu2017deep, bloesch2022towards} and operations research~\cite{mazyavkina2021reinforcement} to name some applications, can be attributed to the fusion of historic concepts\cite{watkins1992q} with powerful approximate learning techniques~\cite{lecun2015deep} following the advent of deep learning~\cite{mnih2013playing}. Subsequent popularity in deep reinforcement learning (DRL) gave rise to improvements of existing policy-based~\cite{kakade2001natural}, value-based and actor-critic methods~\cite{schulman2017trust}, among others. Actor-Critic methods, combining policy learning and value function approximation has seen particular successes in establishing state-of-the-art performance in a broad range of applications~\cite{schulman2017proximal}.
 
-Two principle challenges of RL are those of prediction and control. The first refers to approximating the value function used to estimate state values $v(s)$ or state-action values $q(s,a)$, describing the benefit of being in that state. Values are differentiable and updated based on an empirical average, known as the expectation, taken over observed returns, $\mathbb{E}[G_t | S_t = s, A_t = a]$ \todo{explain this in a short sentence}. Observed returns depend on the action(s) sampled at discrete time steps. The second challenge of control concerns optimising this selection process via the policy $\pi(a|s)$; a probability distribution mapping states to actions most likely to maximise the reward objective. Ultimately an optimal value function will converge to an optimal policy []. In practice to scale with complex environments these functions are parametric and approximated with gradient-based methods, such as stochastic gradient ascent.
+Two principle challenges of RL are those of prediction and control. The first refers to approximating the value function used to estimate state values $v(s)$ or state-action values $q(s,a)$, describing the benefit of being in that state. Values are differentiable and updated based on an empirical average, known as the expectation, taken over observed returns, $\mathbb{E}[G_t | S_t = s, A_t = a]$. \todo{Review: Notation clearer?} In other words the expectation over return $G_t$ depends being in state $S_t = s$, having taken action $A_t = a$ during the present time step. Observed returns depend on the action(s) sampled at discrete time steps. The second challenge of control concerns optimising this selection process via the policy $\pi(a|s)$; a probability distribution mapping states to actions most likely to maximise the reward objective. Ultimately an optimal value function will converge to an optimal policy []. In practice to scale with complex environments these functions are parametric and approximated with gradient-based methods, such as stochastic gradient ascent.
 
 Determining the reachable state space for LLPs is often intractable, making the complete MDP model unknown to us without computing all transitions. Consequently we trial several gradient-based learning methods. Policy gradient methods [] utilise parameterised policies which update with respect to their parameter vector and objective function []. Actor-critic methods also approximate a parametric value function, separating the learning of action selection from value estimates. In this work we explore the efficacy of basic Deep Q-Networks~\cite{mnih2013playing}, Proximal Policy Optimisation (PPO)~\cite{schulman2017proximal}, Advantage Actor-Critic (A2C) and its asynchronous counterpart (A3C)~\cite{mnih2016asynchronous} in navigating our set of generated LLPs. We discuss the merits and drawbacks of each approach for our setting in Section~\ref{}.
 
+\section{Related Work}
+Here we briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
+
+\subsection{Invariant Finding}
+\todo{Overview of IC3, other invariant finding techniques for interlockings}
+From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success. 
+
+\subsection{Exploration in Reinforcement Learning}
+Game testing, applied algorithms to 3D environment, postition and player movement used as observations with aim of state coverage for bug finding. FPS paper~\cite{9231552} applies vanilla PPO with no reset logic to identify game exploits. HMI paper ~\cite{9678703} apply curiosity function based on an empirical count of state-action pairs to maximise traversal of state transitions over a deterministiv finite state automaton navigation model. Uses vanilla Q-learning with e-greedy exploration. Similar use in web testing~\cite{9402046} simulate user actions to navigate web application, tracking 'uncertain' state transitions for backtracking. Also use vanilla Q-learning and count-based reward scaling during for Q-function updates. \cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems - adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Others~\cite{s21041067} incorporate recurrent networks in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. ACER algorithm used to make the A3C algorithm off-policy and constrain updates with TRPO like parameter updates. \cite{electronics10222751} apply a range of state-of-the-art learning algorithms to help robot navigation in procedurally generated environments. PPO found to have near human level performance, recalling which states are 'expensive' to reach, minimising the frequency of rediscovery. Works such as~\cite{manchanda2019learning} have illustrated the efficacy of RL methods in learning heuristics over large graph structures. Others have employed distributing learning~\cite{hoffman2020acme} for accelerated performance and prioritising novelty when exploration unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
+
+
 \section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
-....
+In this section we introduce a mapping of modelling ladder logic programs for formal verification to a model where reinforcement learning can be applied, such that properties learned in the RL setting translate to model checking problems. \todo{Review: Some introductory babble}
 
  \todo{Explain why the LTS in James et al. [17] uses four elements, but we ignore ...}
 
@@ -563,11 +575,9 @@ Determining the reachable state space for LLPs is often intractable, making the 
 %	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
 %	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
 %\end{itemize}
-We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple, where $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps. $\mathcal{A} = V_I$, describes the action space; a set of formally defined actions which change the observation space. $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describing the likelihood of observing state $s_{t+1}$ given action $a_t$ taken from state $s_t$. $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
+We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple, where our observation space is the union of program inputs and ladder variables, $S = V_I \cup V_C$. Any unique valuation under the dynamics of a LLP constitutes a distinct state. Our action space, $\mathcal{A} = V_I$, describes the set of ladder logic inputs used to compute new valuations after program execution. $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describes the state transition function in terms of probabilities of observing $s_{t+1}$ given action $a_t$ is taken from state $s_t$. $R_a(s,s^\prime)$ is our reward function responsible for issuing positive feedback back to the agent at each time step $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
 
-\todo{Explain relation between transition probabilities and state transitions}
-
-Subsequently the environment unfolds as a set of reachable states for the respective LLP. As workers improve their value estimates according to the reward function, a balance is maintained between stochastic action sampling for exploration and predicted actions from the policy network.
+Subsequently the environment unfolds as a set of reachable states for the respective LLP as agents build a behaviour policy $\pi(s|a,\theta)$ according to the reward function and state transitions observed under $P_a(s,s^\prime)$. To motivate continued exploration before model performance can converge, a balance is maintained between stochastic action sampling and selecting predicted actions output by the policy network. \todo{Phil: Does the transition description make sense?}
 
 Aiming to maximise state space coverage we implement a reward scheme which positively rewards novel observations and dissuade loops with negative reward and episode termination. Training episodes spawn agents at some initial state, either with all variables set to 0 or from some randomly sampled state from a set of previous observations. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences. Early stopping terminates training if a set number of consecutive model updates do not improvement in terms of coverage or reward. Second, training ends in our artificially generated programs if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
 
@@ -576,35 +586,103 @@ Aiming to maximise state space coverage we implement a reward scheme which posit
 
 Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of LLPs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
 
-\todo{Introduce DQN, A2C and PPO}
-Tried DQN on smaller environments to test the viability of RL in our problem formulation and it solved them (with respect to our reward objective) within an acceptable time frame. 
-DQN doesn't scale well and is too sensitive to hyperparameter tuning. buffer size environment dependent, training delay and gradient step size contingent on complexity of learnable function, which we'd expect to increase with environment size. Algorithm is also off-policy - trains from experiences generated by old (presumably less optimal) policies. Exploration is goverend explicitly by the epsilon-greedy strategy and guaranteed to anneal toward a minimum threshold over a significant number timesteps - this could happen with large regions of an environment unobserved. Methods exist to improve the sample efficiency and learning stability, such as Prioritised experience replay or dueling DQN.
-
-We also try two Actor critic methods, Advantage actor-critic (A2C) and its asynchronous counterpart (A3C) to improve sample efficiency in distributing environment interaction among several workers. Having several workers and an on-policy learning algorithm removes need of replay memory and training delay to accumulate sufficient experience. Actor and critic networks, approximating the behaviour policy and value function, providee better convergence guarantees at the cost of some additional complexity. Paired with randomised reset logic both algorithms accumulate experience faster than Vanilla DQN, achieving good coverage on a range of medium to large state spaces. They are susceptible to parameter updates pushing the model into an unfamiliar region of policy space from which subsequent updates are unable to recover, potentially triggering model collapse.
-
-We then move to trust region methods which constrain the magnitude of gradient updates within some clip range or according to KL-divergence between the current and most recent policy parameters, making the model more resilient to collapse. 
-
-
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figs/pelican_states.png}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+\caption{Simulation results for the network.}
+\label{fig_sim}
+\end{figure*}
 
 \section{Results}
 We now present a set of results from applying our approach to a series of generated LLPs, modelled as learning environments. 
 
+\begin{table}[!t]
+	\caption{A3C Coverage Metrics}
+	\label{tab:a3c_results}
+	\centering
+	\begin{tabular}{rrrrr}
+		\hline
+		\multicolumn{3}{c|}{Environment}                                                                                                                                                                     & \multicolumn{2}{c}{Agent}                                \\ \hline
+		\multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}States\\ (Theoretical)\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}States\\ (Reachable)\end{tabular}} & \multicolumn{1}{c|}{Actions} & \multicolumn{1}{c}{K-bound} & \multicolumn{1}{c}{Coverage} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{14}$                                                              & 15                                                                               & 2                            & 14                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{16}$                                                              & 31                                                                               & 4                            & 28                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{18}$                                                             & 63                                                                               & 6                            & 48                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{20}$                                                             & 127                                                                              & 8                            & 33                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{22}$                                                              & 255                                                                              & 10                           & 76                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{24}$                                                              & 511                                                                              & 12                           & 49                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{26}$                                                             & 1023                                                                             & 14                           & 306                       & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{28}$                                                              & 2047                                                                             & 16                           & 538                       & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{30}$                                                              & 4095                                                                             & 18                           & 1418                      & 99.731                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{32}$                                                              & 8191                                                                             & 20                           & 1712                      & 96.532                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{34}$                                                              & 16383                                                                            & 22                           & 1498                      & 95.550                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{36}$                                                              & 32767                                                                            & 24                           & 2879                      & 84.694                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{38}$                                                              & 65535                                                                            & 26                           & 1969                      & 89.071                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{40}$                                                              & 131071                                                                           & 28                           & 2692                      & 82.884                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{42}$                                                              & 262143                                                                           & 30                           & 1406                      & 76.033                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{44}$                                                              & 524287                                                                           & 32                           & 1782                      & 62.137                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{46}$                                                              & 1048575                                                                          & 34                           & 1593                      & 64.053                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{48}$                                                              & 2097151                                                                          & 36                           & 1598                      & 57.547                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{50}$                                                              & 4194303                                                                          & 38                           & 2566                      & 41.483                       \\ \hline
+	\end{tabular}
+\end{table}
+ 
 
-%
-\subsection{Discussion}
-\todo{Elaborate on the efficacy of approach - is it actually promising?}
-\todo{Add results on some Loch Ness interlocking examples}
-Preliminary results applying our approach to a number of generated programs are outlined in [ref results]. `Actions' referenced in column 3 refer to the number of possible assignments over input variables in each LLP. `$K$', refers to the greatest number of steps taken before repeating observations n the environment, across all workers.
+Performance plots show PPO and A2C algorithms to compare single agent advantage actor-critic against the trust region method.
 
-Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with more than $1\mathrm{e}{5}$ states. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from 3e5 to 1.5e5 episodes. \todo{Fix scientific notation} This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 
-Performance plots illustrating the cumulative reward  which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. \todo{Include performance plots} This may be due to tendencies for large network updates to shift the network gradients into a bad local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy,  thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding experience replay \cite{wang2017sample} may help avoid this in future applications
+
+\subsection{Algorithmic Trends}
+Tried DQN on smaller environments to test the viability of RL in our problem formulation and it solved them (with respect to our reward objective) within an acceptable time frame. 
+DQN doesn't scale well and is too sensitive to hyperparameter tuning. buffer size environment dependent, training delay and gradient step size contingent on complexity of learnable function, which we'd expect to increase with environment size. Algorithm is also off-policy - trains from experiences generated by old (presumably less optimal) policies. Exploration is governed explicitly by the epsilon-greedy strategy and guaranteed to anneal toward a minimum threshold over a significant number timesteps - this could happen with large regions of an environment unobserved. Methods exist to improve the sample efficiency and learning stability, such as Prioritised experience replay or duelling DQN.
+
+We also try two Actor critic methods, Advantage actor-critic (A2C) and its asynchronous counterpart (A3C) to improve sample efficiency in distributing environment interaction among several workers. Having several workers and an on-policy learning algorithm removes need of replay memory and training delay to accumulate sufficient experience. Actor and critic networks, approximating the behaviour policy and value function, providee better convergence guarantees at the cost of some additional complexity. Paired with randomised reset logic both algorithms accumulate experience faster than Vanilla DQN, achieving good coverage on a range of medium to large state spaces. They are susceptible to parameter updates pushing the model into an unfamiliar region of policy space from which subsequent updates are unable to recover, potentially triggering model collapse.
+
+We then move to trust region methods which constrain the magnitude of gradient updates within some clip range or according to KL-divergence between the current and most recent policy parameters, making the model more resilient to collapse.
+
+\subsection{Asynchronous Exploration}
+Preliminary results applying our approach to a number of generated programs are outlined in Table \ref{tab:a3c_results}. `Actions' referenced in the third column refer to the number of possible assignments over input variables in each LLP, from every state. `$K$', refers to the greatest number of steps taken before repeating observations in the environment, across all workers.
+
+Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with a theoretical state space up to $2^{40}$. Interestingly, we observed longer training durations occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max $k$ and states reached increased by approx. $5\%$ when decreasing the total number of episodes from $3 \times 10^{5}$ to $1.5\times10^{5}$ episodes. This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
+
+Performance plots illustrating the cumulative reward  which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. This may be due to tendencies for large network updates to shift the network gradients into a bad local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy,  thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding experience replay \cite{wang2017sample} may help avoid this in future applications
 
 Given the A3C algorithm requires workers to asynchronously update their shared network every $T_{\max}$ steps or on episode termination, larger values for $T_{\max}$ consolidate more information regarding worker trajectories before applying gradient updates to their local network. We found the most significant improvements to performance in terms of coverage metrics and increasing the $k$ bound when introducing workers to larger environments, was lower update frequencies and random start state initialisation. Prior to these adjustments workers, irrespective of their number, seldom covered 80\% of most smaller environments. Similarly, for the largest environment with $2^{50}$ states, coverage improved from 3.2\% to 41.48\%
 
+\subsection{Trust Regions and Reward Shaping}
+\todo{Performance plots for PPO on pelican\_19}
+\begin{itemize}
+	\item Advantage actor critic methods seem to perform better in terms of coverage. Distributed nature of algorithm and no update clipping may allow for greater exploration.
+	\item PPO optimises better to increasing the k-bound for the explored subregion while slowly increasing state coverage.
+	\item A2C increases state coverage significantly faster than PPO but struggles to learn optimal loop free paths within its discovered subregion.
+	\item Value function loss is more stable for PPO compared to A2C. This measures the TD error between the current value function and actual observed returns.
+	\item A2C entropy loss converges toward 0 sooner than PPO, a possible indication the policy learned under A2C experiences less uncertainty when making predictions. Could mean PPO policy maintains it knows very little about the environment but still maximises rewards better than its A2C counterpart.
+\end{itemize}
 % Model performance across all learning algorithms appears sensitive to network update frequency and experience accumulationg per update. Property to be conscious of as it may translate to how interlocking programs are structured, where the total number of reachable states or longest acyclic path is unknown to us without exploring every state-action pair. Learning rates can be lowered to avoid 'jumping around' the optimal region in policy space but may slow exploration.
-
-
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -701,24 +779,8 @@ Given the A3C algorithm requires workers to asynchronously update their shared n
 % \fnbelowfloat command of the stfloats package.
 
 
-\section{Related Work}
-Here we briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
-
-\subsection{Invariant Finding}
-\todo{Overview of IC3, other invariant finding techniques for interlockings}
-From software engineering techniques \cite{case2007automated, bensalem1996powerful} to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success.
-
-\subsection{Exploration in Reinforcement Learning}
-Game testing, applied algorithms to 3D environment, postition and player movement used as observations with aim of state coverage for bug finding. FPS paper~\cite{9231552} applies vanilla PPO with no reset logic to identify game exploits. HMI paper ~\cite{9678703} apply curiosity function based on an empirical count of state-action pairs to maximise traversal of state transitions over a deterministiv finite state automaton navigation model. Uses vanilla Q-learning with e-greedy exploration. Similar use in web testing~\cite{9402046} simulate user actions to navigate web application, tracking 'uncertain' state transitions for backtracking. Also use vanilla Q-learning and count-based reward scaling during for Q-function updates. \cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems - adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Others~\cite{s21041067} incorporate recurrent networks in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. ACER algorithm used to make the A3C algorithm off-policy and constrain updates with TRPO like parameter updates. \cite{electronics10222751} apply a range of state-of-the-art learning algorithms to help robot navigation in procedurally generated environments. PPO found to have near human-driver level performance, recalling which states are 'expensive' to reach, minimising the frequency of rediscovery.
-
-Existing works have illustrated the efficacy of RL methods in learning such heuristics over large graph structures~\cite{manchanda2019learning}, distributing learning for accelerated performance~\cite{hoffman2020acme} and prioritising novelty when exploration unfamiliar environments~\cite{ostrovski2017countbased, haarnoja2018soft, gordillo2021improving}.
-\todo{Reinforcement learning for state exploration}
-
-
-
-
 \section{Conclusion \& Future Work }
-In this paper we have applied a basic asynchronous deep reinforcement learning method to maximise program state coverage, motivated by a reward scheme \todo{Sentence?}. some promising preliminary results but limited in its capacity to scale across large observation spaces. 
+In this paper we have applied a basic asynchronous and trust region deep reinforcement learning methods to maximise program state coverage, motivated by a reward function of state novelty.  
 
 In light of our findings, we aim to improve several aspects of our approach, predominantly concerning learning stability, sample efficiency and training speed. Experience replay for distributed learning may improve on-policy bias and sample efficiency. 
 
@@ -726,7 +788,7 @@ The low dimensionality of our state spaces representation may allow us to introd
 
 Applying IMPALA~\cite{espeholt2018impala} to improve both sample efficiency over A3C and robustness to network architectures and hyperparameter adjustments. The adoption of a Long Short-Term Memory model (LSTM) also improves performance given GPU acceleration is maximised on larger batch updates.
 
-
+For invariant finding this work has indicated the viability of reinforcement learning algorithms in increasing state space coverage. In our subsequent works we envisage the current learning framework to serve as a means of dataset generation, from which patterns or sequences of can be mined from agent trajectories.
 
 
 % conference papers do not normally have an appendix

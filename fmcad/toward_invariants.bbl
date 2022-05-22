@@ -70,19 +70,35 @@ V.~Mnih, A.~P. Badia, M.~Mirza, A.~Graves, T.~P. Lillicrap, T.~Harley,
 R.~S. Sutton and A.~G. Barto, \emph{Reinforcement learning: An
   introduction}.\hskip 1em plus 0.5em minus 0.4em\relax MIT press, 2018.
 
-\bibitem{geist2013algorithmic}
-M.~Geist and O.~Pietquin, ``Algorithmic survey of parametric value function
-  approximation,'' \emph{IEEE Transactions on Neural Networks and Learning
-  Systems}, vol.~24, no.~6, pp. 845--867, 2013.
-
 \bibitem{mnih2013playing}
 V.~Mnih, K.~Kavukcuoglu, D.~Silver, A.~Graves, I.~Antonoglou, D.~Wierstra, and
   M.~Riedmiller, ``Playing atari with deep reinforcement learning,''
   \emph{arXiv preprint arXiv:1312.5602}, 2013.
 
+\bibitem{kakade2001natural}
+S.~M. Kakade, ``A natural policy gradient,'' \emph{Advances in neural
+  information processing systems}, vol.~14, 2001.
+
 \bibitem{schulman2017proximal}
 J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov, ``Proximal
   policy optimization algorithms,'' 2017.
+
+\bibitem{case2007automated}
+M.~L. Case, A.~Mishchenko, and R.~K. Brayton, ``Automated extraction of
+  inductive invariants to aid model checking,'' in \emph{Formal Methods in
+  Computer Aided Design (FMCAD'07)}.\hskip 1em plus 0.5em minus 0.4em\relax
+  IEEE, 2007, pp. 165--172.
+
+\bibitem{bensalem1996powerful}
+S.~Bensalem, Y.~Lakhnech, and H.~Saidi, ``Powerful techniques for the automatic
+  generation of invariants,'' in \emph{International Conference on Computer
+  Aided Verification}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 1996,
+  pp. 323--335.
+
+\bibitem{garg2016learning}
+P.~Garg, D.~Neider, P.~Madhusudan, and D.~Roth, ``Learning invariants using
+  decision trees and implication counterexamples,'' \emph{ACM Sigplan Notices},
+  vol.~51, no.~1, pp. 499--512, 2016.
 
 \bibitem{schaul2015prioritized}
 T.~Schaul, J.~Quan, I.~Antonoglou, and D.~Silver, ``Prioritized experience
@@ -126,36 +142,6 @@ C.~J. Watkins and P.~Dayan, ``Q-learning,'' \emph{Machine learning}, vol.~8,
 Y.~LeCun, Y.~Bengio, and G.~Hinton, ``Deep learning,'' \emph{nature}, vol. 521,
   no. 7553, pp. 436--444, 2015.
 
-\bibitem{kakade2001natural}
-S.~M. Kakade, ``A natural policy gradient,'' \emph{Advances in neural
-  information processing systems}, vol.~14, 2001.
-
-\bibitem{schulman2017trust}
-J.~Schulman, S.~Levine, P.~Moritz, M.~I. Jordan, and P.~Abbeel, ``Trust region
-  policy optimization,'' 2017.
-
-\bibitem{gordillo2021improving}
-C.~Gordillo, J.~Bergdahl, K.~Tollmar, and L.~Gissl{\'e}n, ``Improving
-  playtesting coverage via curiosity driven reinforcement learning agents,''
-  \emph{arXiv preprint arXiv:2103.13798}, 2021.
-
-\bibitem{case2007automated}
-M.~L. Case, A.~Mishchenko, and R.~K. Brayton, ``Automated extraction of
-  inductive invariants to aid model checking,'' in \emph{Formal Methods in
-  Computer Aided Design (FMCAD'07)}.\hskip 1em plus 0.5em minus 0.4em\relax
-  IEEE, 2007, pp. 165--172.
-
-\bibitem{bensalem1996powerful}
-S.~Bensalem, Y.~Lakhnech, and H.~Saidi, ``Powerful techniques for the automatic
-  generation of invariants,'' in \emph{International Conference on Computer
-  Aided Verification}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 1996,
-  pp. 323--335.
-
-\bibitem{garg2016learning}
-P.~Garg, D.~Neider, P.~Madhusudan, and D.~Roth, ``Learning invariants using
-  decision trees and implication counterexamples,'' \emph{ACM Sigplan Notices},
-  vol.~51, no.~1, pp. 499--512, 2016.
-
 \bibitem{9231552}
 J.~Bergdahl, C.~Gordillo, K.~Tollmar, and L.~Gisslén, ``Augmenting automated
   game testing with deep reinforcement learning,'' in \emph{2020 IEEE
@@ -173,6 +159,12 @@ Y.~Zheng, Y.~Liu, X.~Xie, Y.~Liu, L.~Ma, J.~Hao, and Y.~Liu, ``Automatic web
   IEEE/ACM 43rd International Conference on Software Engineering (ICSE)}, 2021,
   pp. 423--435.
 
+\bibitem{tang2017exploration}
+H.~Tang, R.~Houthooft, D.~Foote, A.~Stooke, O.~Xi~Chen, Y.~Duan, J.~Schulman,
+  F.~DeTurck, and P.~Abbeel, ``\# exploration: A study of count-based
+  exploration for deep reinforcement learning,'' \emph{Advances in neural
+  information processing systems}, vol.~30, 2017.
+
 \bibitem{9476756}
 A.~Peake, J.~McCalmon, Y.~Zhang, D.~Myers, S.~Alqahtani, and P.~Pauca, ``Deep
   reinforcement learning for adaptive exploration of unknown environments,'' in
@@ -186,6 +178,10 @@ K.~G.~S. Apuroop, A.~V. Le, M.~R. Elara, and B.~J. Sheu, ``Reinforcement
   robot,'' \emph{Sensors}, vol.~21, no.~4, 2021. [Online]. Available:
   \url{https://www.mdpi.com/1424-8220/21/4/1067}
 \BIBentrySTDinterwordspacing
+
+\bibitem{medsker2001recurrent}
+L.~R. Medsker and L.~Jain, ``Recurrent neural networks,'' \emph{Design and
+  Applications}, vol.~5, pp. 64--67, 2001.
 
 \bibitem{electronics10222751}
 \BIBentryALTinterwordspacing
@@ -214,6 +210,11 @@ G.~Ostrovski, M.~G. Bellemare, A.~van~den Oord, and R.~Munos, ``Count-based
 \bibitem{haarnoja2018soft}
 T.~Haarnoja, A.~Zhou, P.~Abbeel, and S.~Levine, ``Soft actor-critic: Off-policy
   maximum entropy deep reinforcement learning with a stochastic actor,'' 2018.
+
+\bibitem{gordillo2021improving}
+C.~Gordillo, J.~Bergdahl, K.~Tollmar, and L.~Gissl{\'e}n, ``Improving
+  playtesting coverage via curiosity driven reinforcement learning agents,''
+  \emph{arXiv preprint arXiv:2103.13798}, 2021.
 
 \bibitem{wang2017sample}
 Z.~Wang, V.~Bapst, N.~Heess, V.~Mnih, R.~Munos, K.~Kavukcuoglu, and

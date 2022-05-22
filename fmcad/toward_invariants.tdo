@@ -1,9 +1,12 @@
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added some sentences on results.}{2}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Phil: reword this based on figure}{3}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Happy with $G_t$?}{4}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Notation clearer?}{4}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Overview of IC3, other invariant finding techniques for interlockings}{4}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Some introductory babble}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added notation (parameter vector wasn't introduced) and more detail on algorithms}{4}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Phil for Sunday - Overview of IC3, other invariant finding techniques for interlockings}{4}{}%
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Explain why the LTS in James et al. [17] uses four elements, but we ignore ...}{5}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Phil: Does the transition description make sense?}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added references to figure}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ This section needs more depth - I think we need to show the added rungs and sketch essentially how they work based upon the figure. You can also describe the formula as intuitively we aim to double the pelican...}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: pSeuDoCoDE}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Make this coherent}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Diagram trajectory missing terminal state after reward}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Check for CopyPasta erros}{6}{}%
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Performance plots for PPO on pelican\_19}{7}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Make coherent}{7}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Summarise paper, dream big }{8}{}%

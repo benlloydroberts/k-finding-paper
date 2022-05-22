@@ -1,12 +1,14 @@
-This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: toward_invariants.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: IEEEtran.bst
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: bibliography.bib
 Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "IECstandard"
@@ -18,37 +20,37 @@ Warning--I didn't find a database entry for "sefm14"
 Done.
 You've used 39 entries,
             4087 wiz_defined-function locations,
-            1034 strings with 15803 characters,
-and the built_in function-call counts, 30253 in all, are:
-= -- 2234
-> -- 1007
-< -- 207
-+ -- 532
-- -- 202
-* -- 1439
-:= -- 4286
+            1034 strings with 15842 characters,
+and the built_in function-call counts, 30324 in all, are:
+= -- 2237
+> -- 1021
+< -- 205
++ -- 538
+- -- 206
+* -- 1447
+:= -- 4304
 add.period$ -- 86
 call.type$ -- 39
 change.case$ -- 38
-chr.to.int$ -- 495
+chr.to.int$ -- 489
 cite$ -- 39
-duplicate$ -- 2180
-empty$ -- 2484
-format.name$ -- 240
-if$ -- 7092
+duplicate$ -- 2187
+empty$ -- 2486
+format.name$ -- 244
+if$ -- 7106
 int.to.chr$ -- 0
 int.to.str$ -- 39
-missing$ -- 441
+missing$ -- 443
 newline$ -- 144
 num.names$ -- 39
-pop$ -- 1154
+pop$ -- 1158
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 2287
+skip$ -- 2290
 stack$ -- 0
-substring$ -- 1205
-swap$ -- 1722
+substring$ -- 1191
+swap$ -- 1725
 text.length$ -- 42
 text.prefix$ -- 0
 top$ -- 5
@@ -56,5 +58,5 @@ type$ -- 39
 warning$ -- 0
 while$ -- 119
 width$ -- 41
-write$ -- 373
+write$ -- 374
 (There were 3 warnings)

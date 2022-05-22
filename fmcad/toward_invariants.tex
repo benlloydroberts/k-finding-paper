@@ -570,6 +570,9 @@ In this section we introduce a faithful mapping that given a ladder logic LTS co
 %	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
 %	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
 %\end{itemize}
+
+\todo{we need to add a few sentences on the aim here... to see if we can insentivise state exploration and achieve good state coverage. This is first step towards invariant finding}.
+
 We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. 
 \textit{Defn 4. Ladder Logic Markov Decision Process}
 A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$ is a five tuple, where our observation space is the union of program inputs and ladder variables, and:
@@ -584,8 +587,10 @@ A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\g
 \end{itemize}
 
 Here we note that any unique valuation of $Val_C$ under the dynamics of a LLP constitutes a distinct state. Our action space, describes the set of ladder logic inputs used to compute new valuations after program execution. $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describes the state transition function in terms of probabilities of observing $s_{t+1}$ given action $a_t$ is taken from state $s_t$. As here, more transitions are available than described by the ladder logic program, we use this probability distribution to ensure transitions match those defined by the ladder logic (essentially this will be 1 for transitions dictated by the ladder logic program and 0 for transitions that are not). 
-\todo{Review: Added references to figure}
+
 Subsequently as agents build a policy $\pi(s|a,\theta)$ according to $R_a(s,s')$ and state transitions observed under $P_a(s,s^\prime)$, the environment unfolds as a set of reachable states that mirror those of the ladder logic LTS. 
+
+\todo{this repeats paragraph after definition slighly, change to just "consider Fig 1", and drop the definitiona parts just illustrate.}
 
 States are vectors of variable valuations, defined by $Val_C \cup Val_I$, following a single ladder execution. Action space is a vector of Booleans representing the selection of some input variable assignment. Where PRESSED and ACT\_1 are ladder logic inputs, the indices of an agents action space refer to selecting one of the following valuations: [PRESSED=True, PRESSED=False, ACT\_1=True, ACT\_1=False]. One index may evaluate to True (1) while the remainder are False (0). Considering Figure~\ref{fig:state_space}, an agent starting its training episode from initial state $S0$ has four available actions (illustrated in red) and three states reachable, $S1,S2,S4$ within the next time step. Selecting action $[0,1,0,0]$ denotes setting PRESSED=False, observing a `new' state $S1$, and receiving positive reward $+1$, completing the time step. For ladder logic MDP with $N$ actions (LTS transition labels), there are at most $2N$ unique transitions $(s,a,s')$, thus the size of the action space from all states $s \in S$, is also $2N$. 
 
@@ -596,10 +601,9 @@ Finally, our reward function and $\gamma$ can be tuned to modify the learning ob
 
 \subsection{Environment Generation}
 
-\todo{This section needs more depth - I think we need to show the added rungs and sketch essentially how they work based upon the figure. You can also describe the formula as intuitively we aim to double the pelican...}
-
-Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of LLPs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(p_i)|$ represents the number of reachable states for a program $p_i$, a subsequently generated program $p_{i+1}$ with one additional rung, has $2|S(p_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
-\todo{Review: pSeuDoCoDE}
+\todo{use $\psi$ for the ladder logic program throughout, it mathes section 2.}
+Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of LLPs where the number of reachable states and recurrence reachability diameter are known. This has enabled us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs (or lines of code). This way a constrained yet predictable pattern of growth is devised. If $|S(\psi_i)|$ represents the number of reachable states for a program $\psi_i$, a subsequently generated program $\psi_{i+1}$ with one additional rung, has $2|S(\psi_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
+\todo{explain the psuedocode in a short paragraph}
 \begin{algorithmic}
 	\Procedure{Generate Ladder}{n\_rungs, prog}
 	\State cond $\gets$ ($\lnot$ PRESSED $\land$ $\lnot$CROSSING) $\land$ $\lnot$ REQ
@@ -619,6 +623,8 @@ Given exhaustive search of large state spaces is often computationally intractab
 %	VAR\_1 = ACT\_1 \land (\lnot PRESSED) \land \\(\lnot CROSSING) \land (\lnot REQ)
 %\end{align*}
 
+\todo{add a paragraph discussing Figure 1 in this contest, Figure 1 has been obtained by applying the above algorithm to the ladder logic program presented by James et al ~\cite{}... it shows...}
+
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figs/pelican_states.png}
@@ -630,6 +636,7 @@ Given exhaustive search of large state spaces is often computationally intractab
 \end{figure*}
 
 \section{Results}\label{sec:results}
+\todo{remove LLPs and call them ladder programs instead :)}
 We now present a set of results from applying our approach to a series of generated LLPs, modelled as learning environments. The following section is divided into three parts, first discussing the merits and drawbacks of the respective algorithms. Second we present results from asynchronous multi agent learning, shown in Table \ref{tab:a3c_results}. Finally we discuss certain training characteristics between A2C and PPO. Performance plots show PPO and A2C algorithms to compare single agent advantage actor-critic against the trust region method, while results for multi-agent A3C are kept separate.
 
 \begin{table}[!t]

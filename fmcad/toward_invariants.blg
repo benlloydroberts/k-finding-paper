@@ -18,45 +18,45 @@ Warning--I didn't find a database entry for "sefm14"
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 39 entries,
+You've used 42 entries,
             4087 wiz_defined-function locations,
-            1034 strings with 15842 characters,
-and the built_in function-call counts, 30324 in all, are:
-= -- 2237
-> -- 1021
-< -- 205
-+ -- 538
-- -- 206
-* -- 1447
-:= -- 4304
-add.period$ -- 86
-call.type$ -- 39
-change.case$ -- 38
-chr.to.int$ -- 489
-cite$ -- 39
-duplicate$ -- 2187
-empty$ -- 2486
-format.name$ -- 244
-if$ -- 7106
+            1052 strings with 16325 characters,
+and the built_in function-call counts, 33056 in all, are:
+= -- 2448
+> -- 1082
+< -- 229
++ -- 570
+- -- 215
+* -- 1574
+:= -- 4688
+add.period$ -- 94
+call.type$ -- 42
+change.case$ -- 45
+chr.to.int$ -- 552
+cite$ -- 42
+duplicate$ -- 2379
+empty$ -- 2733
+format.name$ -- 257
+if$ -- 7759
 int.to.chr$ -- 0
-int.to.str$ -- 39
-missing$ -- 443
-newline$ -- 144
-num.names$ -- 39
-pop$ -- 1158
+int.to.str$ -- 42
+missing$ -- 475
+newline$ -- 153
+num.names$ -- 46
+pop$ -- 1237
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 2290
+skip$ -- 2497
 stack$ -- 0
-substring$ -- 1191
-swap$ -- 1725
-text.length$ -- 42
+substring$ -- 1341
+swap$ -- 1879
+text.length$ -- 45
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 39
+type$ -- 42
 warning$ -- 0
-while$ -- 119
-width$ -- 41
-write$ -- 374
+while$ -- 135
+width$ -- 44
+write$ -- 403
 (There were 3 warnings)

@@ -83,6 +83,23 @@ S.~M. Kakade, ``A natural policy gradient,'' \emph{Advances in neural
 J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov, ``Proximal
   policy optimization algorithms,'' 2017.
 
+\bibitem{bradley11}
+A.~R. Bradley, ``Sat-based model checking without unrolling,'' in
+  \emph{Verification, Model Checking, and Abstract Interpretation}, R.~Jhala
+  and D.~Schmidt, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin,
+  Heidelberg: Springer Berlin Heidelberg, 2011, pp. 70--87.
+
+\bibitem{cimatti12}
+A.~Cimatti and A.~Griggio, ``Software model checking via ic3,'' in
+  \emph{Computer Aided Verification}, P.~Madhusudan and S.~A. Seshia,
+  Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin, Heidelberg: Springer
+  Berlin Heidelberg, 2012, pp. 277--293.
+
+\bibitem{bradley07}
+A.~R. Bradley and Z.~Manna, ``Checking safety by inductive generalization of
+  counterexamples to induction,'' in \emph{Formal Methods in Computer Aided
+  Design (FMCAD'07)}, 2007, pp. 173--180.
+
 \bibitem{case2007automated}
 M.~L. Case, A.~Mishchenko, and R.~K. Brayton, ``Automated extraction of
   inductive invariants to aid model checking,'' in \emph{Formal Methods in

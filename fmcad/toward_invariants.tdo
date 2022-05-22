@@ -1,9 +1,10 @@
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added notation (parameter vector wasn't introduced) and more detail on algorithms}{4}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Phil for Sunday - Overview of IC3, other invariant finding techniques for interlockings}{4}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Explain why the LTS in James et al. [17] uses four elements, but we ignore ...}{5}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added references to figure}{5}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ This section needs more depth - I think we need to show the added rungs and sketch essentially how they work based upon the figure. You can also describe the formula as intuitively we aim to double the pelican...}{5}{}%
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: pSeuDoCoDE}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Added some more intro}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Review: Does this work?}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use $\psi $ for the ladder logic program throughout, it mathes section 2.}{5}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain the psuedocode in a short paragraph}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add a paragraph discussing Figure 1 in this contest, Figure 1 has been obtained by applying the above algorithm to the ladder logic program presented by James et al \nobreakspace {}\cite {}... it shows...}{6}{}%
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ remove LLPs and call them ladder programs instead :)}{6}{}%
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Make this coherent}{6}{}%
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Diagram trajectory missing terminal state after reward}{6}{}%
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Check for CopyPasta erros}{6}{}%

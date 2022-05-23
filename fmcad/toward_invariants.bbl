@@ -44,10 +44,28 @@ A.~E. Haxthausen, M.~L. Bliguet, and A.~A. Kj{\ae}r, ``Modelling and
   Workshop}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2008, pp.
   141--153.
 
+\bibitem{vu2014formal}
+L.~H. Vu, A.~E. Haxthausen, and J.~Peleska, ``Formal modeling and verification
+  of interlocking systems featuring sequential release,'' in
+  \emph{International Workshop on Formal Techniques for Safety-Critical
+  Systems}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2014, pp.
+  223--238.
+
+\bibitem{4639322}
+H.~Post, C.~Sinz, A.~Kaiser, and T.~Gorges, ``Reducing false positives by
+  combining abstract interpretation and bounded model checking,'' in \emph{2008
+  23rd IEEE/ACM International Conference on Automated Software Engineering},
+  2008, pp. 188--197.
+
 \bibitem{1688959}
 M.~Awedh and F.~Somenzi, ``Automatic invariant strengthening to prove
   properties in bounded model checking,'' in \emph{2006 43rd ACM/IEEE Design
   Automation Conference}, 2006, pp. 1073--1076.
+
+\bibitem{4723646}
+G.~Cabodi, S.~Nocco, and S.~Quer, ``Strengthening model checking techniques
+  with inductive invariants,'' \emph{IEEE Transactions on Computer-Aided Design
+  of Integrated Circuits and Systems}, vol.~28, no.~1, pp. 154--158, 2009.
 
 \bibitem{kanso2009automated}
 K.~Kanso, F.~Moller, and A.~Setzer, ``Automated verification of signalling
@@ -61,6 +79,15 @@ P.~James, A.~Lawrence, F.~Moller, M.~Roggenbach, M.~Seisenberger, A.~Setzer,
   Formal Methods}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2013, pp.
   253--268.
 
+\bibitem{mnih2013playing}
+V.~Mnih, K.~Kavukcuoglu, D.~Silver, A.~Graves, I.~Antonoglou, D.~Wierstra, and
+  M.~Riedmiller, ``Playing atari with deep reinforcement learning,''
+  \emph{arXiv preprint arXiv:1312.5602}, 2013.
+
+\bibitem{schulman2017proximal}
+J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov, ``Proximal
+  policy optimization algorithms,'' 2017.
+
 \bibitem{mnih2016asynchronous}
 V.~Mnih, A.~P. Badia, M.~Mirza, A.~Graves, T.~P. Lillicrap, T.~Harley,
   D.~Silver, and K.~Kavukcuoglu, ``Asynchronous methods for deep reinforcement
@@ -70,35 +97,14 @@ V.~Mnih, A.~P. Badia, M.~Mirza, A.~Graves, T.~P. Lillicrap, T.~Harley,
 R.~S. Sutton and A.~G. Barto, \emph{Reinforcement learning: An
   introduction}.\hskip 1em plus 0.5em minus 0.4em\relax MIT press, 2018.
 
-\bibitem{mnih2013playing}
-V.~Mnih, K.~Kavukcuoglu, D.~Silver, A.~Graves, I.~Antonoglou, D.~Wierstra, and
-  M.~Riedmiller, ``Playing atari with deep reinforcement learning,''
-  \emph{arXiv preprint arXiv:1312.5602}, 2013.
+\bibitem{melo2008analysis}
+F.~S. Melo, S.~P. Meyn, and M.~I. Ribeiro, ``An analysis of reinforcement
+  learning with function approximation,'' in \emph{Proceedings of the 25th
+  international conference on Machine learning}, 2008, pp. 664--671.
 
 \bibitem{kakade2001natural}
 S.~M. Kakade, ``A natural policy gradient,'' \emph{Advances in neural
   information processing systems}, vol.~14, 2001.
-
-\bibitem{schulman2017proximal}
-J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford, and O.~Klimov, ``Proximal
-  policy optimization algorithms,'' 2017.
-
-\bibitem{bradley11}
-A.~R. Bradley, ``Sat-based model checking without unrolling,'' in
-  \emph{Verification, Model Checking, and Abstract Interpretation}, R.~Jhala
-  and D.~Schmidt, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin,
-  Heidelberg: Springer Berlin Heidelberg, 2011, pp. 70--87.
-
-\bibitem{cimatti12}
-A.~Cimatti and A.~Griggio, ``Software model checking via ic3,'' in
-  \emph{Computer Aided Verification}, P.~Madhusudan and S.~A. Seshia,
-  Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin, Heidelberg: Springer
-  Berlin Heidelberg, 2012, pp. 277--293.
-
-\bibitem{bradley07}
-A.~R. Bradley and Z.~Manna, ``Checking safety by inductive generalization of
-  counterexamples to induction,'' in \emph{Formal Methods in Computer Aided
-  Design (FMCAD'07)}, 2007, pp. 173--180.
 
 \bibitem{case2007automated}
 M.~L. Case, A.~Mishchenko, and R.~K. Brayton, ``Automated extraction of
@@ -117,47 +123,22 @@ P.~Garg, D.~Neider, P.~Madhusudan, and D.~Roth, ``Learning invariants using
   decision trees and implication counterexamples,'' \emph{ACM Sigplan Notices},
   vol.~51, no.~1, pp. 499--512, 2016.
 
-\bibitem{schaul2015prioritized}
-T.~Schaul, J.~Quan, I.~Antonoglou, and D.~Silver, ``Prioritized experience
-  replay,'' \emph{arXiv preprint arXiv:1511.05952}, 2015.
+\bibitem{bradley11}
+A.~R. Bradley, ``Sat-based model checking without unrolling,'' in
+  \emph{Verification, Model Checking, and Abstract Interpretation}, R.~Jhala
+  and D.~Schmidt, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin,
+  Heidelberg: Springer Berlin Heidelberg, 2011, pp. 70--87.
 
-\bibitem{silver2016mastering}
-D.~Silver, A.~Huang, C.~J. Maddison, A.~Guez, L.~Sifre, G.~Van Den~Driessche,
-  J.~Schrittwieser, I.~Antonoglou, V.~Panneershelvam, M.~Lanctot \emph{et~al.},
-  ``Mastering the game of go with deep neural networks and tree search,''
-  \emph{nature}, vol. 529, no. 7587, pp. 484--489, 2016.
+\bibitem{cimatti12}
+A.~Cimatti and A.~Griggio, ``Software model checking via ic3,'' in
+  \emph{Computer Aided Verification}, P.~Madhusudan and S.~A. Seshia,
+  Eds.\hskip 1em plus 0.5em minus 0.4em\relax Berlin, Heidelberg: Springer
+  Berlin Heidelberg, 2012, pp. 277--293.
 
-\bibitem{vinyals2019grandmaster}
-O.~Vinyals, I.~Babuschkin, W.~M. Czarnecki, M.~Mathieu, A.~Dudzik, J.~Chung,
-  D.~H. Choi, R.~Powell, T.~Ewalds, P.~Georgiev \emph{et~al.}, ``Grandmaster
-  level in starcraft ii using multi-agent reinforcement learning,''
-  \emph{Nature}, vol. 575, no. 7782, pp. 350--354, 2019.
-
-\bibitem{gu2017deep}
-S.~Gu, E.~Holly, T.~Lillicrap, and S.~Levine, ``Deep reinforcement learning for
-  robotic manipulation with asynchronous off-policy updates,'' in \emph{2017
-  IEEE international conference on robotics and automation (ICRA)}.\hskip 1em
-  plus 0.5em minus 0.4em\relax IEEE, 2017, pp. 3389--3396.
-
-\bibitem{bloesch2022towards}
-M.~Bloesch, J.~Humplik, V.~Patraucean, R.~Hafner, T.~Haarnoja, A.~Byravan,
-  N.~Y. Siegel, S.~Tunyasuvunakool, F.~Casarini, N.~Batchelor \emph{et~al.},
-  ``Towards real robot learning in the wild: A case study in bipedal
-  locomotion,'' in \emph{Conference on Robot Learning}.\hskip 1em plus 0.5em
-  minus 0.4em\relax PMLR, 2022, pp. 1502--1511.
-
-\bibitem{mazyavkina2021reinforcement}
-N.~Mazyavkina, S.~Sviridov, S.~Ivanov, and E.~Burnaev, ``Reinforcement learning
-  for combinatorial optimization: A survey,'' \emph{Computers \& Operations
-  Research}, vol. 134, p. 105400, 2021.
-
-\bibitem{watkins1992q}
-C.~J. Watkins and P.~Dayan, ``Q-learning,'' \emph{Machine learning}, vol.~8,
-  no.~3, pp. 279--292, 1992.
-
-\bibitem{lecun2015deep}
-Y.~LeCun, Y.~Bengio, and G.~Hinton, ``Deep learning,'' \emph{nature}, vol. 521,
-  no. 7553, pp. 436--444, 2015.
+\bibitem{bradley07}
+A.~R. Bradley and Z.~Manna, ``Checking safety by inductive generalization of
+  counterexamples to induction,'' in \emph{Formal Methods in Computer Aided
+  Design (FMCAD'07)}, 2007, pp. 173--180.
 
 \bibitem{9231552}
 J.~Bergdahl, C.~Gordillo, K.~Tollmar, and L.~Gisslén, ``Augmenting automated
@@ -214,29 +195,29 @@ S.~Manchanda, A.~Mittal, A.~Dhawan, S.~Medya, S.~Ranu, and A.~Singh, ``Learning
   heuristics over large graphs via deep reinforcement learning,'' \emph{arXiv
   preprint arXiv:1903.03332}, 2019.
 
-\bibitem{hoffman2020acme}
-M.~Hoffman, B.~Shahriari, J.~Aslanides, G.~Barth-Maron, F.~Behbahani,
-  T.~Norman, A.~Abdolmaleki, A.~Cassirer, F.~Yang, K.~Baumli \emph{et~al.},
-  ``Acme: A research framework for distributed reinforcement learning,''
-  \emph{arXiv preprint arXiv:2006.00979}, 2020.
+\bibitem{andrychowicz2017hindsight}
+M.~Andrychowicz, F.~Wolski, A.~Ray, J.~Schneider, R.~Fong, P.~Welinder,
+  B.~McGrew, J.~Tobin, O.~Pieter~Abbeel, and W.~Zaremba, ``Hindsight experience
+  replay,'' \emph{Advances in neural information processing systems}, vol.~30,
+  2017.
 
-\bibitem{ostrovski2017countbased}
-G.~Ostrovski, M.~G. Bellemare, A.~van~den Oord, and R.~Munos, ``Count-based
-  exploration with neural density models,'' 2017.
-
-\bibitem{haarnoja2018soft}
-T.~Haarnoja, A.~Zhou, P.~Abbeel, and S.~Levine, ``Soft actor-critic: Off-policy
-  maximum entropy deep reinforcement learning with a stochastic actor,'' 2018.
-
-\bibitem{gordillo2021improving}
-C.~Gordillo, J.~Bergdahl, K.~Tollmar, and L.~Gissl{\'e}n, ``Improving
-  playtesting coverage via curiosity driven reinforcement learning agents,''
-  \emph{arXiv preprint arXiv:2103.13798}, 2021.
+\bibitem{schulman2017trust}
+J.~Schulman, S.~Levine, P.~Moritz, M.~I. Jordan, and P.~Abbeel, ``Trust region
+  policy optimization,'' 2017.
 
 \bibitem{wang2017sample}
 Z.~Wang, V.~Bapst, N.~Heess, V.~Mnih, R.~Munos, K.~Kavukcuoglu, and
   N.~de~Freitas, ``Sample efficient actor-critic with experience replay,''
   2017.
+
+\bibitem{haarnoja2018soft}
+T.~Haarnoja, A.~Zhou, K.~Hartikainen, G.~Tucker, S.~Ha, J.~Tan, V.~Kumar,
+  H.~Zhu, A.~Gupta, P.~Abbeel \emph{et~al.}, ``Soft actor-critic algorithms and
+  applications,'' \emph{arXiv preprint arXiv:1812.05905}, 2018.
+
+\bibitem{ostrovski2017countbased}
+G.~Ostrovski, M.~G. Bellemare, A.~van~den Oord, and R.~Munos, ``Count-based
+  exploration with neural density models,'' 2017.
 
 \bibitem{houthooft2017vime}
 R.~Houthooft, X.~Chen, Y.~Duan, J.~Schulman, F.~D. Turck, and P.~Abbeel,

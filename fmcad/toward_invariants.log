@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.10)  22 MAY 2022 22:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.10)  23 MAY 2022 08:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -746,70 +746,63 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10.03749> not available
 
 LaTeX Warning: Citation `IECstandard' on page 2 undefined on input line 447.
 
-
-LaTeX Warning: Citation `sefm14' on page 2 undefined on input line 448.
-
 [2
 
 ]
 
-LaTeX Warning: Citation `sefm14' on page 3 undefined on input line 468.
+LaTeX Warning: Reference `fig_sim' on page 3 undefined on input line 540.
 
-
-LaTeX Warning: Citation `sefm14' on page 3 undefined on input line 491.
-
-
-LaTeX Warning: Citation `sefm14' on page 3 undefined on input line 506.
-
-
-Underfull \hbox (badness 4060) in paragraph at lines 531--533
+[3]
+Underfull \hbox (badness 4060) in paragraph at lines 545--547
 []\OT1/ptm/m/it/10.03749 Defn 3. Markov De-ci-sion Pro-cess \OT1/ptm/m/n/10.037
 49 A fi-nite dis-
  []
 
 
-Underfull \hbox (badness 1460) in paragraph at lines 531--533
+Underfull \hbox (badness 1460) in paragraph at lines 545--547
 \OT1/ptm/m/n/10.03749 counted Markov De-ci-sion Pro-cess $\OML/cmm/m/it/10 M$ \
 OT1/ptm/m/n/10.03749 is a five tu-ple
  []
 
-[3] [4] [5]
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
 <figs/pelican_states.png, id=35, 794.0064pt x 467.1051pt>
 File: figs/pelican_states.png Graphic file (type png)
 <use figs/pelican_states.png>
-Package pdftex.def Info: figs/pelican_states.png  used on input line 628.
+Package pdftex.def Info: figs/pelican_states.png  used on input line 642.
 (pdftex.def)             Requested size: 505.89pt x 297.60628pt.
-LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 655.
- [6]
-Underfull \vbox (badness 4048) has occurred while \output is active []
 
-<figs/ppo_a2c_reachable_states.png, id=40, 2537.48pt x 1332.98pt>
-File: figs/ppo_a2c_reachable_states.png Graphic file (type png)
-<use figs/ppo_a2c_reachable_states.png>
-Package pdftex.def Info: figs/ppo_a2c_reachable_states.png  used on input line 
-714.
-(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
-<figs/ppo_a2c_max_k.png, id=41, 2537.48pt x 1332.98pt>
-File: figs/ppo_a2c_max_k.png Graphic file (type png)
-<use figs/ppo_a2c_max_k.png>
-Package pdftex.def Info: figs/ppo_a2c_max_k.png  used on input line 716.
-(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
-<figs/ppo_a2c_entropy.png, id=42, 2537.48pt x 1332.98pt>
-File: figs/ppo_a2c_entropy.png Graphic file (type png)
-<use figs/ppo_a2c_entropy.png>
-Package pdftex.def Info: figs/ppo_a2c_entropy.png  used on input line 719.
-(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
-<figs/ppo_a2c_value_loss.png, id=43, 2537.48pt x 1332.98pt>
-File: figs/ppo_a2c_value_loss.png Graphic file (type png)
-<use figs/ppo_a2c_value_loss.png>
-Package pdftex.def Info: figs/ppo_a2c_value_loss.png  used on input line 721.
-(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
+[6]
+LaTeX Font Info:    Calculating math sizes for size <8.03> on input line 667.
+
+Underfull \vbox (badness 1466) has occurred while \output is active []
+
  [7 <./figs/pelican_states.png>]
-Underfull \vbox (badness 3118) has occurred while \output is active []
-
- [8 <./figs/ppo_a2c_reachable_states.png> <./figs/ppo_a2c_max_k.png> <./figs/pp
-o_a2c_entropy.png> <./figs/ppo_a2c_value_loss.png>] (toward_invariants.bbl [9]
-Underfull \hbox (badness 3343) in paragraph at lines 246--250
+<figs/reachable_states.png, id=47, 2537.48pt x 1332.98pt>
+File: figs/reachable_states.png Graphic file (type png)
+<use figs/reachable_states.png>
+Package pdftex.def Info: figs/reachable_states.png  used on input line 725.
+(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
+<figs/max_k.png, id=48, 2537.48pt x 1332.98pt>
+File: figs/max_k.png Graphic file (type png)
+<use figs/max_k.png>
+Package pdftex.def Info: figs/max_k.png  used on input line 727.
+(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
+<figs/entropy.png, id=49, 2537.48pt x 1332.98pt>
+File: figs/entropy.png Graphic file (type png)
+<use figs/entropy.png>
+Package pdftex.def Info: figs/entropy.png  used on input line 730.
+(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
+<figs/reward.png, id=50, 2537.48pt x 1332.98pt>
+File: figs/reward.png Graphic file (type png)
+<use figs/reward.png>
+Package pdftex.def Info: figs/reward.png  used on input line 732.
+(pdftex.def)             Requested size: 243.91125pt x 128.1192pt.
+ [8] (toward_invariants.bbl [9 <./figs/reachable_states.png> <./figs/max_k.png>
+ <./figs/entropy.png> <./figs/reward.png>]
+Underfull \hbox (badness 3343) in paragraph at lines 227--231
 []\OT1/ptm/m/n/8.03 L. Es-pe-holt, H. Soyer, R. Munos, K. Si-monyan, V. Mnih,
  []
 
@@ -825,9 +818,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10
-
-] (toward_invariants.aux)
+[10] (toward_invariants.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -836,13 +827,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17239 strings out of 478585
- 344661 string characters out of 2849157
- 631110 words of memory out of 3000000
- 35119 multiletter control sequences out of 15000+600000
+ 17222 strings out of 478585
+ 344035 string characters out of 2849157
+ 625740 words of memory out of 3000000
+ 35102 multiletter control sequences out of 15000+600000
  513074 words of font info for 110 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 115i,16n,133p,2948b,839s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 115i,16n,133p,2332b,845s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/home/skaff/.miktex/texmfs/install/fonts/enc/dvips/base/8r.enc}</home/skaff/
 .miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pfb></home/skaff/.
 miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home/skaff/.m
@@ -861,7 +852,7 @@ l/fonts/type1/urw/times/utmb8a.pfb></home/skaff/.miktex/texmfs/install/fonts/ty
 pe1/urw/times/utmbi8a.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/urw/t
 imes/utmr8a.pfb></home/skaff/.miktex/texmfs/install/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on toward_invariants.pdf (10 pages, 916281 bytes).
+Output written on toward_invariants.pdf (10 pages, 935944 bytes).
 PDF statistics:
  135 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

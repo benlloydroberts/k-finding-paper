@@ -10,53 +10,55 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for ""
+Repeated entry---line 387 of file bibliography.bib
+ : @misc{haarnoja2018soft
+ :                       ,
+I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "IECstandard"
-Warning--I didn't find a database entry for "sefm14"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 42 entries,
+You've used 38 entries,
             4087 wiz_defined-function locations,
-            1052 strings with 16325 characters,
-and the built_in function-call counts, 33056 in all, are:
-= -- 2448
-> -- 1082
-< -- 229
-+ -- 570
-- -- 215
-* -- 1574
-:= -- 4688
-add.period$ -- 94
-call.type$ -- 42
-change.case$ -- 45
-chr.to.int$ -- 552
-cite$ -- 42
-duplicate$ -- 2379
-empty$ -- 2733
-format.name$ -- 257
-if$ -- 7759
+            1022 strings with 15341 characters,
+and the built_in function-call counts, 29267 in all, are:
+= -- 2142
+> -- 939
+< -- 198
++ -- 494
+- -- 185
+* -- 1388
+:= -- 4147
+add.period$ -- 85
+call.type$ -- 38
+change.case$ -- 41
+chr.to.int$ -- 486
+cite$ -- 38
+duplicate$ -- 2107
+empty$ -- 2486
+format.name$ -- 223
+if$ -- 6882
 int.to.chr$ -- 0
-int.to.str$ -- 42
-missing$ -- 475
-newline$ -- 153
-num.names$ -- 46
-pop$ -- 1237
+int.to.str$ -- 38
+missing$ -- 422
+newline$ -- 141
+num.names$ -- 42
+pop$ -- 1117
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 2497
+skip$ -- 2215
 stack$ -- 0
-substring$ -- 1341
-swap$ -- 1879
-text.length$ -- 45
+substring$ -- 1171
+swap$ -- 1638
+text.length$ -- 36
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 42
+type$ -- 38
 warning$ -- 0
-while$ -- 135
-width$ -- 44
-write$ -- 403
-(There were 3 warnings)
+while$ -- 120
+width$ -- 40
+write$ -- 362
+(There was 1 error message)

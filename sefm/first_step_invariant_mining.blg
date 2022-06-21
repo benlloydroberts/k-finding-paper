@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: first_step_invariant_mining.aux
+White space in argument---line 3 of file first_step_invariant_mining.aux
+ : \citation{fantechi2012some,
+ :                             ferrari2011model, haxthausen2008modelling}
+I'm skipping whatever remains of this command
+White space in argument---line 12 of file first_step_invariant_mining.aux
+ : \citation{kanso2009automated,
+ :                               james2013verification}
+I'm skipping whatever remains of this command
+White space in argument---line 38 of file first_step_invariant_mining.aux
+ : \citation{case2007automated,
+ :                              bensalem1996powerful}
+I'm skipping whatever remains of this command
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: splncs04.bst
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: bibliography.bib
+You've used 36 entries,
+            2850 wiz_defined-function locations,
+            794 strings with 12192 characters,
+and the built_in function-call counts, 22377 in all, are:
+= -- 1785
+> -- 916
+< -- 29
++ -- 375
+- -- 336
+* -- 1447
+:= -- 2954
+add.period$ -- 66
+call.type$ -- 36
+change.case$ -- 301
+chr.to.int$ -- 0
+cite$ -- 36
+duplicate$ -- 1924
+empty$ -- 1882
+format.name$ -- 371
+if$ -- 4819
+int.to.chr$ -- 0
+int.to.str$ -- 36
+missing$ -- 419
+newline$ -- 114
+num.names$ -- 76
+pop$ -- 837
+preamble$ -- 1
+purify$ -- 237
+quote$ -- 0
+skip$ -- 545
+stack$ -- 0
+substring$ -- 1055
+swap$ -- 1034
+text.length$ -- 29
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 140
+warning$ -- 0
+while$ -- 162
+width$ -- 38
+write$ -- 377
+(There were 3 error messages)

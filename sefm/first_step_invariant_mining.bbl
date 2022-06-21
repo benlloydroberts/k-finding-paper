@@ -1,0 +1,190 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{andrychowicz2017hindsight}
+Andrychowicz, M., Wolski, F., Ray, A., Schneider, J., Fong, R., Welinder, P.,
+  McGrew, B., Tobin, J., Pieter~Abbeel, O., Zaremba, W.: Hindsight experience
+  replay. Advances in Neural Information Processing Systems  \textbf{30} (2017)
+
+\bibitem{s21041067}
+Apuroop, K.G.S., Le, A.V., Elara, M.R., Sheu, B.J.: Reinforcement
+  learning-based complete area coverage path planning for a modified h{T}rihex
+  robot. Sensors  \textbf{21}(4) (2021). \doi{10.3390/s21041067}
+
+\bibitem{1688959}
+Awedh, M., Somenzi, F.: Automatic invariant strengthening to prove properties
+  in bounded model checking. In: ACM/IEEE Design Automation Conference. pp.
+  1073--1076 (2006). \doi{10.1145/1146909.1147180}
+
+\bibitem{9231552}
+Bergdahl, J., Gordillo, C., Tollmar, K., Gisslén, L.: Augmenting automated
+  game testing with deep reinforcement learning. In: IEEE Conference on Games.
+  pp. 600--603 (2020). \doi{10.1109/CoG47356.2020.9231552}
+
+\bibitem{bradley11}
+Bradley, A.R.: {SAT}-based model checking without unrolling. In: Jhala, R.,
+  Schmidt, D. (eds.) Verification, Model Checking, and Abstract Interpretation.
+  pp. 70--87. Springer Berlin Heidelberg, Berlin, Heidelberg (2011)
+
+\bibitem{bradley07}
+Bradley, A.R., Manna, Z.: Checking safety by inductive generalization of
+  counterexamples to induction. In: Formal Methods in Computer Aided Design.
+  pp. 173--180 (2007)
+
+\bibitem{4723646}
+Cabodi, G., Nocco, S., Quer, S.: Strengthening model checking techniques with
+  inductive invariants. IEEE Transactions on Computer-Aided Design of
+  Integrated Circuits and Systems  \textbf{28}(1),  154--158 (2009).
+  \doi{10.1109/TCAD.2008.2009147}
+
+\bibitem{9678703}
+Cao, Y., Zheng, Y., Lin, S.W., Liu, Y., Teo, Y.S., Toh, Y., Adiga, V.V.:
+  Automatic {HMI} structure exploration via curiosity-based reinforcement
+  learning. In: IEEE/ACM International Conference on Automated Software
+  Engineering. pp. 1151--1155 (2021). \doi{10.1109/ASE51524.2021.9678703}
+
+\bibitem{case2007automated}
+Case, M.L., Mishchenko, A., Brayton, R.K.: Automated extraction of inductive
+  invariants to aid model checking. In: Formal Methods in Computer Aided
+  Design. pp. 165--172. IEEE (2007)
+
+\bibitem{cimatti12}
+Cimatti, A., Griggio, A.: Software model checking via {IC3}. In: Madhusudan,
+  P., Seshia, S.A. (eds.) Computer Aided Verification. pp. 277--293. Springer
+  Berlin Heidelberg, Berlin, Heidelberg (2012)
+
+\bibitem{espeholt2018impala}
+Espeholt, L., Soyer, H., Munos, R., Simonyan, K., Mnih, V., Ward, T., Doron,
+  Y., Firoiu, V., Harley, T., Dunning, I., Legg, S., Kavukcuoglu, K.: Impala:
+  Scalable distributed deep-{RL} with importance weighted actor-learner
+  architectures. arXiv preprint arXiv:1802.01561  (2018)
+
+\bibitem{fantechi2012some}
+Fantechi, A., Fokkink, W., Morzenti, A.: Some trends in formal methods
+  applications to railway signaling. Formal methods for industrial critical
+  systems: A survey of applications pp. 61--84 (2012)
+
+\bibitem{garg2016learning}
+Garg, P., Neider, D., Madhusudan, P., Roth, D.: Learning invariants using
+  decision trees and implication counterexamples. ACM Sigplan Notices
+  \textbf{51}(1),  499--512 (2016)
+
+\bibitem{groote1995safety}
+Groote, J.F., van Vlijmen, S.F., Koorn, J.W.: The safety guaranteeing system at
+  station {H}oorn-{K}ersenboogerd. In: Proceedings of the Annual Conference on
+  Computer Assurance Systems Integrity, Software Safety and Process Security'.
+  pp. 57--68. IEEE (1995)
+
+\bibitem{haarnoja2018soft}
+Haarnoja, T., Zhou, A., Hartikainen, K., Tucker, G., Ha, S., Tan, J., Kumar,
+  V., Zhu, H., Gupta, A., Abbeel, P., et~al.: Soft actor-critic algorithms and
+  applications. arXiv preprint arXiv:1812.05905  (2018)
+
+\bibitem{houthooft2017vime}
+Houthooft, R., Chen, X., Duan, Y., Schulman, J., Turck, F.D., Abbeel, P.:
+  {VIME}: Variational information maximizing exploration. arXiv preprint
+  arXiv:1605.09674  (2017)
+
+\bibitem{james2013verification}
+James, P., Lawrence, A., Moller, F., Roggenbach, M., Seisenberger, M., Setzer,
+  A., Kanso, K., Chadwick, S.: Verification of solid state interlocking
+  programs. In: International Conference on Software Engineering and Formal
+  Methods. pp. 253--268. Springer (2013)
+
+\bibitem{james2011automatically}
+James, P., Roggenbach, M.: Automatically verifying railway interlockings using
+  sat-based model checking. Electronic Communications of the EASST  \textbf{35}
+  (2011)
+
+\bibitem{kakade2001natural}
+Kakade, S.M.: A natural policy gradient. Advances in Neural Information
+  Processing Systems  \textbf{14} (2001)
+
+\bibitem{kanso2009automated}
+Kanso, K., Moller, F., Setzer, A.: Automated verification of signalling
+  principles in railway interlocking systems. Electronic Notes in Theoretical
+  Computer Science  \textbf{250}(2),  19--31 (2009)
+
+\bibitem{malkauthekar2013analysis}
+Malkauthekar, M.: Analysis of euclidean distance and manhattan distance measure
+  in face recognition. In: International Conference on Computational
+  Intelligence and Information Technology. pp. 503--507. IET (2013)
+
+\bibitem{medsker2001recurrent}
+Medsker, L.R., Jain, L.: Recurrent neural networks. Design and Applications
+  \textbf{5},  64--67 (2001)
+
+\bibitem{melo2008analysis}
+Melo, F.S., Meyn, S.P., Ribeiro, M.I.: An analysis of reinforcement learning
+  with function approximation. In: Proceedings of the International Conference
+  on Machine Learning. pp. 664--671 (2008)
+
+\bibitem{mnih2016asynchronous}
+Mnih, V., Badia, A.P., Mirza, M., Graves, A., Lillicrap, T.P., Harley, T.,
+  Silver, D., Kavukcuoglu, K.: Asynchronous methods for deep reinforcement
+  learning. arXiv preprint arXiv:1602.01783  (2016)
+
+\bibitem{mnih2013playing}
+Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra,
+  D., Riedmiller, M.: Playing {A}tari with deep reinforcement learning. arXiv
+  preprint arXiv:1312.5602  (2013)
+
+\bibitem{ostrovski2017countbased}
+Ostrovski, G., Bellemare, M.G., van~den Oord, A., Munos, R.: Count-based
+  exploration with neural density models. arXiv preprint arXiv:1703.01310
+  (2017)
+
+\bibitem{9476756}
+Peake, A., McCalmon, J., Zhang, Y., Myers, D., Alqahtani, S., Pauca, P.: Deep
+  reinforcement learning for adaptive exploration of unknown environments. In:
+  International Conference on Unmanned Aircraft Systems. pp. 265--274 (2021).
+  \doi{10.1109/ICUAS51884.2021.9476756}
+
+\bibitem{4639322}
+Post, H., Sinz, C., Kaiser, A., Gorges, T.: Reducing false positives by
+  combining abstract interpretation and bounded model checking. In: IEEE/ACM
+  International Conference on Automated Software Engineering. pp. 188--197
+  (2008). \doi{10.1109/ASE.2008.29}
+
+\bibitem{schulman2017trust}
+Schulman, J., Levine, S., Moritz, P., Jordan, M.I., Abbeel, P.: Trust region
+  policy optimization. arXiv preprint arXiv:1502.05477  (2017)
+
+\bibitem{schulman2017proximal}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
+  policy optimization algorithms. arXiv preprint arXiv:1707.06347  (2017)
+
+\bibitem{sutton2018reinforcement}
+Sutton, R.S., Barto, A.G.: Reinforcement learning: An introduction. MIT press
+  (2018)
+
+\bibitem{tang2017exploration}
+Tang, H., Houthooft, R., Foote, D., Stooke, A., Xi~Chen, O., Duan, Y.,
+  Schulman, J., DeTurck, F., Abbeel, P.: \# exploration: A study of count-based
+  exploration for deep reinforcement learning. Advances in Neural Information
+  Processing Systems  \textbf{30} (2017)
+
+\bibitem{tiegelkamp2010iec}
+Tiegelkamp, M., John, K.H.: IEC 61131-3: Programming industrial automation
+  systems. Springer (2010)
+
+\bibitem{vu2014formal}
+Vu, L.H., Haxthausen, A.E., Peleska, J.: Formal modeling and verification of
+  interlocking systems featuring sequential release. In: International Workshop
+  on Formal Techniques for Safety-Critical Systems. pp. 223--238. Springer
+  (2014)
+
+\bibitem{wang2017sample}
+Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuoglu, K.,
+  de~Freitas, N.: Sample efficient actor-critic with experience replay. arXiv
+  preprint arXiv:1611.01224  (2017)
+
+\bibitem{9402046}
+Zheng, Y., Liu, Y., Xie, X., Liu, Y., Ma, L., Hao, J., Liu, Y.: Automatic web
+  testing using curiosity-driven reinforcement learning. In: IEEE/ACM
+  International Conference on Software Engineering. pp. 423--435 (2021).
+  \doi{10.1109/ICSE43902.2021.00048}
+
+\end{thebibliography}

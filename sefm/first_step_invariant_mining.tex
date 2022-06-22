@@ -21,7 +21,7 @@
 
 \begin{document}
 %
-\title{Mining Invariants from Reachable State Space Observations\thanks{Supported by EPSRC and Siemens Mobility UK}}
+\title{Mining Invariants from State Space Observations\thanks{Supported by EPSRC and Siemens Mobility UK}}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -194,7 +194,7 @@ Determining the reachable state space for ladder logic programs is often intract
 We briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
 
 \subsection{Invariant Finding}
-\todo{Elaborate on these}
+\todo{Elaborate on these citations}
 From software engineering techniques~\cite{case2007automated, bensalem1996powerful}, to hybrid methods incorporating machine learning \cite{garg2016learning}, researchers have proposed various approaches to invariant finding with varying degrees of success. 
 IC3~\cite{bradley11} is one of the most successful approaches for model checking with invariants. IC3 makes use of of relatively simple SAT problems to incrementally constrain a state space towards only reachable states. In this scenario, IC3 operates only at the Boolean level of the abstract state space, discovering inductive clauses over the abstraction predicates. It has been applied to verification of software~\cite{cimatti12} and in the context of hardware model checking~\cite{bradley07}. Although, we note that this approach explores invariants for a state-space relative to a given property for verification. In our work, we aim to explore invariants that can be mined independent of the given property.
 
@@ -285,12 +285,24 @@ Applying the above algorithm with $n\_rungs=0$ produces the complete state space
 \end{figure*}
 
 \subsection{Agent Implementation}
-Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function.
+Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function. \todo{Introduce data}
 
 \section{Results}\label{sec:results}
 \subsection{State Space Coverage}
+\todo{Briefly introduce coverage results - justify subsequent sections}
+
 \subsection{Variable Correlation}
+\todo{Add fig: covariance / phi matrix}
+\todo{Introduce plot}
+\todo{Highlight program semantics / variable assignment, latch relations)}
+\todo{Highlight generated program / artificially depth}
+\todo{Add fig: correlation time series (w.r.t a variable subset)}
+\todo{Introduce time series plot}
+\todo{Highlight generated action correlation - suggestion of depth}
+\todo{Discuss optimising phi coeffs to converge over time.}
+
 \subsection{Trajectory Clustering}
+
 %We now present a set of results from applying our approach to a series of generated ladder logic programs, modelled as learning environments. The following section is divided into three parts, first discussing the merits and drawbacks of the respective learning algorithms. Second, we present results from applying the multi agent A3C algorithm to our full set of generated ladder logic programs, shown in Table \ref{tab:a3c_results}. Finally we discuss performance differences between single agent implementations of A2C and PPO, as they exhibited divergent learning objectives.
 %
 %

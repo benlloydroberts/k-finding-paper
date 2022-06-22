@@ -171,7 +171,7 @@ $s_0 \in Val_0$.
 
 Consider Figure~\ref{fig:state_space}, which illustrates multiple models of a simple ladder logic program for controlling a pelican crossing as considered by James et al.~\cite{james2013verification}. One model highlighted is, as defined, a ladder logic LTS. We can see that states contain Boolean valuations for the ladder logic variables (for the LTS model we note the input variables below the dashed line at the bottom of each state are not included in the state variables). For example, state S1 shows that the variable CROSSING is $0$ (i.e. false) in that state. Transitions are labelled with (for our purposes here the blue labels) inputs and their Boolean valuations. For instance the arrow from S1 to S2 is labelled with the input PRESSED$\;=1$. Finally we can also see one initial state, state S0 (the state with dotted edges), where all variables are set to false.
 
-\subsection{Reinforcement Learning and MDPs}
+\subsection{Reinforcement Learning and MDPs} \todo{Rephrase}
 Reinforcement Learning (RL) is a machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. 
 \textit{Defn 3. Markov Decision Process}: A finite discounted Markov Decision Process $M$ is a five tuple $(S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$, where 
 \begin{itemize}
@@ -199,15 +199,16 @@ From software engineering techniques~\cite{case2007automated, bensalem1996powerf
 IC3~\cite{bradley11} is one of the most successful approaches for model checking with invariants. IC3 makes use of of relatively simple SAT problems to incrementally constrain a state space towards only reachable states. In this scenario, IC3 operates only at the Boolean level of the abstract state space, discovering inductive clauses over the abstraction predicates. It has been applied to verification of software~\cite{cimatti12} and in the context of hardware model checking~\cite{bradley07}. Although, we note that this approach explores invariants for a state-space relative to a given property for verification. In our work, we aim to explore invariants that can be mined independent of the given property.
 
 
-\subsection{Exploration in Reinforcement Learning}
+\subsection{Exploration in Reinforcement Learning} \todo{Techniques on mining and shorten exploration section / focus on mining}
 Maintaining the desired balance between exploring unobserved state-action pairs for information maximisation and exploiting knowledge of the environment to further improve performance remains a challenge in RL research. Means of improving state exploration has seen particular interest in software or user testing communities. In~\cite{9231552}, Bergdahl et al. apply vanilla PPO in an episodic 3D environment, incentivising state space coverage to automatically identify in-game bugs and exploits. Recently, Cao et al.~\cite{9678703} used a curiosity function based on an empirical count of state-action pairs to maximise traversal of state transitions for specific human-machine interfaces, using vanilla Q-learning with an $\epsilon$-greedy exploration. Similar applications in web application testing~\cite{9402046} simulate user actions to navigate site structures, recalling which state-action pairs the model is most `uncertain'. State transitions with the greatest uncertainty are then prioritised for exploration when backtracking from state loops. Again, the authors use vanilla Q-learning and count-based reward scaling during Q-function updates~\cite{tang2017exploration}. Peake et al.~\cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems; adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Other works~\cite{s21041067} incorporate recurrent networks~\cite{medsker2001recurrent} in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. We incorporate trends in the literature such as state-of-the-art learning algorithms sporting the best performance in research tasks and using environment reset logic to discourage early convergence. We detail this approach further in Section \ref{sec:results}.
 
 
-\section{Mapping Formal Methods to Reinforcement Learning} \label{sec:mapping_fm_to_ml}
-
+\section{Mining...} \label{sec:mapping_fm_to_ml}
+\todo{Subsec: setting up data gathering - translation, then interaction and generated trajectories}
 Before any attempts toward invariant finding can be made, it is essential our model in the reinforcement learning setting captures the structure of model checking on ladder logic programs. In this section we introduce a faithful mapping that, given a ladder logic LTS, constructs an MDP model where reinforcement learning can be applied. Similarly, any invariant finding approach will require agents that maximise state space coverage. To explore this, we also introduce an approach for generation of state spaces with known metrics such as number of states and state space depth.
 
-\subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP}
+\subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP} \todo{Shorten and introduce concept of mining experiences to generate a dataset}
+
 %We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 %\begin{itemize}
 %	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
@@ -221,7 +222,6 @@ We now define the finite Markov Decision Process (MDP), or environment $\mathcal
 
 \textit{Defn 4. Ladder Logic Markov Decision Process}:
 A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$ is a five tuple, where our observation space is the union of program inputs and ladder variables, and:
-
 
 \begin{itemize}
 	\item $S = Val_C \cup Val_I$.
@@ -240,10 +240,15 @@ Considering Figure~\ref{fig:state_space}, we observe differences in how agent ac
 
 Finally, our reward function and $\gamma$ can be tuned to modify the learning objective. Aiming to maximise state space coverage we implement a reward scheme which positively rewards novel observations over distinct episodes, deterring loop traversal through episode termination and negative rewards. Consider the example trajectory $\tau =(S0, [0,1,0,0], + 1, S1, [0,0,1,0], + 1, S4,$ $[0,1,0,0], + 1,$ $S5, [0,1,0,0], -1, S5)$. Computing the expected return on the next episode, starting from $S0$ and using observed rewards from the latest trajectory, discounting factor $\gamma = 0.99$ applies accordingly; $G_t = 1 + 0.99(1) + 0.99^{2}(1) = 1 + 0.99 + 0.9801$.  In Section~\ref{sec:results} we discuss these point further.
 
+\todo{Subsec: Explain stacked trajectories}
+\todo{What data is generated?}
+\todo{How is the data generated}
+\todo{What information is held by trajectories?}
+\todo{Why are they stacked?}
 % . Training episodes spawn agents at some initial state, either with all variables set to 0 or from some randomly sampled state from a set of previous observations. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences. Early stopping terminates training if a set number of consecutive model updates do not improvement in terms of coverage or reward. Second, training ends in our artificially generated programs if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
 
 
-\subsection{Environment Generation}
+\subsection{Environment Generation} \todo{Move to results, refer to why they were used \& shorten}
 Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This enables us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(\psi_i)|$ represents the number of reachable states for a program $\psi_i$, a subsequently generated program $\psi_{i+1}$ with one additional rung, has $2|S(\psi_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
 
 The following algorithm modifies the body of a pelican crossing ladder logic program given in Section~\ref{sec:ladder_logic}. For every $i^{th}$ rung introduced to lengthen the base program, we define two additional variables, VAR\_$i$ and ACT\_$i$. This effectively doubles the existing state space, increases the size of each state observation and introduces as increments the size of $\mathcal{A}$ by 2.
@@ -273,7 +278,7 @@ The following algorithm modifies the body of a pelican crossing ladder logic pro
 %\end{align*}
 Applying the above algorithm with $n\_rungs=0$ produces the complete state space of Figure~\ref{fig:state_space}. For readability and illustration we have obfuscated three states from the original ladder logic program in Section \ref{sec:ladder_logic}, abstracted as the `Pelican State Space'. Similarly, five states and their connected transitions are abstracted as the `Extended State Space'.  Again, dashed edges between states denote transitions induced by actions we have introduced while hard lined edges represent actions induced by valuations of the original input variable PRESSED. Transition labels from the LTS are highlighted in blue, while action selection according to the RL agent is shown in red. Results presented in Section~\ref{sec:results} are based on a set of generated programs ranging from $2^{14}$ to $2^{50}$ states\footnote{We note that interlocking programs generate much larger state spaces for model checking. However, work on abstractions by James et al.~\cite{james2011automatically} have shown that the state space can be reduced, in many cases, to an approximate size of $2^{50}$}, referenced in Table~\ref{tab:a3c_results}.
 
-
+\todo{Swap out for illustration of stacked trajectories}
 \begin{figure*}[!t]
 	\centering
 	\includegraphics[width=\linewidth]{figs/pelican_states.png}
@@ -285,7 +290,7 @@ Applying the above algorithm with $n\_rungs=0$ produces the complete state space
 \end{figure*}
 
 \subsection{Agent Implementation}
-Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function. \todo{Introduce data}
+Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function. 
 
 \section{Results}\label{sec:results}
 \subsection{State Space Coverage}
@@ -293,13 +298,15 @@ Here we introduce the network architecture used to train our RL agents. All algo
 
 \subsection{Variable Correlation}
 \todo{Add fig: covariance / phi matrix}
-\todo{Introduce plot}
+\todo{Introduce plot - how to read}
 \todo{Highlight program semantics / variable assignment, latch relations)}
 \todo{Highlight generated program / artificially depth}
 \todo{Add fig: correlation time series (w.r.t a variable subset)}
-\todo{Introduce time series plot}
+\todo{Introduce time series plot - how to read}
 \todo{Highlight generated action correlation - suggestion of depth}
 \todo{Discuss optimising phi coeffs to converge over time.}
+
+\subsection{Use of mining to validate generated data}
 
 \subsection{Trajectory Clustering}
 

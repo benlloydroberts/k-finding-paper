@@ -151,16 +151,16 @@ valuation for output variables.
 \end{align*}
 where $\mu'_C$ is computed as follows: the value of each variable $c_i$ is computed using the $i$th rung of the ladder, $\psi_i$, using the valuations $\mu_C$ and $\mu_I$ from the last cycle and the current valuations restricted to those evaluated be fore the current variable. We refer the reader to~\cite{james2013verification} for full details.
 
-\textit{Defn 2. Ladder Logic Labelled Transition System:}
-We define the labelled transition system $LTS(\psi)$ for a ladder logic formula $\psi$ as the tuple $(Val_C,Val_I,\rightarrow, Val_0)$ where
+\begin{definition}[Ladder Logic Labelled Transition System]
+	We define the labelled transition system $LTS(\psi)$ for a ladder logic formula $\psi$ as the tuple $(Val_C,Val_I,\rightarrow, Val_0)$ where
+\end{definition}
 \begin{itemize}
 	\item $Val_C = \{ \mu_C | \mu_C : C \to \{ 0 , 1 \} \}$ is a set of states.
 	\item $Val_I = \{ \mu_I | \mu_I : I \to \{0 , 1 \} \}$ is a set of transition labels.
 	\item $\rightarrow \; \subseteq Val_C \times Val_I \times Val_c $ is a labelled transition relation, where $\mu_C \xrightarrow{\mu_I} \mu'_C$ iff  $[ \psi ] ( \mu_I , \mu_C) = \mu'_C$.
 	\item $ Val_0 \subseteq Val_C$ is the set of initial states.
-	
 \end{itemize}
-%
+
 We write $ s \xrightarrow{t} s'$ for $(s,t,s')\in R$.
 A state $s$ is called \emph{reachable} if 
 $s_0 \xrightarrow{t_0} s_{1} \xrightarrow{t_1} \ldots 
@@ -169,29 +169,35 @@ for some states $s_0,\ldots, s_{n} \in Val_C$, and
 labels $t_0, \ldots, t_{n-1} \in Val_I$ such that
 $s_0 \in Val_0$.  
 
-Consider Figure~\ref{fig:state_space}, which illustrates multiple models of a simple ladder logic program for controlling a pelican crossing as considered by James et al.~\cite{james2013verification}. One model highlighted is, as defined, a ladder logic LTS. We can see that states contain Boolean valuations for the ladder logic variables (for the LTS model we note the input variables below the dashed line at the bottom of each state are not included in the state variables). For example, state S1 shows that the variable CROSSING is $0$ (i.e. false) in that state. Transitions are labelled with (for our purposes here the blue labels) inputs and their Boolean valuations. For instance the arrow from S1 to S2 is labelled with the input PRESSED$\;=1$. Finally we can also see one initial state, state S0 (the state with dotted edges), where all variables are set to false.
+%Consider Figure~\ref{fig:state_space}, which illustrates multiple models of a simple ladder logic program for controlling a pelican crossing as considered by James et al.~\cite{james2013verification}. One model highlighted is, as defined, a ladder logic LTS. We can see that states contain Boolean valuations for the ladder logic variables (for the LTS model we note the input variables below the dashed line at the bottom of each state are not included in the state variables). For example, state S1 shows that the variable CROSSING is $0$ (i.e. false) in that state. Transitions are labelled with (for our purposes here the blue labels) inputs and their Boolean valuations. For instance the arrow from S1 to S2 is labelled with the input PRESSED$\;=1$. Finally we can also see one initial state, state S0 (the state with dotted edges), where all variables are set to false.
 
 \subsection{Reinforcement Learning and MDPs} \todo{Rephrase}
-Reinforcement Learning (RL) is a machine learning paradigm with demonstrably impressive capacity for modelling sequential decision making problems as the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. 
-\textit{Defn 3. Markov Decision Process}: A finite discounted Markov Decision Process $M$ is a five tuple $(S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$, where 
+Reinforcement Learning (RL) is a machine learning paradigm typically used to  solve sequential decision making problems by modelling the optimal control of some incompletely-known Markov Decision Process (MDP)~\cite{sutton2018reinforcement}. 
+\begin{definition}[Markov Decision Process]
+	A finite discounted Markov Decision Process $M$ is a five tuple $(S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$, where
+\end{definition} 
 \begin{itemize}
 	\item $S$, is a finite set of states, known as the observation space or state space, representing the model state at discrete time steps.
 	\item $\mathcal{A}$, describes the action space; a set of actions performable at discrete time steps, used to compute new states from the observation space.
 	\item $P_a(s,s^\prime) = P(s_{t+1} = s^\prime | s_t, a_t)$, describe state transition probabilities; the likelihood of observing state $s_{t+1}$ given action $a_t$ is taken from state $s_t$.
 	\item $R_a(s,s^\prime)$ is a reward function feeding a scalar signal, $r$ back to the agent at each time step $t$. 
-	\item $\gamma \in [0,1]$ is a discount scalar successively applied at each time step.
+	\item $\gamma \in [0,1)$ is a discount scalar successively applied at each time step.
 \end{itemize}
 
 %This user defined \textit{environment}, $\mathcal{E}$, comprises a set of %unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{\prime}$ and a scalar reward signal $r_t$.
 
-In an RL setting we refer to the MDP as our environment, $\mathcal{E}$ where through simulation, software agents sample actions $a \in \mathcal{A}$, observe changes in states, $s \in S$ and learn to optimise some objective based on rewards, $r$ issued over discrete time steps $t$. Simulation can be continuous, where agents indefinitely interact with the environment until some termination criterion is met, such as reaching some reward threshold. Alternatively tasks may be episodic, where training is conducted over a sequence of episodes, defined by a finite number of time steps. It is implicitly assumed ensuing algorithmic descriptions or problem formulation in this work refers to episodic cases. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, summarises experience accumulated over a single episode or continuous training run. Here, $h$ refers to the horizon; a time step beyond which rewards are no longer considered. Rewards observed from time step $t$ up to some terminal time step $T$, are denoted $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the return. The discount factor $\gamma \in [0,1]$ downscales rewards over return time steps while future rewards are reduced as the discount exponent $i-t$ increases. This helps prioritise immediate rewards over distant ones and to enumerate returns over a potentially infinite horizon. 
+In reinforcement learning the MDP serves as our \emph{environment} $\mathcal{E}$, where through \emph{episodic} or \emph{continuous} simulation, software agents sample their action space, observe state transitions and learn to optimise some objective based on a differential reward signal issued over discrete time steps. Continuous settings allow agents to interact with their environment for an undefined number of time steps, until some termination criterion is met such as reaching a reward threshold or state deadlock. Alternatively tasks may be episodic, where training occurs over $T_{Max}$ sequences of \emph{episodes}. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h,\newline a_h, r_h)$, summarises experience accumulated over a finite number of time steps, constituting a single episode or continuous training run. Ensuing algorithmic descriptions or problem formulation in this work refer to the episodic case. Here, $h$ denotes the \emph{horizon}; a time step beyond which rewards are no longer influence an agent's prediction. Rewards observed from some time step $t$ up to a terminal time step $T$, are denoted $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the \emph{return}. The discount factor $\gamma \in [0,1)$ downscales rewards over time steps while future rewards are reduced as the discount exponent $i-t$ increases. This helps prioritise immediate rewards over distant ones and enumerate returns over a potentially infinite horizon. 
 
-Two principle challenges of RL are those of prediction and control. The first refers to approximating the value function used to estimate state values $v(s)$ or state-action values $q(s,a)$, describing the benefit of being in that state. Values are differentiable and updated based on an empirical average, known as the expectation, taken over observed returns, $\mathbb{E}[G_t | S_t = s, A_t = a]$. In other words the expectation over return $G_t$ depends on being in state $S_t = s$, having taken action $A_t = a$ during the present time step. Observed returns depend on the actions sampled at discrete time steps. The second challenge of control concerns optimising this selection process via the policy $\pi(a|s)$; a probability distribution mapping states to actions most likely to maximise the reward objective. Ultimately an optimal value function will converge to an optimal policy~\cite{melo2008analysis}. In practice, to scale with complex environments, these functions are parametric and approximated with gradient-based methods, such as stochastic gradient ascent.
+\emph{Prediction} and \emph{control} refer to two principle challenges of RL. The first challenge is in approximating a value function which accurately estimates a quantitative benefit of being in that state. State values $v(s)$ or state-action values $q(s,a)$, describe this estimate. Values are differentiable and updated based on an empirical average, known as the \emph{expectation} taken over observed returns, $\mathbb{E}[G_t | S_t = s, A_t = a]$. Thus computing expectation over return $G_t$ depends on being in state $S_t = s$, having taken action $A_t = a$ during the most recent time step. Observed returns depend on the actions sampled at discrete time steps. 
 
-Determining the reachable state space for ladder logic programs is often intractable, making the complete MDP model unknown to us without computing transitions for all state-action pairs. Consequently we trial several gradient-based learning algorithms using deep neural network state representations to approximate both value function and policy subject to the reward objective. First, a simple Deep Q-Network~\cite{mnih2013playing} is trained on small environments before applying more advanced approaches. Among this family of approximate reinforcement learning algorithms are policy gradient methods~\cite{kakade2001natural}. Such algorithms utilise parametrised policies for control, where $\pi(a|s,\theta) = P(A_t=a|S_t=s,\theta_t=\theta)$ describes action selection, without need of value function estimates. Actor-critic methods also approximate a parametric, typically state-value, function $\hat{v}(s,\omega)$ separating learning of action selection from predicting value estimates. Gradient updates are performed with respect to parameter vector $\theta$ and objective function $J(\theta)$. Definitions of $J(\theta$) vary depending on the learning algorithm.  In this work we explore the efficacy of three principle actor-critic algorithms; Proximal Policy Optimisation (PPO)~\cite{schulman2017proximal}, Advantage Actor-Critic (A2C) and its asynchronous counterpart (A3C)~\cite{mnih2016asynchronous} in navigating our set of generated ladder logic programs. We discuss the merits and drawbacks of each approach for our setting in Section~\ref{sec:algorithmic_trends}.
+Control concerns optimising this selection process via the policy $\pi(a|s)$, a probability distribution mapping states to actions most likely to maximise the reward objective. Optimal value functions and optimal policies are reciprocal in that converging to an optimal value function will converge to an optimal policy~\cite{melo2008analysis}. In practice, to scale with complex environments, these functions are parametric and approximated with gradient-based methods, such as stochastic gradient ascent.
+
+Determining the reachable state space for industrial ladder logic programs is often intractable, making the complete MDP model unknown to us without exhaustively computing all state-action pairs. Consequently we trial several gradient-based learning algorithms using deep neural networks to approximate both value function and behaviour policy, subject to our reward objective. \todo{Check if we ever refer to the reward objective before this}
+
+Policy gradient methods~\cite{kakade2001natural} utilise parametrised policies for control, where $\pi(a|s,\theta) = P(A_t=a|S_t=s,\theta_t=\theta)$ describes action selection, without need of value function estimates. Actor-critic methods also approximate a parametric, typically state-value, function $\hat{v}(s,\omega)$ separating predicting and learning action selection and value estimates independently. In practice however, both actor and critic networks share learnable parameters yet produce different predictions. Gradient updates are performed with respect to parameter vector $\theta$ and objective function $J(\theta)$. Definitions of $J(\theta$) vary depending on the learning algorithm. In this work we explore the efficacy of three principle actor-critic algorithms; Proximal Policy Optimisation (PPO)~\cite{schulman2017proximal}, Advantage Actor-Critic (A2C) and its asynchronous counterpart (A3C)~\cite{mnih2016asynchronous} in navigating our set of generated ladder logic programs. We discuss the merits and drawbacks of each approach for our setting in Section~\ref{sec:coverage}.
 
 \section{Related Work}
-We briefly highlight key contributions within related literature, addressing the invariant finding problem for interlocking programs and contemporary RL strategies for environment exploration.
+We briefly highlight key contributions within related literature, addressing contemporary environment exploration strategies, the invariant finding problem for interlocking programs and existing invariant mining techniques.
 
 \subsection{Invariant Finding}
 \todo{Elaborate on these citations}
@@ -200,29 +206,21 @@ IC3~\cite{bradley11} is one of the most successful approaches for model checking
 
 
 \subsection{Exploration in Reinforcement Learning} \todo{Techniques on mining and shorten exploration section / focus on mining}
-Maintaining the desired balance between exploring unobserved state-action pairs for information maximisation and exploiting knowledge of the environment to further improve performance remains a challenge in RL research. Means of improving state exploration has seen particular interest in software or user testing communities. In~\cite{9231552}, Bergdahl et al. apply vanilla PPO in an episodic 3D environment, incentivising state space coverage to automatically identify in-game bugs and exploits. Recently, Cao et al.~\cite{9678703} used a curiosity function based on an empirical count of state-action pairs to maximise traversal of state transitions for specific human-machine interfaces, using vanilla Q-learning with an $\epsilon$-greedy exploration. Similar applications in web application testing~\cite{9402046} simulate user actions to navigate site structures, recalling which state-action pairs the model is most `uncertain'. State transitions with the greatest uncertainty are then prioritised for exploration when backtracking from state loops. Again, the authors use vanilla Q-learning and count-based reward scaling during Q-function updates~\cite{tang2017exploration}. Peake et al.~\cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems; adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Other works~\cite{s21041067} incorporate recurrent networks~\cite{medsker2001recurrent} in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. We incorporate trends in the literature such as state-of-the-art learning algorithms sporting the best performance in research tasks and using environment reset logic to discourage early convergence. We detail this approach further in Section \ref{sec:results}.
+Maintaining the desired balance between explorative traversal, for information maximisation, and exploiting existing knowledge of the environment to further improve performance remains a challenge in RL. Means of improving state exploration has seen particular interest in software or user testing communities. In~\cite{9231552}, Bergdahl et al. apply vanilla PPO in an episodic 3D environment, incentivising state space coverage to automatically identify in-game bugs and exploits. Peake et al.~\cite{9476756} decompose exploration tasks over large, adaptive and partially observable environments into two sub-problems; adaptive exploration policy for region selection and separate policy for exploitation of an area of interest. Other works~\cite{s21041067} incorporate recurrent networks~\cite{medsker2001recurrent} in policy design, using temporality to recall the performance of past actions and their subsequent consequences according to the reward function. We incorporate trends in the literature such as state-of-the-art learning algorithms sporting the best performance in research tasks and using environment reset logic to discourage early convergence. We detail this approach further in Section \ref{sec:results}.
 
 
-\section{Mining...} \label{sec:mapping_fm_to_ml}
+\section{Mining Invariants} \label{sec:mapping_fm_to_ml}
 \todo{Subsec: setting up data gathering - translation, then interaction and generated trajectories}
-Before any attempts toward invariant finding can be made, it is essential our model in the reinforcement learning setting captures the structure of model checking on ladder logic programs. In this section we introduce a faithful mapping that, given a ladder logic LTS, constructs an MDP model where reinforcement learning can be applied. Similarly, any invariant finding approach will require agents that maximise state space coverage. To explore this, we also introduce an approach for generation of state spaces with known metrics such as number of states and state space depth.
+Before any attempts toward invariant finding can be made, it is essential learned properties in an RL environment can be used meaningfully in model checking ladder logic programs. Similarly, any invariant finding approach will require observations from a sufficient proportion of reachable states. In this section we introduce a mapping that, given a ladder logic LTS, constructs an MDP where reinforcement learning can be applied to maximise state space coverage and mine invariants from such observations.
 
 \subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP} \todo{Shorten and introduce concept of mining experiences to generate a dataset}
 
 %We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 %\begin{itemize}
-%	\item $S = V_I \cup V_C$, observation space to represent the MDP state at discrete time steps.
-%	\item $\mathcal{A} = V_I$, describes the action space; a set of formally defined actions which change the observation space
-%	\item $P_a(s,s^\prime) = Pr(s_{t+1} = s^\prime | s_t, a_t)$, describing the likelihood of observing state $s_{t+1}$ given action $a_t$ taken from state $s_t$
-%	\item $R_a(s,s^\prime)$ is a reward function fed back to the agent at each time step
-%	\item $\gamma$ is a discount scalar applied to the reward estimates for future time steps.
-%\end{itemize}
-
-We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$, used to represent the ladder logic program. 
-
-\textit{Defn 4. Ladder Logic Markov Decision Process}:
-A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$ is a five tuple, where our observation space is the union of program inputs and ladder variables, and:
-
+%	\item $S = V_I \cup V_C$
+\begin{definition}[Ladder Logic Markov Decision Process]
+	A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma)$ is a five tuple, where our observation space is the union of program inputs and ladder variables, and:
+\end{definition}
 \begin{itemize}
 	\item $S = Val_C \cup Val_I$.
 	\item $\mathcal{A} = Val_I$.
@@ -231,74 +229,131 @@ A Ladder Logic MDP $M(\psi) = (S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\g
 	\item $\gamma \in [0,1]$ is a discount scalar successively applied at each time step.
 \end{itemize}
 
-Here we note that any unique valuation of $Val_C$ under the dynamics of a ladder logic program constitutes a distinct state. Our action space, describes the set of ladder logic inputs used to compute new valuations after program execution. $P_a(s,s^\prime) = P(s_{t+1} = s^\prime | s_t, a_t)$, describes the state transition function in terms of probabilities of observing $s_{t+1}$ given action $a_t$ is taken from state $s_t$. As here, more transitions are available than described by the ladder logic program, we use this probability distribution to ensure transitions match those defined by the ladder logic (essentially this will be 1 for transitions dictated by the ladder logic program and 0 for transitions that are not). 
+Here we note that any unique valuation of $Val_C$ under the dynamics of a ladder logic program constitutes a distinct state. Our action space, describes the set of ladder logic inputs used to compute new valuations after program execution. $P_a(s,s^\prime) = P(s_{t+1} = s^\prime | s_t, a_t)$, describes the state transition function in terms of probabilities of observing $s_{t+1}$ given action $a_t$ is taken from state $s_t$. As here, more transitions are available than described by the ladder logic program, we use this probability distribution to ensure transitions match those defined by the ladder logic (essentially this will be 1 for transitions dictated by the ladder logic program and 0 for transitions that are not). Subsequently as agents build a policy $\pi(s|a,\theta)$ according to $R_a(s,s')$ and state transitions observed under $P_a(s,s^\prime)$, the environment unfolds as a set of reachable states that reflect those of the ladder logic LTS. 
 
-Subsequently as agents build a policy $\pi(s|a,\theta)$ according to $R_a(s,s')$ and state transitions observed under $P_a(s,s^\prime)$, the environment unfolds as a set of reachable states that mirror those of the ladder logic LTS. 
-
-
-Considering Figure~\ref{fig:state_space}, we observe differences in how agent action selection is represented compared to LTS transition labels. Where PRESSED and ACT\_1 are ladder logic inputs, the indices of an agents action space refer to selecting one of the following valuations: [PRESSED=True, PRESSED=False, ACT\_1=True, ACT\_1=False]. One index may evaluate to True (1) while the remainder are False (0). Following Figure~\ref{fig:state_space}, an agent starting its training episode from initial state $S0$ has four available actions (illustrated in red) and three states reachable, $S1,S2,S4$ within the next time step. Selecting action $[0,1,0,0]$ denotes setting PRESSED=False, observing a `new' state $S1$, and receiving positive reward $+\;1$, completing the time step. For ladder logic MDP with $N$ actions (LTS transition labels), there are at most $2N$ unique transitions $(s,a,s')$, thus the size of the action space from all states $s \in S$, is also $2N$. 
+%Considering Figure~\ref{fig:state_space}, we observe differences in how agent action selection is represented compared to LTS transition labels. Where PRESSED and ACT\_1 are ladder logic inputs, the indices of an agents action space refer to selecting one of the following valuations: [PRESSED=True, PRESSED=False, ACT\_1=True, ACT\_1=False]. One index may evaluate to True (1) while the remainder are False (0). Following Figure~\ref{fig:state_space}, an agent starting its training episode from initial state $S0$ has four available actions (illustrated in red) and three states reachable, $S1,S2,S4$ within the next time step. Selecting action $[0,1,0,0]$ denotes setting PRESSED=False, observing a `new' state $S1$, and receiving positive reward $+\;1$, completing the time step. For ladder logic MDP with $N$ actions (LTS transition labels), there are at most $2N$ unique transitions $(s,a,s')$, thus the size of the action space from all states $s \in S$, is also $2N$. 
 
 Finally, our reward function and $\gamma$ can be tuned to modify the learning objective. Aiming to maximise state space coverage we implement a reward scheme which positively rewards novel observations over distinct episodes, deterring loop traversal through episode termination and negative rewards. Consider the example trajectory $\tau =(S0, [0,1,0,0], + 1, S1, [0,0,1,0], + 1, S4,$ $[0,1,0,0], + 1,$ $S5, [0,1,0,0], -1, S5)$. Computing the expected return on the next episode, starting from $S0$ and using observed rewards from the latest trajectory, discounting factor $\gamma = 0.99$ applies accordingly; $G_t = 1 + 0.99(1) + 0.99^{2}(1) = 1 + 0.99 + 0.9801$.  In Section~\ref{sec:results} we discuss these point further.
 
-\todo{Subsec: Explain stacked trajectories}
-\todo{What data is generated?}
-\todo{How is the data generated}
-\todo{What information is held by trajectories?}
-\todo{Why are they stacked?}
+Consider figure \ref{fig:trajectories}. During the training process we concatenate sequences of trajectories collected across separate episodes, forming an $N\times M$ matrix $A_{\tau}$,  where $N$ refers to total observations collected during training and $M$ the number of program variables $|Val_{I} \cup Val_{C}|$, comprising any given observation. $A_\tau$ serves as our dataset from which invariants are to be mined.   
+
+
 % . Training episodes spawn agents at some initial state, either with all variables set to 0 or from some randomly sampled state from a set of previous observations. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences. Early stopping terminates training if a set number of consecutive model updates do not improvement in terms of coverage or reward. Second, training ends in our artificially generated programs if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
 
 
-\subsection{Environment Generation} \todo{Move to results, refer to why they were used \& shorten}
-Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and recurrence reachability diameter are known. This enables us to analyse the performance of our approach against well understood state spaces. Using existing models of ladder logic structures as a base template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a constrained yet predictable pattern of growth is devised. If $|S(\psi_i)|$ represents the number of reachable states for a program $\psi_i$, a subsequently generated program $\psi_{i+1}$ with one additional rung, has $2|S(\psi_i)|+1$ reachable states. Through a series of training runs on each environment we record the number of states observed by workers to gauge the overall state space coverage. 
-
-The following algorithm modifies the body of a pelican crossing ladder logic program given in Section~\ref{sec:ladder_logic}. For every $i^{th}$ rung introduced to lengthen the base program, we define two additional variables, VAR\_$i$ and ACT\_$i$. This effectively doubles the existing state space, increases the size of each state observation and introduces as increments the size of $\mathcal{A}$ by 2.
-\begin{figure}[!h]
-	\begin{algorithmic}\label{algo:ladder_generation}
-		\Procedure{Generate Ladder}{$n\_rungs$, $prog$}
-		\State cond $\gets$ ($\lnot$ PRESSED $\land$ $\lnot$CROSSING) $\land$ $\lnot$ REQ)
-		\State rung $\gets$ ACT\_1 $\land$ cond
-		\State coil $\gets$ VAR\_1 $\leftrightarrow$ rung
-		\State $i \gets 1$ 
-		\While{$i \leq$ n\_rungs}
-		\State $i \gets i+1$
-		\State new\_rung $\gets$ ACT\_[i] $\land$ (rung)
-		\State new\_coil $\gets$ VAR\_[i] $\leftrightarrow$ (new\_rung)
-		\State \textbf{append} new\_coil \textbf{to} $prog$
-		\EndWhile
-		\State \textbf{return} $prog$
-		\EndProcedure
-	\end{algorithmic}
-	\caption{Algorithm for automatic generation of ladder logic programs with controlled state space inflation.}
-	\label{fig:algorithm}
-\end{figure}
-
-%Figure \ref{fig:state_space} was generated using the additional rung:
-%\begin{align*}
-%	VAR\_1 = ACT\_1 \land (\lnot PRESSED) \land \\(\lnot CROSSING) \land (\lnot REQ)
-%\end{align*}
-Applying the above algorithm with $n\_rungs=0$ produces the complete state space of Figure~\ref{fig:state_space}. For readability and illustration we have obfuscated three states from the original ladder logic program in Section \ref{sec:ladder_logic}, abstracted as the `Pelican State Space'. Similarly, five states and their connected transitions are abstracted as the `Extended State Space'.  Again, dashed edges between states denote transitions induced by actions we have introduced while hard lined edges represent actions induced by valuations of the original input variable PRESSED. Transition labels from the LTS are highlighted in blue, while action selection according to the RL agent is shown in red. Results presented in Section~\ref{sec:results} are based on a set of generated programs ranging from $2^{14}$ to $2^{50}$ states\footnote{We note that interlocking programs generate much larger state spaces for model checking. However, work on abstractions by James et al.~\cite{james2011automatically} have shown that the state space can be reduced, in many cases, to an approximate size of $2^{50}$}, referenced in Table~\ref{tab:a3c_results}.
-
-\todo{Swap out for illustration of stacked trajectories}
-\begin{figure*}[!t]
-	\centering
-	\includegraphics[width=\linewidth]{figs/pelican_states.png}
-	% where an .eps filename suffix will be assumed under latex, 
-	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-	% via \DeclareGraphicsExtensions.
-	\caption{Simplified state space representation of generated ladder logic program with one additional input variable ACT\_1 and one output coil VAR\_1.}
-	\label{fig:state_space}
-\end{figure*}
 
 \subsection{Agent Implementation}
 Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function. 
 
 \section{Results}\label{sec:results}
+\subsection{Environment Generation} 
+Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and depth are known. This enables us to analyse the performance of our approach on state spaces with known ground truths. Using existing models of ladder logic structures as a base environment template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a predictable growth pattern is devised. Where $|S(\psi_i)|$, represents the number of reachable states for a program $\psi_i$, a subsequently generated program $\psi_{i+1}$ with one additional rung, has $2|S(\psi_i)|+1$ reachable states. During interaction with each environment we record the number of states observed by agents to gauge the overall state space coverage.
+
+ \todo{Add fig: pelican state space highlighting gated condition holding for S0, branching off to an extended space}
+ \todo{Highlight intended depth effect in correlation time series w.r.t ACT\_max}
+
+%The following algorithm modifies the body of a pelican crossing ladder logic program given in Section~\ref{sec:ladder_logic}. For every $i^{th}$ rung introduced to lengthen the base program, we define two additional variables, VAR\_$i$ and ACT\_$i$. This effectively doubles the existing state space, increases the size of each state observation and introduces as increments the size of $\mathcal{A}$ by 2.
+%\begin{figure}[!h]
+%	\begin{algorithmic}\label{algo:ladder_generation}
+%		\Procedure{Generate Ladder}{$n\_rungs$, $prog$}
+%		\State cond $\gets$ ($\lnot$ PRESSED $\land$ $\lnot$CROSSING) $\land$ $\lnot$ REQ)
+%		\State rung $\gets$ ACT\_1 $\land$ cond
+%		\State coil $\gets$ VAR\_1 $\leftrightarrow$ rung
+%		\State $i \gets 1$ 
+%		\While{$i \leq$ n\_rungs}
+%		\State $i \gets i+1$
+%		\State new\_rung $\gets$ ACT\_[i] $\land$ (rung)
+%		\State new\_coil $\gets$ VAR\_[i] $\leftrightarrow$ (new\_rung)
+%		\State \textbf{append} new\_coil \textbf{to} $prog$
+%		\EndWhile
+%		\State \textbf{return} $prog$
+%		\EndProcedure
+%	\end{algorithmic}
+%	\caption{Algorithm for automatic generation of ladder logic programs with controlled state space inflation.}
+%	\label{fig:algorithm}
+%\end{figure}
+
+%Figure \ref{fig:state_space} was generated using the additional rung:
+%\begin{align*}
+%	VAR\_1 = ACT\_1 \land (\lnot PRESSED) \land \\(\lnot CROSSING) \land (\lnot REQ)
+%\end{align*}
+%Applying the above algorithm with $n\_rungs=0$ produces the complete state space of Figure~\ref{fig:state_space}. For readability and illustration we have obfuscated three states from the original ladder logic program in Section \ref{sec:ladder_logic}, abstracted as the `Pelican State Space'. Similarly, five states and their connected transitions are abstracted as the `Extended State Space'.  Again, dashed edges between states denote transitions induced by actions we have introduced while hard lined edges represent actions induced by valuations of the original input variable PRESSED. Transition labels from the LTS are highlighted in blue, while action selection according to the RL agent is shown in red. 
+Results presented in Section~\ref{sec:results} are based on a set of generated programs ranging from $2^{14}$ to $2^{50}$ states\footnote{We note that interlocking programs generate much larger state spaces for model checking. However, work on abstractions by James et al.~\cite{james2011automatically} have shown that the state space can be reduced, in many cases, to an approximate size of $2^{50}$}, referenced in Table~\ref{tab:a3c_results}.
+
+\todo{Add fig: illustration of stacked trajectories}
+%\begin{figure*}[!t]
+%	\centering
+%	\includegraphics[width=\linewidth]{figs/pelican_states.png}
+%	% where an .eps filename suffix will be assumed under latex, 
+%	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+%	% via \DeclareGraphicsExtensions.
+%	\caption{Simplified state space representation of generated ladder logic program with one additional input variable ACT\_1 and one output coil VAR\_1.}
+%	\label{fig:state_space}
+%\end{figure*}
+
 \subsection{State Space Coverage}
 \todo{Briefly introduce coverage results - justify subsequent sections}
+\begin{table}[!h]
+	\caption{A3C Coverage Metrics}
+	\label{tab:a3c_results}
+	\centering
+	\begin{tabular}{rrrrr}
+		\hline
+		\multicolumn{3}{c|}{Environment}                                                                                                                                                                     & \multicolumn{2}{c}{Agent}                                \\ \hline
+		\multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}States\\ (Theoretical)\end{tabular}} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}States\\ (Reachable)\end{tabular}} & \multicolumn{1}{c|}{Actions} & \multicolumn{1}{c}{Depth} & \multicolumn{1}{c}{Coverage} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{14}$                                                              & 15                                                                               & 2                            & 14                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{16}$                                                              & 31                                                                               & 4                            & 28                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{18}$                                                             & 63                                                                               & 6                            & 48                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{20}$                                                             & 127                                                                              & 8                            & 33                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{22}$                                                              & 255                                                                              & 10                           & 76                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{24}$                                                              & 511                                                                              & 12                           & 49                        & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{26}$                                                             & 1023                                                                             & 14                           & 306                       & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{28}$                                                              & 2047                                                                             & 16                           & 538                       & 100.0                          \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{30}$                                                              & 4095                                                                             & 18                           & 1418                      & 99.731                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{32}$                                                              & 8191                                                                             & 20                           & 1712                      & 96.532                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{34}$                                                              & 16383                                                                            & 22                           & 1498                      & 95.550                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{36}$                                                              & 32767                                                                            & 24                           & 2879                      & 84.694                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{38}$                                                              & 65535                                                                            & 26                           & 1969                      & 89.071                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{40}$                                                              & 131071                                                                           & 28                           & 2692                      & 82.884                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{42}$                                                              & 262143                                                                           & 30                           & 1406                      & 76.033                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{44}$                                                              & 524287                                                                           & 32                           & 1782                      & 62.137                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{46}$                                                              & 1048575                                                                          & 34                           & 1593                      & 64.053                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{48}$                                                              & 2097151                                                                          & 36                           & 1598                      & 57.547                       \\
+		\rowcolor[HTML]{FFFFFF} 
+		$2^{50}$                                                              & 4194303                                                                          & 38                           & 2566                      & 41.483                       \\ \hline
+	\end{tabular}
+\end{table}
 
 \subsection{Variable Correlation}
-\todo{Add fig: covariance / phi matrix}
+\todo{Introduce phi coeffs}
+Phi coefficients are computed to show the association between a pair of binary variables. Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
+
+\begin{figure}[!t]
+	\label{fig:heatmap}
+	\centering
+	\includegraphics[width=\columnwidth]{figs/heatmap.png}
+	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
+\end{figure}
 \todo{Introduce plot - how to read}
+Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables produces a symmetric $N\times N$ matrix where element $m_{0,1}$ refers to the phi coefficient between $CROSSING$ and $REQ$. Entries computing self correlation are read on the diagonal, where they are set to $0$. 
 \todo{Highlight program semantics / variable assignment, latch relations)}
 \todo{Highlight generated program / artificially depth}
 \todo{Add fig: correlation time series (w.r.t a variable subset)}

@@ -3,11 +3,6 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
-\bibitem{andrychowicz2017hindsight}
-Andrychowicz, M., Wolski, F., Ray, A., Schneider, J., Fong, R., Welinder, P.,
-  McGrew, B., Tobin, J., Pieter~Abbeel, O., Zaremba, W.: Hindsight experience
-  replay. Advances in Neural Information Processing Systems  \textbf{30} (2017)
-
 \bibitem{s21041067}
 Apuroop, K.G.S., Le, A.V., Elara, M.R., Sheu, B.J.: Reinforcement
   learning-based complete area coverage path planning for a modified h{T}rihex
@@ -55,12 +50,6 @@ Cimatti, A., Griggio, A.: Software model checking via {IC3}. In: Madhusudan,
   P., Seshia, S.A. (eds.) Computer Aided Verification. pp. 277--293. Springer
   Berlin Heidelberg, Berlin, Heidelberg (2012)
 
-\bibitem{espeholt2018impala}
-Espeholt, L., Soyer, H., Munos, R., Simonyan, K., Mnih, V., Ward, T., Doron,
-  Y., Firoiu, V., Harley, T., Dunning, I., Legg, S., Kavukcuoglu, K.: Impala:
-  Scalable distributed deep-{RL} with importance weighted actor-learner
-  architectures. arXiv preprint arXiv:1802.01561  (2018)
-
 \bibitem{fantechi2012some}
 Fantechi, A., Fokkink, W., Morzenti, A.: Some trends in formal methods
   applications to railway signaling. Formal methods for industrial critical
@@ -76,16 +65,6 @@ Groote, J.F., van Vlijmen, S.F., Koorn, J.W.: The safety guaranteeing system at
   station {H}oorn-{K}ersenboogerd. In: Proceedings of the Annual Conference on
   Computer Assurance Systems Integrity, Software Safety and Process Security'.
   pp. 57--68. IEEE (1995)
-
-\bibitem{haarnoja2018soft}
-Haarnoja, T., Zhou, A., Hartikainen, K., Tucker, G., Ha, S., Tan, J., Kumar,
-  V., Zhu, H., Gupta, A., Abbeel, P., et~al.: Soft actor-critic algorithms and
-  applications. arXiv preprint arXiv:1812.05905  (2018)
-
-\bibitem{houthooft2017vime}
-Houthooft, R., Chen, X., Duan, Y., Schulman, J., Turck, F.D., Abbeel, P.:
-  {VIME}: Variational information maximizing exploration. arXiv preprint
-  arXiv:1605.09674  (2017)
 
 \bibitem{james2013verification}
 James, P., Lawrence, A., Moller, F., Roggenbach, M., Seisenberger, M., Setzer,
@@ -107,11 +86,6 @@ Kanso, K., Moller, F., Setzer, A.: Automated verification of signalling
   principles in railway interlocking systems. Electronic Notes in Theoretical
   Computer Science  \textbf{250}(2),  19--31 (2009)
 
-\bibitem{malkauthekar2013analysis}
-Malkauthekar, M.: Analysis of euclidean distance and manhattan distance measure
-  in face recognition. In: International Conference on Computational
-  Intelligence and Information Technology. pp. 503--507. IET (2013)
-
 \bibitem{medsker2001recurrent}
 Medsker, L.R., Jain, L.: Recurrent neural networks. Design and Applications
   \textbf{5},  64--67 (2001)
@@ -131,11 +105,6 @@ Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra,
   D., Riedmiller, M.: Playing {A}tari with deep reinforcement learning. arXiv
   preprint arXiv:1312.5602  (2013)
 
-\bibitem{ostrovski2017countbased}
-Ostrovski, G., Bellemare, M.G., van~den Oord, A., Munos, R.: Count-based
-  exploration with neural density models. arXiv preprint arXiv:1703.01310
-  (2017)
-
 \bibitem{9476756}
 Peake, A., McCalmon, J., Zhang, Y., Myers, D., Alqahtani, S., Pauca, P.: Deep
   reinforcement learning for adaptive exploration of unknown environments. In:
@@ -147,10 +116,6 @@ Post, H., Sinz, C., Kaiser, A., Gorges, T.: Reducing false positives by
   combining abstract interpretation and bounded model checking. In: IEEE/ACM
   International Conference on Automated Software Engineering. pp. 188--197
   (2008). \doi{10.1109/ASE.2008.29}
-
-\bibitem{schulman2017trust}
-Schulman, J., Levine, S., Moritz, P., Jordan, M.I., Abbeel, P.: Trust region
-  policy optimization. arXiv preprint arXiv:1502.05477  (2017)
 
 \bibitem{schulman2017proximal}
 Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
@@ -175,11 +140,6 @@ Vu, L.H., Haxthausen, A.E., Peleska, J.: Formal modeling and verification of
   interlocking systems featuring sequential release. In: International Workshop
   on Formal Techniques for Safety-Critical Systems. pp. 223--238. Springer
   (2014)
-
-\bibitem{wang2017sample}
-Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuoglu, K.,
-  de~Freitas, N.: Sample efficient actor-critic with experience replay. arXiv
-  preprint arXiv:1611.01224  (2017)
 
 \bibitem{9402046}
 Zheng, Y., Liu, Y., Xie, X., Liu, Y., Ma, L., Hao, J., Liu, Y.: Automatic web

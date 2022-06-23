@@ -5,11 +5,11 @@ White space in argument---line 3 of file first_step_invariant_mining.aux
  : \citation{fantechi2012some,
  :                             ferrari2011model, haxthausen2008modelling}
 I'm skipping whatever remains of this command
-White space in argument---line 12 of file first_step_invariant_mining.aux
+White space in argument---line 14 of file first_step_invariant_mining.aux
  : \citation{kanso2009automated,
  :                               james2013verification}
 I'm skipping whatever remains of this command
-White space in argument---line 38 of file first_step_invariant_mining.aux
+White space in argument---line 42 of file first_step_invariant_mining.aux
  : \citation{case2007automated,
  :                              bensalem1996powerful}
 I'm skipping whatever remains of this command
@@ -17,45 +17,45 @@ Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: splncs04.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
 Database file #1: bibliography.bib
-You've used 36 entries,
+You've used 28 entries,
             2850 wiz_defined-function locations,
-            794 strings with 12192 characters,
-and the built_in function-call counts, 22377 in all, are:
-= -- 1785
-> -- 916
-< -- 29
-+ -- 375
-- -- 336
-* -- 1447
-:= -- 2954
-add.period$ -- 66
-call.type$ -- 36
-change.case$ -- 301
+            761 strings with 10355 characters,
+and the built_in function-call counts, 17470 in all, are:
+= -- 1447
+> -- 620
+< -- 27
++ -- 255
+- -- 224
+* -- 1102
+:= -- 2257
+add.period$ -- 56
+call.type$ -- 28
+change.case$ -- 220
 chr.to.int$ -- 0
-cite$ -- 36
-duplicate$ -- 1924
-empty$ -- 1882
-format.name$ -- 371
-if$ -- 4819
+cite$ -- 28
+duplicate$ -- 1514
+empty$ -- 1520
+format.name$ -- 252
+if$ -- 3834
 int.to.chr$ -- 0
-int.to.str$ -- 36
-missing$ -- 419
-newline$ -- 114
-num.names$ -- 76
-pop$ -- 837
+int.to.str$ -- 28
+missing$ -- 313
+newline$ -- 90
+num.names$ -- 60
+pop$ -- 617
 preamble$ -- 1
-purify$ -- 237
+purify$ -- 166
 quote$ -- 0
-skip$ -- 545
+skip$ -- 467
 stack$ -- 0
-substring$ -- 1055
-swap$ -- 1034
-text.length$ -- 29
+substring$ -- 919
+swap$ -- 823
+text.length$ -- 27
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 140
+type$ -- 108
 warning$ -- 0
-while$ -- 162
-width$ -- 38
-write$ -- 377
+while$ -- 135
+width$ -- 30
+write$ -- 302
 (There were 3 error messages)

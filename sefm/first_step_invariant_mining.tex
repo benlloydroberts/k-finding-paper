@@ -292,7 +292,14 @@ Results presented in Section~\ref{sec:results} are based on a set of generated p
 %\end{figure*}
 
 \subsection{State Space Coverage}
-\todo{Briefly introduce coverage results - justify subsequent sections}
+Preliminary results applying the A3C algorithm to a number of generated programs are outlined in Table \ref{tab:a3c_results}. Training was distributed among 32 CPU worker threads. `Actions' referenced in the third column refer to the number of possible assignments over input variables in each ladder program, from every state. Depth, the first agent column, refers to the greatest number of steps taken before repeating observations in the environment, across all workers.
+
+Coverage metrics are expectedly maximised for environments with a small number of reachable states with acceptable levels of coverage for programs with a theoretical size up to $2^{40}$. Interestingly, we observed longer training durations without early stopping occasionally increased coverage beyond a certain threshold. It is possible workers learn an optimal search strategy within a subregion of the state space. Additionally, performance in terms of max depth and states reached increased by approx. $5\%$ when decreasing the total number of episodes from $3 \times 10^{5}$ to $1.5\times10^{5}$ episodes. This may be a product of random episode initialisation spawning workers in more desirable states where stochastic action sampling happened to lead to unfamiliar subregions of the environment.
+
+Performance in terms of cumulative reward which failed to maximise coverage often increased linearly before collapsing to some suboptimal reward. This may be due to tendencies for large network updates to shift the network gradients into a bad local minima, from which performance does not recover within the allotted training duration. The on-policy nature of actor critic means trajectories generated via an old policy are no longer sampled during minibatch updates for the current policy, thus biasing behaviour to the most recent model updates and introducing sample inefficiency. Adding on policy memory strategies\cite{wang2017sample} may help avoid this in future applications
+
+Given the A3C algorithm requires workers to asynchronously update their shared network every $T_{\max}$ steps or on episode termination, larger values for $T_{\max}$ consolidate more information regarding worker trajectories before applying gradient updates to their local network. We found the most significant improvements to performance in terms of coverage metrics and increasing the $k$ bound when introducing workers to larger environments, was lower update frequencies and random start state initialisation. Prior to these adjustments workers, irrespective of their number, seldom covered 80\% of most smaller environments. Similarly, for the largest environment with $2^{50}$ states, coverage improved from 3.2\% to 41.48\%
+
 \begin{table}[!h]
 	\caption{A3C Coverage Metrics}
 	\label{tab:a3c_results}
@@ -352,6 +359,7 @@ Phi coefficients are computed to show the association between a pair of binary v
 	\includegraphics[width=\columnwidth]{figs/heatmap.png}
 	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
 \end{figure}
+
 \todo{Introduce plot - how to read}
 Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables produces a symmetric $N\times N$ matrix where element $m_{0,1}$ refers to the phi coefficient between $CROSSING$ and $REQ$. Entries computing self correlation are read on the diagonal, where they are set to $0$. 
 \todo{Highlight program semantics / variable assignment, latch relations)}
@@ -362,6 +370,9 @@ Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of b
 \todo{Discuss optimising phi coeffs to converge over time.}
 
 \subsection{Use of mining to validate generated data}
+
+In generating ladder logic programs to serve as training environments we introduce a condition $VAR\_1 = ACT\_1 \land (\lnot CROSSING) \land \lnot REQ \land PRESSED)$, which only holds for $S1$ of the original pelican crossing. Subsequent rungs build upon this condition for every additional $ACT\_N$ and $VAR\_N$, ensuring every $n^th$ action introduced increases the overall state space depth. We would then expect ACT$\_1$,...,ACT$\_N$ to be correlated.  
+Observing the lower right quadrant of Figure \ref{fig:heatmap} we see properties of our program generation in how additional actions and variables become less related to our original program state space.   
 
 \subsection{Trajectory Clustering}
 

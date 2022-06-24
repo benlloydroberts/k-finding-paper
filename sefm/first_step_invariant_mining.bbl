@@ -34,12 +34,6 @@ Cabodi, G., Nocco, S., Quer, S.: Strengthening model checking techniques with
   Integrated Circuits and Systems  \textbf{28}(1),  154--158 (2009).
   \doi{10.1109/TCAD.2008.2009147}
 
-\bibitem{9678703}
-Cao, Y., Zheng, Y., Lin, S.W., Liu, Y., Teo, Y.S., Toh, Y., Adiga, V.V.:
-  Automatic {HMI} structure exploration via curiosity-based reinforcement
-  learning. In: IEEE/ACM International Conference on Automated Software
-  Engineering. pp. 1151--1155 (2021). \doi{10.1109/ASE51524.2021.9678703}
-
 \bibitem{case2007automated}
 Case, M.L., Mishchenko, A., Brayton, R.K.: Automated extraction of inductive
   invariants to aid model checking. In: Formal Methods in Computer Aided
@@ -125,12 +119,6 @@ Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O.: Proximal
 Sutton, R.S., Barto, A.G.: Reinforcement learning: An introduction. MIT press
   (2018)
 
-\bibitem{tang2017exploration}
-Tang, H., Houthooft, R., Foote, D., Stooke, A., Xi~Chen, O., Duan, Y.,
-  Schulman, J., DeTurck, F., Abbeel, P.: \# exploration: A study of count-based
-  exploration for deep reinforcement learning. Advances in Neural Information
-  Processing Systems  \textbf{30} (2017)
-
 \bibitem{tiegelkamp2010iec}
 Tiegelkamp, M., John, K.H.: IEC 61131-3: Programming industrial automation
   systems. Springer (2010)
@@ -141,10 +129,9 @@ Vu, L.H., Haxthausen, A.E., Peleska, J.: Formal modeling and verification of
   on Formal Techniques for Safety-Critical Systems. pp. 223--238. Springer
   (2014)
 
-\bibitem{9402046}
-Zheng, Y., Liu, Y., Xie, X., Liu, Y., Ma, L., Hao, J., Liu, Y.: Automatic web
-  testing using curiosity-driven reinforcement learning. In: IEEE/ACM
-  International Conference on Software Engineering. pp. 423--435 (2021).
-  \doi{10.1109/ICSE43902.2021.00048}
+\bibitem{wang2017sample}
+Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuoglu, K.,
+  de~Freitas, N.: Sample efficient actor-critic with experience replay. arXiv
+  preprint arXiv:1611.01224  (2017)
 
 \end{thebibliography}

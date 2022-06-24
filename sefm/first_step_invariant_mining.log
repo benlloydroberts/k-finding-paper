@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.6.22)  22 JUN 2022 20:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.6.22)  24 JUN 2022 12:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -782,8 +782,8 @@ ine 68.
 
 
 Overfull \hbox (11.03087pt too wide) in paragraph at lines 68--69
-\OT1/cmr/m/n/10 learning. For further details we refer the reader to [16,\OT1/c
-mr/bx/n/10 ?\OT1/cmr/m/n/10 ] and [20,23,19] respectively. 
+\OT1/cmr/m/n/10 learning. For further details we refer the reader to [15,\OT1/c
+mr/bx/n/10 ?\OT1/cmr/m/n/10 ] and [19,22,18] respectively. 
  []
 
 
@@ -849,7 +849,7 @@ ironment, incentivising
 
 
 Overfull \hbox (7.68272pt too wide) in paragraph at lines 209--210
-\OT1/cmr/m/n/10 et al. [21] decompose exploration tasks over large, adaptive an
+\OT1/cmr/m/n/10 et al. [20] decompose exploration tasks over large, adaptive an
 d partially observable
  []
 
@@ -886,7 +886,7 @@ ionally intractable,
 
 
 Overfull \hbox (5.34923pt too wide) in paragraph at lines 250--251
-\OT1/cmr/m/n/10 ladder logic structures as a base environment template [13], we
+\OT1/cmr/m/n/10 ladder logic structures as a base environment template [12], we
  derive progressively
  []
 
@@ -904,34 +904,68 @@ additional
  []
 
 [8]
+Overfull \hbox (8.68163pt too wide) in paragraph at lines 295--296
+\OT1/cmr/m/n/10 Preliminary results applying the A3C algorithm to a number of g
+enerated programs
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<figs/heatmap.png, id=52, 1096.095pt x 733.74126pt>
+Overfull \hbox (8.09926pt too wide) in paragraph at lines 295--296
+\OT1/cmr/m/n/10 `Actions' referenced in the third column refer to the number of
+ possible assignments
+ []
+
+
+Overfull \hbox (4.62712pt too wide) in paragraph at lines 297--298
+\OT1/cmr/m/n/10 without early stopping occasionally increased coverage beyond a
+ certain threshold.
+ []
+
+[9]
+Overfull \hbox (13.21045pt too wide) in paragraph at lines 301--302
+\OT1/cmr/m/n/10 gradient updates to their local network. We found the most sign
+ificant improvements
+ []
+
+<figs/heatmap.png, id=56, 1096.095pt x 733.74126pt>
 File: figs/heatmap.png Graphic file (type png)
 <use figs/heatmap.png>
-Package pdftex.def Info: figs/heatmap.png  used on input line 352.
+Package pdftex.def Info: figs/heatmap.png  used on input line 359.
 (pdftex.def)             Requested size: 347.12354pt x 232.37247pt.
 
-Underfull \hbox (badness 1275) in paragraph at lines 353--353
+Underfull \hbox (badness 1275) in paragraph at lines 360--360
 []\OT1/cmr/m/n/10 Fig.2: |Correlation matrix for ladder logic program with four
  additional
  []
 
+[10]
 
-Package caption Warning: \label without proper reference on input line 350.
+Package caption Warning: \label without proper reference on input line 357.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:heatmap' on page 9 undefined on input line 356.
+LaTeX Warning: Reference `fig:heatmap' on page 11 undefined on input line 364.
 
 
-Overfull \hbox (2.29366pt too wide) in paragraph at lines 356--357
+Overfull \hbox (2.29366pt too wide) in paragraph at lines 364--365
 []\OT1/cmr/m/n/10 Consider Figure [][]. Computing the phi coefficients for a se
 t of binary variables
  []
 
-(first_step_invariant_mining.bbl [9]
+
+Package caption Warning: \label without proper reference on input line 357.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:heatmap' on page 11 undefined on input line 375.
+
+
+Overfull \hbox (4.71039pt too wide) in paragraph at lines 374--376
+\OT1/cmr/m/n/10 In generating ladder logic programs to serve as training enviro
+nments we introduce
+ []
+
+[11 <./figs/heatmap.png>] (first_step_invariant_mining.bbl
 Underfull \hbox (badness 1701) in paragraph at lines 27--30
 []\OT1/cmr/m/n/9 Bradley, A.R., Manna, Z.: Checking safety by inductive general
 ization of
@@ -954,37 +988,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--36
 /cmr/m/n/9 (1), 154--158 (2009).
  []
 
-[10]
-Underfull \hbox (badness 1264) in paragraph at lines 54--57
+
+Underfull \hbox (badness 1264) in paragraph at lines 48--51
 []\OT1/cmr/m/n/9 Fantechi, A., Fokkink, W., Morzenti, A.: Some trends in formal
  methods
  []
 
-[11 <./figs/heatmap.png>]
-Underfull \hbox (badness 1205) in paragraph at lines 81--83
+
+Underfull \hbox (badness 1205) in paragraph at lines 75--77
 []\OT1/cmr/m/n/9 Kakade, S.M.: A natural policy gradient. Advances in Neural In
 formation
  []
 
-
-Underfull \hbox (badness 2529) in paragraph at lines 115--119
+[12]
+Underfull \hbox (badness 2529) in paragraph at lines 109--113
 []\OT1/cmr/m/n/9 Post, H., Sinz, C., Kaiser, A., Gorges, T.: Reducing false pos
 itives by
  []
 
 
-Underfull \hbox (badness 2626) in paragraph at lines 145--149
-\OT1/cmr/m/n/9 web testing using curiosity-driven reinforcement learning. In: I
-EEE/ACM
+Underfull \hbox (badness 1286) in paragraph at lines 133--136
+[]\OT1/cmr/m/n/9 Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R., Kavukcuog
+lu, K.,
  []
 
-
-Underfull \hbox (badness 6461) in paragraph at lines 145--149
-\OT1/cmr/m/n/9 International Conference on Software Engineering. pp. 423--435 (
-2021).
- []
-
-) [12] (first_step_invariant_mining.aux)
+) [13] (first_step_invariant_mining.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -993,10 +1021,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16821 strings out of 480289
- 333658 string characters out of 2888848
- 621705 words of memory out of 3000000
- 34693 multiletter control sequences out of 15000+600000
+ 16817 strings out of 480289
+ 333592 string characters out of 2888848
+ 619648 words of memory out of 3000000
+ 34689 multiletter control sequences out of 15000+600000
  480430 words of font info for 70 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  99i,16n,94p,1846b,850s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1023,9 +1051,9 @@ nstall/fonts/type1/public/amsfonts/cm/cmsy9.pfb></home/skaff/.miktex/texmfs/ins
 tall/fonts/type1/public/amsfonts/cm/cmti10.pfb></home/skaff/.miktex/texmfs/inst
 all/fonts/type1/public/amsfonts/cm/cmtt9.pfb></home/skaff/.miktex/texmfs/instal
 l/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on first_step_invariant_mining.pdf (12 pages, 409278 bytes).
+Output written on first_step_invariant_mining.pdf (13 pages, 416098 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
+ 166 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

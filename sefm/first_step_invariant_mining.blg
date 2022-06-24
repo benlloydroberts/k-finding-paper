@@ -9,7 +9,7 @@ White space in argument---line 14 of file first_step_invariant_mining.aux
  : \citation{kanso2009automated,
  :                               james2013verification}
 I'm skipping whatever remains of this command
-White space in argument---line 42 of file first_step_invariant_mining.aux
+White space in argument---line 40 of file first_step_invariant_mining.aux
  : \citation{case2007automated,
  :                              bensalem1996powerful}
 I'm skipping whatever remains of this command
@@ -17,45 +17,45 @@ Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: splncs04.bst
 Reallocating 'name_of_file' (item size: 1) to 13 items.
 Database file #1: bibliography.bib
-You've used 28 entries,
+You've used 26 entries,
             2850 wiz_defined-function locations,
-            761 strings with 10355 characters,
-and the built_in function-call counts, 17470 in all, are:
-= -- 1447
-> -- 620
-< -- 27
-+ -- 255
-- -- 224
-* -- 1102
-:= -- 2257
-add.period$ -- 56
-call.type$ -- 28
-change.case$ -- 220
+            750 strings with 9803 characters,
+and the built_in function-call counts, 15698 in all, are:
+= -- 1301
+> -- 536
+< -- 24
++ -- 221
+- -- 192
+* -- 980
+:= -- 2028
+add.period$ -- 50
+call.type$ -- 26
+change.case$ -- 194
 chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 1514
-empty$ -- 1520
-format.name$ -- 252
-if$ -- 3834
+cite$ -- 26
+duplicate$ -- 1377
+empty$ -- 1386
+format.name$ -- 218
+if$ -- 3446
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 313
-newline$ -- 90
-num.names$ -- 60
-pop$ -- 617
+int.to.str$ -- 26
+missing$ -- 282
+newline$ -- 84
+num.names$ -- 56
+pop$ -- 557
 preamble$ -- 1
-purify$ -- 166
+purify$ -- 146
 quote$ -- 0
-skip$ -- 467
+skip$ -- 420
 stack$ -- 0
-substring$ -- 919
-swap$ -- 823
-text.length$ -- 27
+substring$ -- 829
+swap$ -- 738
+text.length$ -- 24
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
+type$ -- 100
 warning$ -- 0
-while$ -- 135
-width$ -- 30
-write$ -- 302
+while$ -- 125
+width$ -- 28
+write$ -- 277
 (There were 3 error messages)

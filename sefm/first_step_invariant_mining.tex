@@ -210,10 +210,9 @@ Maintaining the desired balance between explorative traversal, for information m
 
 
 \section{Mining Invariants} \label{sec:mapping_fm_to_ml}
-\todo{Subsec: setting up data gathering - translation, then interaction and generated trajectories}
 Before any attempts toward invariant finding can be made, it is essential learned properties in an RL environment can be used meaningfully in model checking ladder logic programs. Similarly, any invariant finding approach will require observations from a sufficient proportion of reachable states. In this section we introduce a mapping that, given a ladder logic LTS, constructs an MDP where reinforcement learning can be applied to maximise state space coverage and mine invariants from such observations.
 
-\subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP} \todo{Shorten and introduce concept of mining experiences to generate a dataset}
+\subsection{Ladder Logic Markov Decision Process}\label{subsect:MDP} 
 
 %We now define the finite Markov Decision Process (MDP), or environment $\mathcal{E}$ used to represent the LLP. A Ladder Logic MDP $M(\psi)$ is a five tuple $\langle S,\mathcal{A},P_a(s,s^\prime), R_a(s,s^\prime),\gamma \rangle$, where 
 %\begin{itemize}
@@ -235,12 +234,15 @@ Here we note that any unique valuation of $Val_C$ under the dynamics of a ladder
 
 Finally, our reward function and $\gamma$ can be tuned to modify the learning objective. Aiming to maximise state space coverage we implement a reward scheme which positively rewards novel observations over distinct episodes, deterring loop traversal through episode termination and negative rewards. Consider the example trajectory $\tau =(S0, [0,1,0,0], + 1, S1, [0,0,1,0], + 1, S4,$ $[0,1,0,0], + 1,$ $S5, [0,1,0,0], -1, S5)$. Computing the expected return on the next episode, starting from $S0$ and using observed rewards from the latest trajectory, discounting factor $\gamma = 0.99$ applies accordingly; $G_t = 1 + 0.99(1) + 0.99^{2}(1) = 1 + 0.99 + 0.9801$.  In Section~\ref{sec:results} we discuss these point further.
 
-Consider figure \ref{fig:trajectories}. During the training process we concatenate sequences of trajectories collected across separate episodes, forming an $N\times M$ matrix $A_{\tau}$,  where $N$ refers to total observations collected during training and $M$ the number of program variables $|Val_{I} \cup Val_{C}|$, comprising any given observation. $A_\tau$ serves as our dataset from which invariants are to be mined.   
-
-
-% . Training episodes spawn agents at some initial state, either with all variables set to 0 or from some randomly sampled state from a set of previous observations. Workers are initialised with separate environment instances to accumulate experience independently. A global set of observations is asynchronously updated by workers periodically to compile shared experiences. Early stopping terminates training if a set number of consecutive model updates do not improvement in terms of coverage or reward. Second, training ends in our artificially generated programs if all reachable states have been observed at least once. To aid exploration, on episode resets we randomly initialise workers in some previously visited state, as demonstrated in~\cite{gordillo2021improving}. 
-
-
+\subsection{Data Collection}
+Training episodes initialise environments with an initial state, either with all variables set to 0 or, to incentivise exploration, we randomly initialise workers to some previously visited state, as demonstrated in~\cite{gordillo2021improving}. Agents are initialised with separate environment instances to accumulate experience independently. A global set of unique observations is asynchronously updated by workers to compile shared experiences across separate CPU threads. Early stopping criteria terminates training if a predetermined number of consecutive model updates do not improve state coverage or increase reward. On episode termination an agent is left with its most recent trajectory, a sequence of states, actions and rewards observed during the latest episode. 
+Consider figure \ref{fig:trajectories}. The left-hand diagram illustrates the base pelican crossing state space from which the trajectories $\tau_1,...,\tau_n$ are produced. During the training process we concatenate sequences of trajectories collected across separate episodes, forming an $N\times M$ matrix $A_{\tau}$,  where $N$ refers to total observations collected during training and $M$ the number of program variables  $|Val_{I} \cup Val_{C}|$, comprising any given observation. $A_\tau$ serves as our dataset from which invariants can be mined.   
+\begin{figure}[!t]
+	\centering
+	\label{fig:trajectories}
+	\includegraphics[width=\columnwidth]{figs/trajectory_stacks.png}
+	\caption{Illustration of trajectory stacking from observation made during exploration of pelican crossing ladder logic program state space. Edge labels denote change in valuation of input variable PRESSED.}
+\end{figure}
 
 \subsection{Agent Implementation}
 Here we introduce the network architecture used to train our RL agents. All algorithms presented in this work share the same architecture, adapting the input and output layers according to the environment. Our network input layer consists of $|Val_C \cup Val_I|$ nodes for given ladder logic formula $\psi$. Similarly, the output layer, responsible for mapping observations to the action space, comprises $|Val_I|$ nodes. All networks include a single fully connected hidden layer as this was empirically shown to produce the best performance. Learning rates for DQN, A2C, A3C and PPO algorithms were tuned individually according to the environment, falling within the range [0.0001, 0.001]. RMSProp was used to optimise the objective function. 
@@ -350,7 +352,7 @@ Given the A3C algorithm requires workers to asynchronously update their shared n
 \end{table}
 
 \subsection{Variable Correlation}
-\todo{Introduce phi coeffs}
+
 Phi coefficients are computed to show the association between a pair of binary variables. Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
 
 \begin{figure}[!t]
@@ -360,17 +362,21 @@ Phi coefficients are computed to show the association between a pair of binary v
 	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
 \end{figure}
 
-\todo{Introduce plot - how to read}
-Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables produces a symmetric $N\times N$ matrix where element $m_{0,1}$ refers to the phi coefficient between $CROSSING$ and $REQ$. Entries computing self correlation are read on the diagonal, where they are set to $0$. 
-\todo{Highlight program semantics / variable assignment, latch relations)}
-\todo{Highlight generated program / artificially depth}
+
+Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables from a generated ladder logic program with $2^{20}$ theoretical states, produces a symmetric $N\times N$ matrix, where element $m_{0,1}$ refers to the phi coefficient between $CROSSING$ and $REQ$. Entries computing self correlation are read on the diagonal, and have been set to $0$. $\phi$ coefficients require an empirical sample of observations in order to reveal any correlation. Naturally, the more unique samples concerning the binary variables under evaluation produce more accurate estimates of their relation. Given we wish to learn relations over massive state spaces it is likely our agent's begin with a noisy estimate of variable correlation without observing the majority of states, i.e without knowledge of all variable configurations under the reachable states, $\phi$ will remain an approximation (isn't it anyway?). 
+
+Immediately we notice certain aspects of program semantics, particularly variable assignment conditions, from Figure \ref{fig:heatmap}. Upper left quadrant represents base pelican crossing program. See strong positive and inverse correlation between variables responsible for traffic and pedestrian control during crossing procedures. Expectedly, green aspects for traffic $TL\_1\_G, TL\_2\_G$ are inversely related to green aspects for pedestrians, i.e both sets of lights should not simultaneously indicate a safe advance (Is this the invariant?). From this we can infer our own trivial invariant property given this relation is never explicitly defined in the program given all values for light aspects are assigned using the present value of $CROSSING$.
+
 \todo{Add fig: correlation time series (w.r.t a variable subset)}
-\todo{Introduce time series plot - how to read}
-\todo{Highlight generated action correlation - suggestion of depth}
+
+Figure \ref{fig:phi_timeseries} demonstrates the convergence of phi over training time steps, each plot illustrating correlation with respect to a single variable under evaluation. Lines fixed at $0$ represent the variable under evaluation, ignoring self correlation. Lines fixed at $1$ or $-1$ are variables positively or inversely related to the variable under evaluation. Note during earlier timesteps, estimates of phi are volatile until sufficient state space coverage stabilises the number of samples used in computing $\phi$. We see for small programs, these values converge quickly as the number of reachable states are low. For larger programs we would expect greater variability in correlation as our RL agents take longer to sufficiently populate $A_\tau$ with new observations. $\phi$ coefficients fluctuating between no relation and one of the extremes may suggest insufficient exploration of states 
+
+
+\subsubsection{Reward Shaping}
 \todo{Discuss optimising phi coeffs to converge over time.}
 
 \subsection{Use of mining to validate generated data}
-
+\todo{Highlight generated program / artificially depth}
 In generating ladder logic programs to serve as training environments we introduce a condition $VAR\_1 = ACT\_1 \land (\lnot CROSSING) \land \lnot REQ \land PRESSED)$, which only holds for $S1$ of the original pelican crossing. Subsequent rungs build upon this condition for every additional $ACT\_N$ and $VAR\_N$, ensuring every $n^th$ action introduced increases the overall state space depth. We would then expect ACT$\_1$,...,ACT$\_N$ to be correlated.  
 Observing the lower right quadrant of Figure \ref{fig:heatmap} we see properties of our program generation in how additional actions and variables become less related to our original program state space.   
 

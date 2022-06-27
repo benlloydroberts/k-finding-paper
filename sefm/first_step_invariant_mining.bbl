@@ -54,6 +54,11 @@ Garg, P., Neider, D., Madhusudan, P., Roth, D.: Learning invariants using
   decision trees and implication counterexamples. ACM Sigplan Notices
   \textbf{51}(1),  499--512 (2016)
 
+\bibitem{gordillo2021improving}
+Gordillo, C., Bergdahl, J., Tollmar, K., Gissl{\'e}n, L.: Improving playtesting
+  coverage via curiosity driven reinforcement learning agents. arXiv preprint
+  arXiv:2103.13798  (2021)
+
 \bibitem{groote1995safety}
 Groote, J.F., van Vlijmen, S.F., Koorn, J.W.: The safety guaranteeing system at
   station {H}oorn-{K}ersenboogerd. In: Proceedings of the Annual Conference on

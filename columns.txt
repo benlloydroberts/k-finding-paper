@@ -1,0 +1,22 @@
+columns = [
+    'CROSSING',
+    'REQ',
+    'TL1G',
+    'TL2G',
+    'TL1R',
+    'TL2R',
+    'PL1G',
+    'PL2G',
+    'PL1R',
+    'PL2R',
+    'AUDIO',
+    'VAR_1',
+    'VAR_2',
+    'VAR_3',
+    'VAR_4',
+    'PRESSED',
+    'ACT_1',
+    'ACT_2',
+    'ACT_3',
+    'ACT_4'
+]

@@ -10,6 +10,7 @@
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{dblfloatfix}
 \usepackage{subfig}
+\usepackage{subcaption}
 \usepackage[colorinlistoftodos]{todonotes}
 \setuptodonotes{inline}
 % Used for displaying a sample figure. If possible, figure files should
@@ -48,7 +49,7 @@ The application of formal methods to verify that railway signalling systems oper
 %
 %
 \section{Introduction}\todo{Review / reframe for invariant approach}
-Model checking is a formal verification technique stemming from the need to systematically
+Model checking is a formal verification technique to systematically
 check whether certain properties hold for different configurations (states) of a given system.
 Given a transition system $T$ and a formula (or property) $F$, model checking attempts to verify through refutation that $s \vdash F$ for every system state $s \in T$, resulting in $T \vdash F$. 
 
@@ -186,7 +187,7 @@ Reinforcement Learning (RL) is a machine learning paradigm typically used to  so
 
 %This user defined \textit{environment}, $\mathcal{E}$, comprises a set of %unique states $\mathcal{S}$, a set of permitted actions from each state $\mathcal{A}(s)$, a function describing state transitions $f : S \times \mathcal{A} \to S^{\prime}$ and a scalar reward signal $r_t$.
 
-In reinforcement learning the MDP serves as our \emph{environment} $\mathcal{E}$, where through \emph{episodic} or \emph{continuous} simulation, software agents sample their action space, observe state transitions and learn to optimise some objective based on a differential reward signal issued over discrete time steps. Continuous settings allow agents to interact with their environment for an undefined number of time steps, until some termination criterion is met such as reaching a reward threshold or state deadlock. Alternatively tasks may be episodic, where training occurs over $T_{Max}$ sequences of \emph{episodes}. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h,\newline a_h, r_h)$, summarises experience accumulated over a finite number of time steps, constituting a single episode or continuous training run. Ensuing algorithmic descriptions or problem formulation in this work refer to the episodic case. Here, $h$ denotes the \emph{horizon}; a time step beyond which rewards are no longer influence an agent's prediction. Rewards observed from some time step $t$ up to a terminal time step $T$, are denoted $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the \emph{return}. The discount factor $\gamma \in [0,1)$ downscales rewards over time steps while future rewards are reduced as the discount exponent $i-t$ increases. This helps prioritise immediate rewards over distant ones and enumerate returns over a potentially infinite horizon. 
+In reinforcement learning the MDP serves as our \emph{environment} $\mathcal{E}$, where through \emph{episodic} or \emph{continuous} simulation, software agents sample their action space, observe state transitions and learn to optimise some objective based on a differential reward signal issued over discrete time steps. Continuous settings allow agents to interact with their environment for an undefined number of time steps, until some termination criterion is met such as reaching a reward threshold or state deadlock. Alternatively tasks may be episodic, where training occurs over $T_{Max}$ sequences of \emph{episodes}. An agent's trajectory, $\tau = (s_1, a_1, r_1,  s_2, a_2, r_2,...,s_h, a_h, r_h)$, summarises experience accumulated over a finite number of time steps, constituting a single episode or continuous training run. Ensuing algorithmic descriptions or problem formulation in this work refer to the episodic case. Here, $h$ denotes the \emph{horizon}; a time step beyond which rewards are no longer influence an agent's prediction. Rewards observed from some time step $t$ up to a terminal time step $T$, are denoted $G_{t} = \sum_{i=t}^{T}\gamma^{i-t}r_{i}$, and referred to as the \emph{return}. The discount factor $\gamma \in [0,1)$ downscales rewards over time steps while future rewards are reduced as the discount exponent $i-t$ increases. This helps prioritise immediate rewards over distant ones and enumerate returns over a potentially infinite horizon. 
 
 \emph{Prediction} and \emph{control} refer to two principle challenges of RL. The first challenge is in approximating a value function which accurately estimates a quantitative benefit of being in that state. State values $v(s)$ or state-action values $q(s,a)$, describe this estimate. Values are differentiable and updated based on an empirical average, known as the \emph{expectation} taken over observed returns, $\mathbb{E}[G_t | S_t = s, A_t = a]$. Thus computing expectation over return $G_t$ depends on being in state $S_t = s$, having taken action $A_t = a$ during the most recent time step. Observed returns depend on the actions sampled at discrete time steps. 
 
@@ -252,7 +253,7 @@ Here we introduce the network architecture used to train our RL agents. All algo
 Given exhaustive search of large state spaces is often computationally intractable, we have generated a set of ladder logic programs where the number of reachable states and depth are known. This enables us to analyse the performance of our approach on state spaces with known ground truths. Using existing models of ladder logic structures as a base environment template~\cite{james2013verification}, we derive progressively larger programs by sequentially introducing additional rungs. This way a predictable growth pattern is devised. Where $|S(\psi_i)|$, represents the number of reachable states for a program $\psi_i$, a subsequently generated program $\psi_{i+1}$ with one additional rung, has $2|S(\psi_i)|+1$ reachable states. During interaction with each environment we record the number of states observed by agents to gauge the overall state space coverage.
 
  \todo{Add fig: pelican state space highlighting gated condition holding for S0, branching off to an extended space}
- \todo{Highlight intended depth effect in correlation time series w.r.t ACT\_max}
+
 
 %The following algorithm modifies the body of a pelican crossing ladder logic program given in Section~\ref{sec:ladder_logic}. For every $i^{th}$ rung introduced to lengthen the base program, we define two additional variables, VAR\_$i$ and ACT\_$i$. This effectively doubles the existing state space, increases the size of each state observation and introduces as increments the size of $\mathcal{A}$ by 2.
 %\begin{figure}[!h]
@@ -282,7 +283,6 @@ Given exhaustive search of large state spaces is often computationally intractab
 %Applying the above algorithm with $n\_rungs=0$ produces the complete state space of Figure~\ref{fig:state_space}. For readability and illustration we have obfuscated three states from the original ladder logic program in Section \ref{sec:ladder_logic}, abstracted as the `Pelican State Space'. Similarly, five states and their connected transitions are abstracted as the `Extended State Space'.  Again, dashed edges between states denote transitions induced by actions we have introduced while hard lined edges represent actions induced by valuations of the original input variable PRESSED. Transition labels from the LTS are highlighted in blue, while action selection according to the RL agent is shown in red. 
 Results presented in Section~\ref{sec:results} are based on a set of generated programs ranging from $2^{14}$ to $2^{50}$ states\footnote{We note that interlocking programs generate much larger state spaces for model checking. However, work on abstractions by James et al.~\cite{james2011automatically} have shown that the state space can be reduced, in many cases, to an approximate size of $2^{50}$}, referenced in Table~\ref{tab:a3c_results}.
 
-\todo{Add fig: illustration of stacked trajectories}
 %\begin{figure*}[!t]
 %	\centering
 %	\includegraphics[width=\linewidth]{figs/pelican_states.png}
@@ -353,7 +353,14 @@ Given the A3C algorithm requires workers to asynchronously update their shared n
 
 \subsection{Variable Correlation}
 
-Phi coefficients are computed to show the association between a pair of binary variables. Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
+Phi coefficients provide a measure of association between a pair of binary variables given a count of observations for each variable valuation.  
+ Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
+ 
+\todo{Add heatmap of unique states}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{figs/p4_states.png}
+\end{figure}
 
 \begin{figure}[!t]
 	\label{fig:heatmap}
@@ -362,18 +369,31 @@ Phi coefficients are computed to show the association between a pair of binary v
 	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
 \end{figure}
 
+% Introduce Matrix notation for phi coefficient
 
-Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables from a generated ladder logic program with $2^{20}$ theoretical states, produces a symmetric $N\times N$ matrix, where element $m_{0,1}$ refers to the phi coefficient between $CROSSING$ and $REQ$. Entries computing self correlation are read on the diagonal, and have been set to $0$. $\phi$ coefficients require an empirical sample of observations in order to reveal any correlation. Naturally, the more unique samples concerning the binary variables under evaluation produce more accurate estimates of their relation. Given we wish to learn relations over massive state spaces it is likely our agent's begin with a noisy estimate of variable correlation without observing the majority of states, i.e without knowledge of all variable configurations under the reachable states, $\phi$ will remain an approximation (isn't it anyway?). 
+Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables from a generated ladder logic program with $2^{20}$ theoretical states, produces a symmetric $n \times n$ matrix $A_{\psi}$, where $n = |Val_{I} \cup Val_{C}|$. Element $a_{ij} \in A_{\psi}$ refers the phi coefficient between the $i^{th}$ row and $j^{th}$ column. $a_{i\bullet}$ refers to the sum of elements in row $i$ and $a_{\bullet j}$ the sum of column $j$. We compute  Entries computing self correlation are read on the diagonal, and have been set to $0$. $\phi$ coefficients require an empirical sample of observations in order to reveal any correlation. Naturally, the more unique samples concerning the binary variables under evaluation produce more accurate estimates of their relation. Given we wish to learn relations over massive state spaces it is likely our agent's begin with a noisy estimate of variable correlation without observing the majority of states, i.e without knowledge of all variable configurations under the reachable states, $\phi$ will remain an approximation (isn't it anyway?). 
 
 Immediately we notice certain aspects of program semantics, particularly variable assignment conditions, from Figure \ref{fig:heatmap}. Upper left quadrant represents base pelican crossing program. See strong positive and inverse correlation between variables responsible for traffic and pedestrian control during crossing procedures. Expectedly, green aspects for traffic $TL\_1\_G, TL\_2\_G$ are inversely related to green aspects for pedestrians, i.e both sets of lights should not simultaneously indicate a safe advance (Is this the invariant?). From this we can infer our own trivial invariant property given this relation is never explicitly defined in the program given all values for light aspects are assigned using the present value of $CROSSING$.
 
 \todo{Add fig: correlation time series (w.r.t a variable subset)}
+ \todo{Highlight intended depth effect in correlation time series w.r.t ACT\_max}
+Figure \ref{fig:phi_timeseries} demonstrates the convergence of phi over training time steps, each plot illustrating correlation with respect to a single variable under evaluation. Lines fixed at $0$ represent the variable under evaluation, ignoring self correlation. Lines fixed at $1$ or $-1$ are variables positively or inversely related to the variable under evaluation. Note during earlier timesteps, estimates of phi are volatile until sufficient state space coverage stabilises the number of samples used in computing $\phi$. We see for small programs, these values converge quickly as the number of reachable states are low. 
 
-Figure \ref{fig:phi_timeseries} demonstrates the convergence of phi over training time steps, each plot illustrating correlation with respect to a single variable under evaluation. Lines fixed at $0$ represent the variable under evaluation, ignoring self correlation. Lines fixed at $1$ or $-1$ are variables positively or inversely related to the variable under evaluation. Note during earlier timesteps, estimates of phi are volatile until sufficient state space coverage stabilises the number of samples used in computing $\phi$. We see for small programs, these values converge quickly as the number of reachable states are low. For larger programs we would expect greater variability in correlation as our RL agents take longer to sufficiently populate $A_\tau$ with new observations. $\phi$ coefficients fluctuating between no relation and one of the extremes may suggest insufficient exploration of states 
+Assessing correlation over time \textit{w.r.t} $ACT\_1$ and $VAR\_1$
 
+\begin{figure}[ht]
+	\centering
+	\subfloat[][]{\includegraphics[width=0.5\textwidth]{figs/corr_var_1.png}}%{1.jpeg}}
+\hfil
+\subfloat[][]{\includegraphics[width=0.5\textwidth]{figs/p4_var_4.png}}%{2.jpeg}}
+\caption{bla bla bla}
+\label{fig:test}%
+\end{figure}
 
 \subsubsection{Reward Shaping}
-\todo{Discuss optimising phi coeffs to converge over time.}
+\todo{Discuss optimising phi coefficients to converge over time.}
+For larger programs we would expect greater variability in correlation as our RL agents take longer to sufficiently populate $A_\tau$ with new observations. $\phi$ coefficients fluctuating between no relation and one of the extremes may suggest insufficient exploration of states 
+
 
 \subsection{Use of mining to validate generated data}
 \todo{Highlight generated program / artificially depth}

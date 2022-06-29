@@ -10,7 +10,6 @@
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{dblfloatfix}
 \usepackage{subfig}
-\usepackage{subcaption}
 \usepackage[colorinlistoftodos]{todonotes}
 \setuptodonotes{inline}
 % Used for displaying a sample figure. If possible, figure files should
@@ -109,7 +108,7 @@ such that the following holds for all $i,j\in \{1,\ldots,n\}$:
 	but not on $c_j$ with $j<i$, due to the nature of the ladder logic implementation,
 	those values are overridden.)
 \end{itemize}
-Figure~\ref{fig:algorithm_1}, shows a ladder logic formulae for a simple ladder logic program for controlling a pelican crossing. For full details of the program we refer the read to~\cite{james2013verification}. However for understanding here, consider line one and three. In line 1, the value of the coil CROSSING’ is calculated based upon the inputs REQ and CROSSING. Whereas in line 3, the value of the coil TL\_1\_G (representing a traffic light being set to green), is calculated based upon the already compared coils CROSSING’ and REQ’ along with the input PRESSED. This illustrates the imperative nature of ladder logic in referencing variables.
+Figure~\ref{fig:pelican_formula}, shows a ladder logic formulae for a simple ladder logic program for controlling a pelican crossing. For full details of the program we refer the read to~\cite{james2013verification}. However for understanding here, consider line one and three. In line 1, the value of the coil CROSSING’ is calculated based upon the inputs REQ and CROSSING. Whereas in line 3, the value of the coil TL\_1\_G (representing a traffic light being set to green), is calculated based upon the already compared coils CROSSING’ and REQ’ along with the input PRESSED. This illustrates the imperative nature of ladder logic in referencing variables.
 
 
 \begin{figure}[!h]
@@ -129,7 +128,7 @@ Figure~\ref{fig:algorithm_1}, shows a ladder logic formulae for a simple ladder 
 		\end{algorithmic}
 	\end{small}
 	\caption{Ladder logic program for pelican crossing.}
-	\label{fig:algorithm_1}
+	\label{fig:pelican_formula}
 \end{figure}
 
 \subsection{Transition Systems and Model Checking for Ladder Logic}
@@ -351,32 +350,55 @@ Given the A3C algorithm requires workers to asynchronously update their shared n
 	\end{tabular}
 \end{table}
 
-\subsection{Variable Correlation}
+\subsection{State Properties}
+Recall the data generation process illustrated in Figure \ref{fig:trajectories}. Initially, our observation data set $A_{\tau}$ consists of all stacked agent trajectories, from which invariant properties are to be mined. Invariants may be manifest temporally, as patterns across state sequences, such as whenever we observe $X$ in $S_{t}$, we always observe $Y$ in $S_{t+1}$. Stacking all agent trajectories to form our dataset preserves temporal properties, recorded during many training episodes, for future sequence mining. Similarly, we may infer certain program properties by through a static representation in terms of unique, reachable states. Figure \ref{fig:unique_states} illustrates this for all 127 reachable states given a ladder logic program consisting $2^{20}$ theoretic states. Each row represents a state while each column corresponds to a program variable. Each cell in Figure \ref{fig:unique_states} represents a value (purple : 0, yellow : 1) for the respective variable under a given state. Recall our base pelican crossing program (Figure \ref{fig:trajectories}) concerned variables $CROSSING,...,AUDIO$. We see from the set of reachable states in Figure \ref{fig:unique_states} a candidate invariant disallowing both traffic lights and pedestrian lights to simultaneously display green aspects, i.e $PL\_1_\_G \land PL\_2_\_G$  $\equiv$ $\lnot(TL\_1_\_G \land TL\_2_\_G)$, which is never explicitly stated in ladder logic. Note this property holds for all generated programs, irrespective of size, as shown in Figure~\ref{fig:unique_states}(b). We envisage applying such visualisations to larger interlocking programs may allow us to infer properties concerning those ladder logic programs.
 
-Phi coefficients provide a measure of association between a pair of binary variables given a count of observations for each variable valuation.  
- Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
- 
-\todo{Add heatmap of unique states}
+
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\textwidth]{figs/p4_states.png}
+	\label{fig:unique_states}
+	\subfloat[][]{
+		\includegraphics[width=0.48\textwidth]{figs/p4_states.png}
+	}
+\hfil
+	\subfloat[][]{
+		\includegraphics[width=0.48\textwidth]{figs/p14_states.png}
+	}
 \end{figure}
+
+\subsection{Variable Correlation}
+Next we discuss the use of phi coefficients, or Matthew's Correlation Coefficient (MCC), as a basic statistical measure of association between binary variables comprising arbitrary ladder logic programs. 
+For two binary variables, $(x,y)$, we compute correlation coefficient $\phi = \frac{n_{11}n_{00}-n_{10}n_{01}}{\sqrt{n_{1\bullet}n_{0\bullet}-n_{\bullet1}n_{\bullet0}}}$, where $n_{ij}$ refers to a count of observed valuations: 
+ \begin{table}[]
+ 	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		& $y=1$ & $y=0$ & total \\ \hline
+		$x=1$   & $n_{11}$ & $n_{10}$ & $n_{1\bullet}$   \\ \hline
+		$x=0$   & $n_{01}$ & $n_{00}$ & $n_{0\bullet}$   \\ \hline
+		total & $n_{\bullet1}$ & $n_{\bullet0}$ & $n$     \\ \hline
+	\end{tabular}
+\end{table}
+
+
+In other words the relation between two binary variables depends on their variability with respect to one another. If we observe all possible valuations of our program variables, i.e observe all unique reachable states, then we have sufficient samples to accurately compute this association. We populate a correlation matrix, similar to the variance-covariance matrix, for all pairs of binary variables comprising a ladder program with four coils $VAR\_(1,...,4)$, four program inputs, $ACT\_(1,...,4)$,$127$ reachable states and $2^{20}$ theoretical. Values range $[-1,1]$ where $1$ is complete correlation and $-1$ is an inverse relation.  
+ 
+ Invariant shows no two sets of lights may simultaneously show a green aspect via inverse / positive relations (refer to the latches).
+
+Property holds for programs with larger state space, more coils and program inputs (127 states, $2^{20}$ theoretical), correlation confirms the observed pattern in state image. See program structure, i.e variable assignment rules, in positive and inverse relations. Samples used to compute phi are observed through unique system states. Converging to an accurate estimate of phi requires maximising unique state space observations.
 
 \begin{figure}[!t]
+	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
 	\label{fig:heatmap}
 	\centering
-	\includegraphics[width=\columnwidth]{figs/heatmap.png}
-	\caption{Correlation matrix for ladder logic program with four additional synthetically generated rungs, 127 reachable states and $2^{20}$ theoretical states.}
+	\includegraphics[width=\textwidth]{figs/heatmap.png}
+	
 \end{figure}
 
-% Introduce Matrix notation for phi coefficient
-
-Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables from a generated ladder logic program with $2^{20}$ theoretical states, produces a symmetric $n \times n$ matrix $A_{\psi}$, where $n = |Val_{I} \cup Val_{C}|$. Element $a_{ij} \in A_{\psi}$ refers the phi coefficient between the $i^{th}$ row and $j^{th}$ column. $a_{i\bullet}$ refers to the sum of elements in row $i$ and $a_{\bullet j}$ the sum of column $j$. We compute  Entries computing self correlation are read on the diagonal, and have been set to $0$. $\phi$ coefficients require an empirical sample of observations in order to reveal any correlation. Naturally, the more unique samples concerning the binary variables under evaluation produce more accurate estimates of their relation. Given we wish to learn relations over massive state spaces it is likely our agent's begin with a noisy estimate of variable correlation without observing the majority of states, i.e without knowledge of all variable configurations under the reachable states, $\phi$ will remain an approximation (isn't it anyway?). 
+Consider Figure \ref{fig:heatmap}. Computing the phi coefficients for a set of binary variables from a generated ladder logic program with $2^{20}$ theoretical states, produces a symmetric $n \times n$ matrix $A_{\psi}$, where $n = |Val_{I} \cup Val_{C}|$. Element $a_{ij} \in A_{\psi}$ refers the phi coefficient between the $i^{th}$ row and $j^{th}$ column. Entries computing self correlation are read on the diagonal, and have been set to $0$. Given $\phi$ coefficients require an empirical sample of observations in order to determine correlation, more unique observations concerning binary variables under evaluation produces more accurate estimates of their relation. Since we wish to learn relations over massive state spaces it is likely our agents begin training with a noisy estimate of variable correlation without observing the majority of states, i.e without knowledge of all variable configurations under the reachable states, $\phi$ will remain an approximation (isn't it anyway?). 
 
 Immediately we notice certain aspects of program semantics, particularly variable assignment conditions, from Figure \ref{fig:heatmap}. Upper left quadrant represents base pelican crossing program. See strong positive and inverse correlation between variables responsible for traffic and pedestrian control during crossing procedures. Expectedly, green aspects for traffic $TL\_1\_G, TL\_2\_G$ are inversely related to green aspects for pedestrians, i.e both sets of lights should not simultaneously indicate a safe advance (Is this the invariant?). From this we can infer our own trivial invariant property given this relation is never explicitly defined in the program given all values for light aspects are assigned using the present value of $CROSSING$.
 
-\todo{Add fig: correlation time series (w.r.t a variable subset)}
- \todo{Highlight intended depth effect in correlation time series w.r.t ACT\_max}
 Figure \ref{fig:phi_timeseries} demonstrates the convergence of phi over training time steps, each plot illustrating correlation with respect to a single variable under evaluation. Lines fixed at $0$ represent the variable under evaluation, ignoring self correlation. Lines fixed at $1$ or $-1$ are variables positively or inversely related to the variable under evaluation. Note during earlier timesteps, estimates of phi are volatile until sufficient state space coverage stabilises the number of samples used in computing $\phi$. We see for small programs, these values converge quickly as the number of reachable states are low. 
 
 Assessing correlation over time \textit{w.r.t} $ACT\_1$ and $VAR\_1$
@@ -391,14 +413,41 @@ Assessing correlation over time \textit{w.r.t} $ACT\_1$ and $VAR\_1$
 \end{figure}
 
 \subsubsection{Reward Shaping}
+%Phi Time series
+%- Time series plot demonstrates how the estimate of phi refines to convergence over time steps, as new observations are made.
+%- We expect complex programs with more program inputs and coils to have volatile estimates of phi due to the state combinatorics
+%- This uncertainty, particularly concerning relations between coils and program inputs, may indicate infrequently explored state action pairs, likely to improve coverage.
+%- It may be possible to incorporate this uncertainty in our agents reward function, issuing greater rewards for 'disproving' the current estimate of phi, i.e scale rewards according to the latest novel 		state observation's contribution to the latest estimate of phi
+%- Typically phi is computed for binary pairs but one may extend this notion to include arbitrary sets of binary variables, where we may consider aribitrary formulae as individual variables in computing phi
+%- One may consider the logical conjunction of two atoms under a single alias when computing phi to  say comput correlation between three variables. This could compound for all connective permutations 	such that we consider more complex invariant conditions.
 \todo{Discuss optimising phi coefficients to converge over time.}
 For larger programs we would expect greater variability in correlation as our RL agents take longer to sufficiently populate $A_\tau$ with new observations. $\phi$ coefficients fluctuating between no relation and one of the extremes may suggest insufficient exploration of states 
 
 
 \subsection{Use of mining to validate generated data}
 \todo{Highlight generated program / artificially depth}
+%Using mining to verify program generation
+%- Generating ground truth data by which to evaluate agent performance, programs with known state spaces were required. In order to generate such program automatically with a sufficiently complex learning objective (accoring to our reward scheme), we introduced a generative pattern of increasing depth for subsequently larger programs.
+%- Looking at correlation timeseries plots wrt to act_4 we observe a sequence of increasingly positively correlated variables.
+%- With each rung introduced, a new coil VAR_N is added which evaluates TRUE, iff all coils from Var_N-1 to AUDIO are also True. Similarly, an action ACT_N, introduced for every VAR_N, must be True for VAR_N to be True. These conditions also require CROSSING, PRESSED, REQ be False, which only holds for S0 of the original pelican program. Thus without sequentially selecting actions ACT_1,...,ACT_N, an agent will never reach the deepest region of our generated state space.
+%- This correlation can be seen in both Figure (time series) and Figure (matrix).
+%- Observe symmetrical pattern between VAR_1,...VAR_4 and ACT_1,...ACT_4
+%- This, in a sense, validates the intended strcutural effect of our program generation
+
 In generating ladder logic programs to serve as training environments we introduce a condition $VAR\_1 = ACT\_1 \land (\lnot CROSSING) \land \lnot REQ \land PRESSED)$, which only holds for $S1$ of the original pelican crossing. Subsequent rungs build upon this condition for every additional $ACT\_N$ and $VAR\_N$, ensuring every $n^th$ action introduced increases the overall state space depth. We would then expect ACT$\_1$,...,ACT$\_N$ to be correlated.  
 Observing the lower right quadrant of Figure \ref{fig:heatmap} we see properties of our program generation in how additional actions and variables become less related to our original program state space.   
+
+\section{Conclusion \& Future Work}
+- Acknowledges need for safety guarantees in railway domain and relevance of model checking
+- Introduced invariant finding problem for interlockings and how this can reduce occurrence of false positives
+- Use existing approaches to translate ladder logic to propositional formulae to be modelled as an LTS which can be translated to an MDP, where reinforcement learning can be applied.
+- Using RL and MDP to intelligently navigate program state space to maximise observations / state coverage
+- Presented data generation (for invariant mining) technique by stacking agent trajectories during exploration
+- Briefly discussed contemporary RL exploration strategies and pattern mining techniques
+- Highlighted some more conventional, state of the art methods for invariant finding
+- Presented set of synthetically generated programs to serve as evaluation settings where ground truth properties are known.
+- Presented preliminary results on exploration strategy
+- Discussed some basic invariants inferred from 
 
 \subsection{Trajectory Clustering}
 
